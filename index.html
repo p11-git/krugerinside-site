@@ -327,7 +327,7 @@
   .acco-i small{font-size:.76rem;color:var(--soft);line-height:1.45;display:block}
   .a-match{font-style:normal;font-weight:800;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:#977521;background:#F1E3C2;border-radius:999px;padding:2px 7px;margin-left:6px;vertical-align:1px}
   .acco-noot{font-size:.76rem;color:#8A5B3C;background:#F7EDDD;border-radius:8px;padding:7px 10px;margin:0}
-  .a-thumbs{display:flex;gap:6px;margin-top:8px;align-items:center}
+  .a-thumbs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center}
   .a-thumb{width:54px;height:40px;border-radius:8px;overflow:hidden;border:1px solid var(--line);padding:0;cursor:pointer;background:none;flex:0 0 auto}
   .a-thumb img{width:100%;height:100%;object-fit:cover;display:block}
   .a-thumb:hover{border-color:var(--sage)}
@@ -413,10 +413,12 @@
   .mappanel .btn{width:100%;justify-content:center;margin-top:16px}
   @media (max-width:1000px){
     .planner-grid{grid-template-columns:1fr}
+    .planner-grid > *{min-width:0}
     .reisopzet{position:static}
     .doelen{grid-template-columns:repeat(2,minmax(0,1fr))}
     .doelen.paginabreed{grid-template-columns:repeat(3,minmax(0,1fr))}
     .pl-rij{grid-template-columns:1fr;gap:6px}
+    .pl-rij > div{min-width:0}
   }
   @media (max-width:560px){
     .ro-body{grid-template-columns:72px minmax(0,1fr)}
@@ -471,6 +473,84 @@
   .rchip:hover{border-color:var(--sage);color:var(--sage-deep)}
   .rchip.on{background:var(--sage);border-color:var(--sage);color:#fff}
   .mappanel .hint-klik{font-size:.85rem;color:var(--soft);font-style:italic;font-family:var(--quote);margin-top:20px}
+  /* kampfoto's + faciliteiten in het paneel */
+  .kampstrip{margin-top:14px}
+  .kampstrip .a-thumb{width:86px;height:60px;border-radius:10px}
+  .kampvid{
+    display:flex;align-items:center;gap:12px;width:100%;margin-top:10px;cursor:pointer;
+    background:var(--white);border:1.5px solid var(--line);border-radius:12px;padding:8px 12px 8px 8px;
+    font-family:var(--body);font-weight:700;font-size:.84rem;color:var(--ink);text-align:left;
+  }
+  .kampvid:hover{border-color:var(--sage)}
+  .kampvid img{width:74px;height:48px;object-fit:cover;border-radius:8px;flex:0 0 auto}
+  .fchips span{font-size:.8rem;padding:6px 12px}
+  .fchips .f-geen{background:var(--panel);color:var(--soft)}
+  .fac-bron{font-size:.72rem;color:var(--soft);margin-top:8px;opacity:.8}
+  .fac-noot{font-size:.84rem;color:#5C4A22;background:var(--gold-tint);border-radius:10px;padding:10px 14px;margin-top:14px}
+  /* prijzen + video's in de accommodatie-uitklap */
+  .a-prijs{
+    display:inline-block;font-style:normal;font-weight:800;font-size:.72rem;color:var(--sage-deep);
+    background:var(--sage-tint);border-radius:999px;padding:2px 9px;margin-left:7px;vertical-align:1px;white-space:nowrap;
+  }
+  .acco-bron{font-size:.7rem;color:var(--soft);margin:2px 0 0;opacity:.85}
+  .a-thumb.vid{position:relative}
+  .a-thumb.vid::after{
+    content:"▶";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:.9rem;background:rgba(30,24,16,.35);border-radius:7px;
+  }
+  /* reisverslagen-grid groeit mee */
+  .bloggrid{align-items:stretch}
+  /* planner: toon-regel per reisduur + oversteek + aanvraag-formulier */
+  .ro-toon{
+    font-size:.86rem;color:#5C4A22;background:var(--gold-tint);
+    border-radius:10px;padding:9px 13px;margin:0 0 14px;
+  }
+  .oversteek{
+    display:flex;align-items:center;gap:16px;width:100%;margin-top:12px;
+    background:var(--sage-tint);border:2px dashed var(--sage-deep);border-radius:16px;
+    padding:16px 22px;cursor:pointer;font-family:var(--body);text-align:left;
+    transition:border-style .15s ease,background .15s ease;
+  }
+  .oversteek:hover{border-style:solid}
+  .oversteek.on{border-style:solid;background:#DCE8DD}
+  .oversteek .ct-ico{flex:0 0 auto;width:44px;height:44px;border-radius:50%;background:var(--sage-deep);color:#fff;display:flex;align-items:center;justify-content:center}
+  .oversteek .ct-txt b{font-family:var(--disp);font-weight:800;font-size:1.02rem;display:block;color:var(--ink)}
+  .oversteek .ct-txt small{font-size:.84rem;color:var(--sage-deep);display:block;margin-top:2px}
+  .oversteek .ct-pijl{margin-left:auto;font-weight:800;color:var(--sage-deep);font-size:1.2rem}
+  .aanvraag{display:grid;gap:9px;margin-top:14px;text-align:left}
+  .aanvraag input{
+    width:100%;font-family:var(--body);font-size:.95rem;color:var(--ink);
+    background:var(--white);border:1.5px solid var(--line);border-radius:11px;padding:12px 14px;
+  }
+  .aanvraag input:focus{border-color:var(--sage);outline:none}
+  .aanvraag .opzet-mee{
+    font-size:.8rem;color:var(--soft);background:var(--white);border:1.5px dashed var(--line);
+    border-radius:11px;padding:10px 13px;max-height:110px;overflow:auto;white-space:pre-line;
+  }
+  .aanvraag .btn{margin-top:4px}
+  .aanvraag-ok{
+    background:var(--sage-tint);border:1.5px solid var(--sage);border-radius:14px;
+    padding:18px;text-align:center;margin-top:14px;
+  }
+  .aanvraag-ok b{font-family:var(--disp);font-size:1.05rem;display:block;margin-bottom:4px}
+  .aanvraag-ok p{font-size:.88rem;color:var(--soft)}
+  /* tijdlijn op Mijn verhaal */
+  .tijdlijn{display:grid;gap:0;margin-top:34px;max-width:640px}
+  .tl-item{display:grid;grid-template-columns:120px 26px minmax(0,1fr);gap:0 18px;align-items:start}
+  .tl-jaar{font-family:var(--disp);font-weight:800;font-size:1.05rem;color:var(--gold);text-align:right;padding-top:2px;font-variant-numeric:tabular-nums}
+  .tl-as{position:relative;display:flex;justify-content:center}
+  .tl-as::before{content:"";position:absolute;top:6px;bottom:-6px;width:2px;background:var(--line)}
+  .tl-item:last-child .tl-as::before{bottom:auto;height:14px}
+  .tl-dot{position:relative;z-index:1;width:13px;height:13px;border-radius:50%;background:var(--sage);border:3px solid var(--bg);box-shadow:0 0 0 1.5px var(--sage);margin-top:5px}
+  .tl-body{padding-bottom:30px}
+  .tl-body b{font-family:var(--disp);font-weight:800;display:block;font-size:1.05rem}
+  .tl-body p{font-size:.95rem;color:var(--soft);margin-top:4px;max-width:52ch}
+  .tl-body .linklike{font-size:.88rem;margin-top:6px}
+  .tl-foto{width:100%;max-width:340px;border-radius:12px;display:block;margin-top:12px;box-shadow:0 12px 28px -16px rgba(64,52,41,.5)}
+  @media (max-width:560px){
+    .tl-item{grid-template-columns:64px 22px minmax(0,1fr);gap:0 12px}
+    .tl-jaar{font-size:.92rem}
+  }
 
   /* ---------- verhaal ---------- */
   .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:60px;align-items:center}
@@ -976,7 +1056,7 @@
     </a>
     <nav class="menu" aria-label="Hoofdmenu">
       <a class="mlink" href="#home" data-go="home" aria-current="page">Home</a>
-      <a class="mlink" href="#verhaal" data-go="verhaal">Het verhaal</a>
+      <a class="mlink" href="#verhaal" data-go="verhaal">Mijn verhaal</a>
       <a class="mlink" href="#reisplanner" data-go="reisplanner">Reisplanner</a>
       <a class="mlink" href="#pakketten" data-go="pakketten">Pakketten</a>
       <a class="mlink" href="#kijkmee" data-go="kijkmee">Kijk mee</a>
@@ -1001,7 +1081,7 @@
     <div class="wrap">
       <span class="kicker">Kruger-specialist · sinds 2017</span>
       <h1>Bezoek het Krugerpark niet alleen. <span class="accent">Beleef het.</span></h1>
-      <p class="sub">Een reisschema op maat van een insider die het park al honderden uren doorkruist — geboekt met officiële ANVR/SGR-garantie.</p>
+      <p class="sub">Een reisschema op maat van een insider die het Kruger National Park al honderden uren doorkruist — geboekt met officiële ANVR/SGR-garantie.</p>
       <div class="hero-cta">
         <a class="btn" href="#reisplanner" data-go="reisplanner">Plan mijn droomreis
           <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13m0 0L9.5 1.5M14 6l-4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1015,7 +1095,7 @@
   <div class="truststrip">
     <div class="wrap">
       <span class="t"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 1.5 14.5 4v4.5c0 3.6-2.4 6.4-5.5 7.5-3.1-1.1-5.5-3.9-5.5-7.5V4L9 1.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m6.2 8.6 2 2 3.6-4.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Boeking met ANVR/SGR-garantie</span>
-      <span class="t"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2.5 14c2-5.5 3.2-8.5 6.5-8.5s4.5 3 6.5 8.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="9" cy="3.8" r="1.5" fill="currentColor"/></svg>Op maat — geen standaardrondjes</span>
+      <span class="t"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2.5 14c2-5.5 3.2-8.5 6.5-8.5s4.5 3 6.5 8.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="9" cy="3.8" r="1.5" fill="currentColor"/></svg>Op maat — een route die je nergens anders krijgt</span>
       <span class="t"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M9 5v4.2l2.8 2.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Binnen 24 uur persoonlijk contact</span>
     </div>
   </div>
@@ -1025,7 +1105,7 @@
     <div class="wrap">
       <div class="sec-head center rv">
         <p class="eyebrow">Het échte specialisme</p>
-        <h2 class="title">Ik ken het park van gate tot gate</h2>
+        <h2 class="title">Ik ken het Kruger National Park van gate tot gate</h2>
         <p class="lede" style="margin:0 auto">Kruger is bijna zo groot als Nederland zonder de Waddeneilanden — wáár je slaapt en rijdt bepaalt wat je ziet. Verken alle kampen en poorten op de kaart, en bekijk de magneetjes: échte recente waarnemingen, verdeeld over Vandaag en Gisteren zoals op het bord in het park. Klik op een kamp voor het kampbord, op een poort voor het dichtstbijzijnde vliegveld — of op een magneetje voor de melding zelf.</p>
       </div>
       <div class="boardwrap rv">
@@ -1095,18 +1175,18 @@
   <!-- verhaal-teaser -->
   <section>
     <div class="wrap split">
-      <figure class="photo-frame rv" aria-label="Giraffe in gouden avondlicht bij Letaba">
+      <figure class="photo-frame rv" aria-label="Niek speurt met de verrekijker over de vlakte">
         <div class="ph">
-          <img src="media/still-letaba.jpg" alt="Giraffe eet van een boom in gouden avondlicht bij de Letaba-rivier">
+          <img src="media/niek-uitkijk.jpg" alt="Niek kijkt met de verrekijker uit over een eindeloze Kruger-vlakte" style="object-position:70% 50%">
         </div>
-        <figcaption><span>Letaba, gouden uur</span><span>Eigen beeld · @safari_dn</span></figcaption>
+        <figcaption><span>Niek — speuren over de vlakte</span><span>Eigen beeld · @safari_dn</span></figcaption>
       </figure>
       <div class="story-copy rv">
         <p class="eyebrow">Het gezicht achter KrugerInside</p>
         <h2 class="title">Bitten by the African bug</h2>
         <p class="big">"In 2017 kreeg het Afrika-virus mij te pakken tijdens een rondreis door Zuid-Afrika. Sindsdien heeft de wildernis van Kruger me nooit meer losgelaten."</p>
-        <p>Honderden uren op de zandwegen, meer dan 950 eigen video's, en elk kamp zelf ervaren. Die kennis gebruik ik om jouw perfecte route uit te stippelen.</p>
-        <a class="btn outline" href="#verhaal" data-go="verhaal">Lees het hele verhaal
+        <p>Ik ben Niek. Honderden uren op de zandwegen, meer dan 950 eigen video's, en elk kamp zelf ervaren. Die kennis gebruik ik om jouw perfecte route uit te stippelen.</p>
+        <a class="btn outline" href="#verhaal" data-go="verhaal">Lees mijn verhaal
           <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13m0 0L9.5 1.5M14 6l-4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
@@ -1159,7 +1239,7 @@
       </div>
       <div class="revgrid">
         <article class="revcard cardish rv">
-          <div class="rev-foto"><img src="media/rev-drive.jpg" alt="Reizigers in een open safarivoertuig op een gouden zandweg"></div>
+          <div class="rev-foto"><img src="media/rev-drive.jpg" alt="Zelf rijden in Kruger — door de voorruit, achter een game-viewer aan"></div>
           <div class="rev-body">
             <div class="rev-stars" aria-label="5 van 5 sterren">★★★★★</div>
             <p class="rev-quote">"Voor het eerst zelf rijden in Afrika — dat spookte vooraf best door m'n hoofd. Maar elke dag stond uitgeschreven: welke poort, welke lus, waar koffie. Op een zandweggetje dat wij nooit gekozen hadden, stonden we twintig minuten alléén bij een kudde olifanten. En de luipaard? Die liet zich pas de laatste ochtend zien. Mooier kan niet."</p>
@@ -1237,7 +1317,7 @@
     <div class="wrap">
       <div class="sec-head rv">
         <p class="eyebrow">Geen mooie praatjes — bewijs</p>
-        <h2 class="title">Kijk mee in het park</h2>
+        <h2 class="title">Kijk mee in het Kruger National Park</h2>
         <p class="lede">Meer dan 950 video's, allemaal zelf gefilmd op de wegen die straks in jouw reisschema staan.</p>
       </div>
       <div class="vid-grid">
@@ -1291,8 +1371,8 @@
     </video>
     <div class="shade" aria-hidden="true"></div>
     <div class="wrap rv">
-      <h2>Klaar om het park écht te beleven?</h2>
-      <p>Vertel me over je reisplannen. Binnen 24 uur zetten we samen de eerste stap richting jouw Kruger-avontuur.</p>
+      <h2>Klaar om het Kruger National Park écht te beleven?</h2>
+      <p>Vertel me over je reisplannen. Binnen 24 uur krijg je persoonlijke reactie van mij — Niek — en zetten we de eerste stap richting jouw Kruger-avontuur.</p>
       <a class="btn light" href="#reisplanner" data-go="reisplanner">Plan mijn droomreis
         <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13m0 0L9.5 1.5M14 6l-4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
@@ -1311,19 +1391,19 @@
 <div class="page" id="page-verhaal">
   <section style="padding-bottom:0">
     <div class="wrap sec-head">
-      <p class="eyebrow">Het gezicht achter KrugerInside</p>
-      <h2 class="title" style="font-size:clamp(2.1rem,4.4vw,3.2rem)">"The African Bug"</h2>
-      <p class="lede">Waarom iemand 950 video's maakt over één nationaal park — en wat jij daaraan hebt.</p>
+      <p class="eyebrow">Mijn verhaal</p>
+      <h2 class="title" style="font-size:clamp(2.1rem,4.4vw,3.2rem)">"Bitten by the African bug"</h2>
+      <p class="lede">Ik ben Niek. Dit is waarom ik meer dan 950 video's maakte over één nationaal park — en wat jij daaraan hebt.</p>
     </div>
   </section>
   <section>
     <div class="wrap split" style="align-items:start">
       <div>
-        <figure class="photo-frame rv" aria-label="Giraffen op de weg, gezien vanuit de auto">
+        <figure class="photo-frame rv" aria-label="Niek met een gevonden buffelschedel, in het gouden avondlicht">
           <div class="ph">
-            <img src="media/still-giraffe.jpg" alt="Drie giraffen op de weg voor de auto, net na zonsopgang">
+            <img src="media/niek-portret.jpg" alt="Niek houdt lachend een gevonden buffelschedel boven zijn hoofd, in het gouden avondlicht">
           </div>
-          <figcaption><span>Door de voorruit, vroege ochtend</span><span>Eigen beeld · @safari_dn</span></figcaption>
+          <figcaption><span>Niek — de man achter KrugerInside</span><span>Ergens in de bush, gouden uur</span></figcaption>
         </figure>
         <div class="board rv" style="margin-top:26px;max-width:430px">
           <div class="board-title"><span>Sightings-bord</span><span>kamp · vandaag</span></div>
@@ -1339,9 +1419,9 @@
       </div>
       <div class="story-copy rv">
         <p class="big">In 2017 kreeg het Afrika-virus mij te pakken tijdens een rondreis door Zuid-Afrika. Ik bezocht onder andere het Kruger National Park — en sindsdien heeft de wildernis me nooit meer losgelaten.</p>
-        <p>Inmiddels heb ik honderden uren op de zandwegen doorgebracht, de unieke diversiteit van het park ontdekt en zelf ervaren welke kampen de meeste sfeer ademen. Van Shingwedzi in het rustige noorden tot de rivierlussen in het zuiden.</p>
-        <p>Die kennis bewaar ik niet voor mezelf. Alles wat ik onderweg zie leg ik vast — meer dan 950 video's inmiddels — en ik gebruik mijn expertise om voor jou de perfecte route uit te stippelen.</p>
-        <p><strong>Het resultaat? Jij bezoekt het park niet alleen — je belééft het.</strong></p>
+        <p>Inmiddels heb ik honderden uren op de zandwegen doorgebracht, de unieke diversiteit van het Kruger National Park ontdekt en zelf ervaren welke kampen de meeste sfeer ademen. Van Shingwedzi in het rustige noorden — mijn thuiskamp — tot de rivierlussen in het zuiden.</p>
+        <p>Die kennis bewaar ik niet voor mezelf. Alles wat ik onderweg zie leg ik vast — meer dan 950 video's inmiddels — en die kennis gebruik ik om voor jou de perfecte route uit te stippelen.</p>
+        <p><strong>Het resultaat? Jij bezoekt het Kruger National Park niet alleen — je belééft het.</strong></p>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0 0">
           <span class="roadbadge">H1-4</span>
           <span class="roadbadge gravel">S100</span>
@@ -1352,6 +1432,53 @@
         <div class="fieldnote">
           <span class="fn-tag">Wist je dat…</span>
           <p>de meeste mensen de fout maken om te veel kilometers op één dag te willen rijden? In Kruger doe je de beste waarnemingen vaak juist door stil te staan. <strong>Ik leer je de kunst van het geduldig spotten.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section style="background:var(--white)">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <p class="eyebrow">Van virus tot vak</p>
+        <h2 class="title">Zo werd één reis een levenswerk</h2>
+      </div>
+      <div class="tijdlijn rv">
+        <div class="tl-item">
+          <span class="tl-jaar">2017</span>
+          <span class="tl-as"><span class="tl-dot"></span></span>
+          <div class="tl-body">
+            <b>De eerste keer door de poort</b>
+            <p>Een rondreis door Zuid-Afrika, een paar dagen Kruger "erbij" — en klaar was het: de African bug had gebeten. Ik wist toen nog niet dat die paar dagen mijn leven een andere kant op zouden sturen.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-jaar">daarna</span>
+          <span class="tl-as"><span class="tl-dot"></span></span>
+          <div class="tl-body">
+            <b>Terug, en terug, en terug</b>
+            <p>Elke reis werd langer, elke route slimmer. Honderden uren op de zandwegen, van de S28 tot de Mahonie-lus — te voet, met de verrekijker, en altijd met de camera binnen handbereik.</p>
+            <img class="tl-foto" src="media/niek-tevoet.jpg" alt="Niek te voet met camera en rugzak op een rotsheuvel in de bush">
+          </div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-jaar">950+</span>
+          <span class="tl-as"><span class="tl-dot"></span></span>
+          <div class="tl-body">
+            <b>Alles vastgelegd — en gedeeld</b>
+            <p>Wat ik zie, leg ik vast: meer dan 950 video's op vier kanalen, van jagende leeuwen tot de stilste zandweggetjes. Bij elke video schrijf ik een reisverslag met de plek, de tijd en de les — zo kijk je niet alleen mee, je leert het park kennen.</p>
+            <img class="tl-foto" src="media/niek-wildehond.jpg" alt="Niek in de auto met zijn camera op het raam — buiten loopt een wilde hond">
+            <button class="linklike" type="button" data-go="kijkmee">Kijk mee met de video's en reisverslagen →</button>
+          </div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-jaar">nu</span>
+          <span class="tl-as"><span class="tl-dot"></span></span>
+          <div class="tl-body">
+            <b>KrugerInside: mijn kennis, jouw reis</b>
+            <p>Al die uren zitten nu in één ding: routes op maat voor mensen die het Kruger National Park écht willen beleven. Geen standaardpakket van een reisbureau, maar het advies dat ik m'n beste vrienden zou geven — geboekt met officiële ANVR/SGR-garantie.</p>
+            <img class="tl-foto" src="media/niek-verhaal.jpg" alt="Niek aan de waterkant bij zonsondergang, sleutelend aan zijn camera">
+            <button class="linklike" type="button" data-go="reisplanner">Stel je eigen route samen in de reisplanner →</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1426,6 +1553,13 @@
       <div class="rv">
         <p class="pl-stap" id="planStart"><span class="fnum">1</span> Wat wil je beleven?</p>
         <div class="doelen paginabreed" id="doelen"></div>
+        <button class="oversteek" id="ovTrip" type="button">
+          <span class="ct-ico" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M12 2l-4 5m4-5 4 5M12 22l-4-5m4 5 4-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="ct-txt"><b>De Grote Oversteek — heel Kruger, zuid → noord</b><small>Van de rivieren in het zuiden tot het stille sandveld bij Pafuri: het hele park in één doorgaande route. Voor wie écht alles wil zien (±1 week of langer).</small></span>
+          <span class="ct-pijl" aria-hidden="true">→</span>
+        </button>
         <button class="customtrip" id="customTrip" type="button">
           <span class="ct-ico" aria-hidden="true">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L4.8 8.3l5-.7L12 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
@@ -1498,7 +1632,7 @@
           <hr>
           <p class="krijg">Dit krijg je</p>
           <ul>
-            <li><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Video-call van 45 minuten — we lopen jouw hele planning door</li>
+            <li><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Video-call van 45 minuten — ik loop jouw hele planning met je door</li>
             <li><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Directe feedback op de logica van je route</li>
             <li><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Antwoord op al je brandende vragen</li>
             <li><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>5 persoonlijke insider-tips voor jouw regio</li>
@@ -1591,10 +1725,50 @@
     </div>
   </section>
 
-  <!-- mini-reviews -->
-  <section style="padding-top:0;padding-bottom:0;background:var(--panel)">
+  <!-- reviews: de muur van reiservaringen -->
+  <section style="padding-top:64px;background:var(--panel)">
     <div class="wrap" style="padding-bottom:80px">
-      <div class="minirevs rv">
+      <div class="sec-head center rv">
+        <p class="eyebrow">Reizigers die je voorgingen</p>
+        <h2 class="title">Waarom ze bij mij boekten</h2>
+        <p class="lede" style="margin:0 auto">Elke reis is anders — de rust van een goed plan is telkens hetzelfde.</p>
+      </div>
+      <div class="revgrid">
+        <article class="revcard cardish rv">
+          <div class="rev-foto"><img src="media/rev-uitkijk.jpg" alt="Gezin kijkt vanaf het uitkijkpunt uit over de Sabie-rivier"></div>
+          <div class="rev-body">
+            <div class="rev-stars" aria-label="5 van 5 sterren">★★★★★</div>
+            <p class="rev-quote">"Met kinderen van 6 en 9 waren we bang voor 'zijn we er al'-dagen. Het schema hield de ritten kort en elke dag had één hoogtepunt. Bij het uitkijkpunt over de Sabie stonden ze twintig minuten doodstil — dat zegt genoeg. En het sightings-bord bijhouden werd hún taak."</p>
+            <div class="rev-wie">
+              <span class="rev-avatar" style="background:var(--sage-deep)">DG</span>
+              <span><b>Familie de Groot</b><small>Complete Pakket · juni 2026</small></span>
+            </div>
+          </div>
+        </article>
+        <article class="revcard cardish rv">
+          <div class="rev-foto"><img src="media/rev-gamedrive.jpg" alt="Game-drive-voertuigen staan klaar voor vertrek"></div>
+          <div class="rev-body">
+            <div class="rev-stars" aria-label="5 van 5 sterren">★★★★★</div>
+            <p class="rev-quote">"Wij zijn 63 en 65 en dachten: safari, is dat nog wel iets voor ons? Niek plande rustige dagen met een game drive waar we alleen maar hoefden in te stappen. De sunset drive op de tweede avond — stilte, en dan dat gefluister van de gids — vergeten we nooit meer."</p>
+            <div class="rev-wie">
+              <span class="rev-avatar" style="background:var(--gold)">A&amp;W</span>
+              <span><b>Ans &amp; Wim</b><small>Route Planner · mei 2026</small></span>
+            </div>
+          </div>
+        </article>
+        <article class="revcard cardish rv">
+          <div class="rev-foto"><img src="media/kamp-pretoriuskop-1.jpg" alt="Het zwembad tussen de granietrotsen van Pretoriuskop"></div>
+          <div class="rev-body">
+            <div class="rev-stars" aria-label="5 van 5 sterren">★★★★★</div>
+            <p class="rev-quote">"Vier vrienden, één busje, budget van studenten. De Quick Check haalde twee logistieke missers uit ons plan en gaf ons per dag één 'geheime' stop. Middagje bij het rotszwembad van Pretoriuskop na een ochtend vol stof — precies de reis die we hoopten te krijgen."</p>
+            <div class="rev-wie">
+              <span class="rev-avatar" style="background:#8A6F4D">TB</span>
+              <span><b>Thijs &amp; vrienden</b><small>Quick Check · februari 2026</small></span>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="minirevs rv" style="margin-top:26px">
         <div class="minirev">
           <span class="rev-stars">★★★★★</span>
           <p>"In drie kwartier ging er een streep door onze grootste beginnersfout: 340 km rijden met kinderen."</p>
@@ -1610,8 +1784,23 @@
           <p>"Terugvlucht omgegooid — binnen een uur opgelost. Dáár betaal je eigenlijk voor."</p>
           <small>Sanne · Complete Pakket</small>
         </div>
+        <div class="minirev">
+          <span class="rev-stars">★★★★★</span>
+          <p>"Als fotograaf wil je licht, geen kilometers. Mijn schema draaide om het gouden uur — eindelijk iemand die dat snapt."</p>
+          <small>Iris · Route Planner</small>
+        </div>
+        <div class="minirev">
+          <span class="rev-stars">★★★★★</span>
+          <p>"Onze huwelijksreis: rustig, ruim, en elke avond een braai. Alsof je een vriend in het park hebt."</p>
+          <small>Lisa &amp; Tom · Complete Pakket</small>
+        </div>
+        <div class="minirev">
+          <span class="rev-stars">★★★★★</span>
+          <p>"Kamperen tussen de hyenageluiden, met een lijstje kampvuur-tips van iemand die er zelf ligt. Onbetaalbaar (maar het kostte maar 195 euro)."</p>
+          <small>Bram · Quick Check</small>
+        </div>
       </div>
-      <p class="rev-note rv">Voorbeeldreviews ter illustratie — echte reizigersreviews volgen.</p>
+      <p class="rev-note rv">Voorbeeldreviews ter illustratie — echte reizigersreviews volgen zodra de eerste reizen geboekt zijn.</p>
     </div>
   </section>
 
@@ -1623,7 +1812,7 @@
         <h2 class="title">Van eerste bericht tot gate</h2>
       </div>
       <div class="steps">
-        <div class="step rv"><div class="num">1</div><h3>Intake &amp; kennismaking</h3><p>Je vult het formulier in; binnen 24 uur nemen we contact op. We bespreken je wensen, reisdata en reisstijl — vrijblijvend.</p></div>
+        <div class="step rv"><div class="num">1</div><h3>Kennismaken met Niek</h3><p>Je vult het formulier in; binnen 24 uur hoor je persoonlijk van mij. Samen bespreken we je wensen, reisdata en reisstijl — vrijblijvend.</p></div>
         <div class="step rv"><div class="num">2</div><h3>Route-ontwerp op maat</h3><p>Op basis van jouw voorkeuren ontwerp ik het reisschema: kampen, wegen, rustpunten en de beste waterholes.</p></div>
         <div class="step rv"><div class="num">3</div><h3>Boeking via ANVR/SGR-partner</h3><p>De gespecialiseerde tussenpersoon boekt kampen en huurauto — scherpe tarieven, volledige reisgarantie.</p></div>
       </div>
@@ -1643,7 +1832,7 @@
           <p class="a">In de droge wintermaanden (ongeveer mei t/m september) is het gras laag en verzamelen dieren zich bij het water — vaak de makkelijkste tijd om te spotten. Maar elk seizoen heeft z'n eigen karakter: het groene seizoen betekent jonge dieren en spectaculaire vogels. In jouw reisschema houd ik rekening met het seizoen waarin je reist.</p>
         </details>
         <details>
-          <summary>Is zelf rijden in het park goed te doen?<span class="tgl" aria-hidden="true">+</span></summary>
+          <summary>Is zelf rijden in het Kruger National Park goed te doen?<span class="tgl" aria-hidden="true">+</span></summary>
           <p class="a">Ja — Kruger is hét zelfrij-park van Afrika: goede infrastructuur, duidelijke regels en veilige kampen. De kunst zit in de voorbereiding: gate-tijden, realistische afstanden en weten waar je moet zijn. Precies daar helpen de checklist en het reisschema bij.</p>
         </details>
         <details>
@@ -1687,7 +1876,7 @@
 <div class="page" id="page-kijkmee">
   <section style="padding-bottom:56px">
     <div class="wrap sec-head">
-      <p class="eyebrow">Meekijken in het park</p>
+      <p class="eyebrow">Meekijken in het Kruger National Park</p>
       <h2 class="title" style="font-size:clamp(2.1rem,4.4vw,3.2rem)">950+ video's, rechtstreeks van de sandwegen</h2>
       <p class="lede">Elke tip op deze site kun je terugzien op mijn kanalen. Filter op streek en kijk waar jouw route straks doorheen loopt — klik een video en hij speelt direct hier.</p>
     </div>
@@ -1761,36 +1950,35 @@
   <section style="background:var(--panel)">
     <div class="wrap">
       <div class="sec-head rv">
-        <p class="eyebrow">Binnenkort</p>
+        <p class="eyebrow">Uit het veld</p>
         <h2 class="title">Bij elke video een reisverslag</h2>
-        <p class="lede">Elke video die op de socials verschijnt, krijgt hier automatisch een kort, avontuurlijk reisverslag — met de route, de beste tijden en praktische tips. Zo bouwt de site vanzelf een schat aan Kruger-kennis op. Hieronder vijf voorbeelden zoals de module ze schrijft.</p>
+        <p class="lede">Bij elke video die ik op de socials zet, hoort hier een kort, avontuurlijk reisverslag: het verhaal achter de beelden, plus waar en wanneer jij dezelfde kans maakt. Nieuwe video = nieuw verslag — zo groeit hier vanzelf een schat aan Kruger-kennis.</p>
       </div>
       <div class="blogcard rv">
         <div class="bimg"><img src="media/thumb_OAMg0DFZF7s.jpg" alt="Wilde honden bij hun maaltijd"></div>
         <div class="btxt">
-          <span class="btag">Voorbeeld · automatisch reisverslag</span>
+          <span class="btag">Uitgelicht reisverslag</span>
           <h3>Wilde honden bij het laatste licht</h3>
           <p class="bmeta">Bij de video "Wild Dogs Finishing Their Meal" · leestijd 3 min</p>
-          <p class="excerpt">"De zon hing al laag toen we de stofwolk zagen — en toen, ineens: een heel roedel wilde honden, misschien wel de zeldzaamste ontmoeting die Kruger je kan geven. We zetten de motor uit en keken ademloos toe hoe de pups hun plek in de rangorde opeisten…"</p>
-          <p style="margin-top:16px;font-size:.84rem;color:var(--soft)">Zo leest straks elk verslag: het verhaal achter de beelden, plus waar en wanneer jij dezelfde kans maakt.</p>
+          <p class="excerpt">"De zon hing al laag toen ik de stofwolk zag — en toen, ineens: een heel roedel wilde honden, misschien wel de zeldzaamste ontmoeting die het Kruger National Park je kan geven. Motor uit, raam open, en ademloos kijken hoe de pups hun plek in de rangorde opeisten…"</p>
           <button class="linklike lb-open" type="button" data-yt="OAMg0DFZF7s" data-titel="Wild Dogs Finishing Their Meal" style="margin-top:12px">▶ Bekijk de video erbij</button>
         </div>
       </div>
       <div class="bloggrid">
         <article class="blogmini cardish rv">
-          <img src="media/thumb_e-vb2TCtrPA.jpg" alt="Leeuwen op jacht bij Shingwedzi">
+          <img data-thumb="e-vb2TCtrPA" alt="Leeuwen op jacht bij Shingwedzi">
           <div class="bm-body">
-            <span class="btag">Voorbeeld · reisverslag</span>
+            <span class="btag">Reisverslag · Shingwedzi</span>
             <h3>De jacht bij Shingwedzi</h3>
             <p class="bmeta">Bij "Lions On The Prowl" · leestijd 3 min</p>
-            <p class="bm-excerpt">"Stof, alarmkreten van bavianen — en dan: drie leeuwinnen laag in het gras, de buffelkudde met de kalveren naar het midden. Wij stonden al twintig minuten stil bij de rivierlus. Precies dáárom zagen we alles."</p>
+            <p class="bm-excerpt">"Stof, alarmkreten van bavianen — en dan: drie leeuwinnen laag in het gras, de buffelkudde met de kalveren naar het midden. Ik stond al twintig minuten stil bij de rivierlus. Precies dáárom zag ik alles."</p>
             <button class="linklike lb-open" type="button" data-yt="e-vb2TCtrPA" data-titel="Lions On The Prowl — Shingwedzi">▶ Bekijk de video</button>
           </div>
         </article>
         <article class="blogmini cardish rv">
-          <img src="media/thumb_Au0k1EK8KiE.jpg" alt="Giraffen rennen over de weg in het eerste licht">
+          <img data-thumb="Au0k1EK8KiE" alt="Giraffen rennen over de weg in het eerste licht">
           <div class="bm-body">
-            <span class="btag">Voorbeeld · reisverslag</span>
+            <span class="btag">Reisverslag · vroege ochtend</span>
             <h3>Giraffen op de vroege weg</h3>
             <p class="bmeta">Bij "Riding with Giraffes" · leestijd 2 min</p>
             <p class="bm-excerpt">"Vijf voor zes, de poort net open, de teer nog koel. Na de tweede bocht: een complete journey giraffen midden op de weg, dravend in het eerste licht. Wie uitslaapt in Kruger, mist het mooiste uur van de dag."</p>
@@ -1798,9 +1986,9 @@
           </div>
         </article>
         <article class="blogmini cardish rv">
-          <img src="media/thumb_EeP0B2JtkYs.jpg" alt="Giraffe in gouden avondlicht bij de Letaba">
+          <img data-thumb="EeP0B2JtkYs" alt="Giraffe in gouden avondlicht bij de Letaba">
           <div class="bm-body">
-            <span class="btag">Voorbeeld · reisverslag</span>
+            <span class="btag">Reisverslag · Letaba</span>
             <h3>Goud aan de Letaba</h3>
             <p class="bmeta">Bij "Letaba Giraffe" · leestijd 2 min</p>
             <p class="bm-excerpt">"Het laatste uur voor zonsondergang kleurt de rivierbedding honing. Een giraffe plukt onverstoorbaar de hoogste blaadjes terwijl alles om haar heen goud wordt. Soms is de beste sighting gewoon: stilstaan en kijken."</p>
@@ -1808,13 +1996,123 @@
           </div>
         </article>
         <article class="blogmini cardish rv">
-          <img src="media/thumb_8R-ERqkaNGE.jpg" alt="Olifanten in de rivier onder het Olifants-uitkijkpunt">
+          <img data-thumb="8R-ERqkaNGE" alt="Olifanten in de rivier onder het Olifants-uitkijkpunt">
           <div class="bm-body">
-            <span class="btag">Voorbeeld · reisverslag</span>
+            <span class="btag">Reisverslag · Olifants</span>
             <h3>Reuzen onder de klif</h3>
             <p class="bmeta">Bij "Elephants at Olifants Lookout" · leestijd 2 min</p>
             <p class="bm-excerpt">"Vanaf het uitkijkpunt bij Olifants kijk je op de rúggen van olifanten, diep beneden in de rivier. Ze lijken speelgoed — tot het getrompetter tegen de kliffen echoot. Neem je koffiepauze hier, niet in het kamp."</p>
             <button class="linklike lb-open" type="button" data-yt="8R-ERqkaNGE" data-titel="Elephants at Olifants Lookout">▶ Bekijk de video</button>
+          </div>
+        </article>
+        <article class="blogmini cardish rv">
+          <img data-thumb="5JaAVwwf4t0" alt="Leeuw en buffel tegenover elkaar">
+          <div class="bm-body">
+            <span class="btag">Reisverslag · uit het veld</span>
+            <h3>Kat en muis — maar wie is wie?</h3>
+            <p class="bmeta">Bij "'Cat &amp; Mouse' by Lion &amp; Buffalo" · mei 2026</p>
+            <p class="bm-excerpt">"Een leeuwin die een buffel besluipt, dat is het script. Maar deze buffel draaide om en deed een stap naar vóren. Drie minuten lang gaf niemand toe. Blijf bij zo'n patstelling gewoon staan — het verhaal schrijft zichzelf."</p>
+            <button class="linklike lb-open" type="button" data-yt="5JaAVwwf4t0" data-titel="'Cat &amp; Mouse' by Lion &amp; Buffalo">▶ Bekijk de video</button>
+          </div>
+        </article>
+        <article class="blogmini cardish rv">
+          <img data-thumb="dcEKjVgIrJo" alt="Olifantenkudde haast zich naar het water">
+          <div class="bm-body">
+            <span class="btag">Reisverslag · uit het veld</span>
+            <h3>De laatste meters naar het water</h3>
+            <p class="bmeta">Bij "Excited Elephants reaching water" · juni 2026</p>
+            <p class="bm-excerpt">"Je hoort ze eerder dan je ze ziet: takken kraken, en dan komt de hele kudde half rennend uit de bosrand. De jonkies voorop, oren wijd. Ga in het droge seizoen bij een watergat staan en wacht — de olifanten komen naar jóu."</p>
+            <button class="linklike lb-open" type="button" data-yt="dcEKjVgIrJo" data-titel="Excited Elephants reaching water">▶ Bekijk de video</button>
+          </div>
+        </article>
+        <article class="blogmini cardish rv">
+          <img data-thumb="qwFzBj2Ha3I" alt="Impala's in de droge rivierbedding van de Mphongolo">
+          <div class="bm-body">
+            <span class="btag">Reisverslag · Mphongolo</span>
+            <h3>Stilte in de Mphongolo-bedding</h3>
+            <p class="bmeta">Bij "Impalas in the Mphongolo riverbed" · augustus 2026</p>
+            <p class="bm-excerpt">"De Mphongolo-lus in het noorden is misschien wel mijn favoriete weggetje: kilometers zandbedding, en altijd wat te zien. Vandaag: impala's die één voor één de bedding oversteken. Niet spectaculair? Juist wél — dit is het echte, stille Kruger."</p>
+            <button class="linklike lb-open" type="button" data-yt="qwFzBj2Ha3I" data-titel="Impalas in the Mphongolo riverbed">▶ Bekijk de video</button>
+          </div>
+        </article>
+        <article class="blogmini cardish rv">
+          <img data-thumb="PuW56gd4gT4" alt="Bavianen en bosbokken bij het uitkijkdek van Roodewal">
+          <div class="bm-body">
+            <span class="btag">Reisverslag · Roodewal</span>
+            <h3>Theater vanaf het Roodewal-dek</h3>
+            <p class="bmeta">Bij "Baboons and bushbucks from the viewing deck" · juni 2026</p>
+            <p class="bm-excerpt">"Vanaf het dek bij Roodewal kijk je recht de Timbavati-bedding in. Links een troep bavianen met drama in drie bedrijven, rechts twee bosbokken die zich nergens iets van aantrekken. Een half uur niet rijden — en méér zien dan onderweg."</p>
+            <button class="linklike lb-open" type="button" data-yt="PuW56gd4gT4" data-titel="Baboons and bushbucks from the Roodewal viewing deck">▶ Bekijk de video</button>
+          </div>
+        </article>
+        <article class="blogmini cardish rv">
+          <img data-thumb="K9cEfC69GvI" alt="Zebra's in de verzengende middaghitte">
+          <div class="bm-body">
+            <span class="btag">Reisverslag · uit het veld</span>
+            <h3>Zebra's in de brandende middag</h3>
+            <p class="bmeta">Bij "Zebras in the scorching heat" · juli 2026</p>
+            <p class="bm-excerpt">"Iedereen zegt: middaguren zijn dooie uren. En toch stond ik om één uur 's middags oog in oog met een kudde zebra's die trillend in de hitte naar schaduw schoof. Les: het park is nooit dicht — het kijkt alleen anders naar je."</p>
+            <button class="linklike lb-open" type="button" data-yt="K9cEfC69GvI" data-titel="Zebras in the scorching heat">▶ Bekijk de video</button>
+          </div>
+        </article>
+        <article class="blogmini cardish rv">
+          <img data-thumb="qN-n01Tkz7U" alt="Nijlpaarden dicht op elkaar in een slinkende poel">
+          <div class="bm-body">
+            <span class="btag">Reisverslag · uit het veld</span>
+            <h3>De eerlijkste geur van Kruger</h3>
+            <p class="bmeta">Bij "Hippos in their sh*t pool" · juli 2026</p>
+            <p class="bm-excerpt">"Laat in het droge seizoen krimpen de poelen — en zitten de nijlpaarden schouder aan schouder in wat er over is. Je ruikt het eerder dan je het ziet, en dat hoort erbij. De bush is geen wellnessresort, en precies daarom hou ik ervan."</p>
+            <button class="linklike lb-open" type="button" data-yt="qN-n01Tkz7U" data-titel="Hippos in their sh*t pool">▶ Bekijk de video</button>
+          </div>
+        </article>
+        <article class="blogmini cardish rv">
+          <img data-thumb="v3oNanp5mYY" alt="Leeuwentroep met jong bij Berg-en-Dal">
+          <div class="bm-body">
+            <span class="btag">Reisverslag · Berg-en-Dal</span>
+            <h3>De troep met het hinkende jong</h3>
+            <p class="bmeta">Bij "A Pride with a Limping Cub" · Berg-en-Dal</p>
+            <p class="bm-excerpt">"Bij Berg-en-Dal liep een troep leeuwen langs de weg — met achteraan een jong dat hinkte. Je wilt helpen, maar dit is de bush: hier grijpt niemand in. De moeder wachtte telkens even. Dat kleine gebaar vergeet ik niet meer."</p>
+            <button class="linklike lb-open" type="button" data-yt="v3oNanp5mYY" data-titel="A Pride with a Limping Cub near Berg en Dal">▶ Bekijk de video</button>
+          </div>
+        </article>
+        <article class="blogmini cardish rv">
+          <img data-thumb="8H33cUV9keo" alt="De kijkhut van Punda Maria in het donker">
+          <div class="bm-body">
+            <span class="btag">Reisverslag · Punda Maria</span>
+            <h3>Nachtdienst in de kijkhut</h3>
+            <p class="bmeta">Bij "Punda Maria rest camp hide at night" · Punda Maria</p>
+            <p class="bm-excerpt">"Insider-tip: de kijkhut van Punda Maria staat áán het kampeerhek, boven een drinkplaats. Na het avondeten met een zaklamp erheen, licht uit, en luisteren. Wat er in het donker komt drinken, zie je nergens anders zó dichtbij."</p>
+            <button class="linklike lb-open" type="button" data-yt="8H33cUV9keo" data-titel="Punda Maria rest camp hide at night">▶ Bekijk de video</button>
+          </div>
+        </article>
+        <article class="blogmini cardish rv">
+          <img data-thumb="LeI14lzs1mo" alt="Leeuwentroep en olifanten net buiten Shingwedzi">
+          <div class="bm-body">
+            <span class="btag">Reisverslag · Shingwedzi</span>
+            <h3>De ochtend begint bij het hek</h3>
+            <p class="bmeta">Bij "Lion pride &amp; elephants outside Shingwedzi" · Shingwedzi</p>
+            <p class="bm-excerpt">"Wakker worden, poort door — en binnen vijf minuten: een complete leeuwentroep, met verderop olifanten. Zó dicht bij mijn thuiskamp. De eerste kilometer na het hek is vaak de beste van de dag; sla 'm nooit slaperig over."</p>
+            <button class="linklike lb-open" type="button" data-yt="LeI14lzs1mo" data-titel="Lion pride &amp; elephants outside Shingwedzi rest camp">▶ Bekijk de video</button>
+          </div>
+        </article>
+        <article class="blogmini cardish rv">
+          <img data-thumb="X8OYr5kQ5VM" alt="De rit van Skukuza naar Lower Sabie langs de rivier">
+          <div class="bm-body">
+            <span class="btag">Reisverslag · H4-1</span>
+            <h3>Skukuza → Lower Sabie: de klassieker</h3>
+            <p class="bmeta">Bij "Kruger NP — Skukuza to Lower Sabie" · rivierroute</p>
+            <p class="bm-excerpt">"De H4-1 langs de Sabie is de beroemdste ochtendrit van het park — en terecht. Rijd 'm vroeg, met de rivier aan je rechterhand, en stop bij élke lus naar het water. Deze rit laat zien waarom ik zeg: niet de kilometers tellen, maar de oevers."</p>
+            <button class="linklike lb-open" type="button" data-yt="X8OYr5kQ5VM" data-titel="Kruger NP — Skukuza to Lower Sabie">▶ Bekijk de video</button>
+          </div>
+        </article>
+        <article class="blogmini cardish rv">
+          <img data-thumb="mne_4-19JLY" alt="Olifanten koelen af in het water">
+          <div class="bm-body">
+            <span class="btag">Reisverslag · uit het veld</span>
+            <h3>Afkoelen doe je zo</h3>
+            <p class="bmeta">Bij "Elephants cooling down" · juni 2026</p>
+            <p class="bm-excerpt">"Een warme middag, een watergat, en olifanten die er met volle overgave in gaan: modder, gespetter, een jong dat kopje-onder gaat. Twintig minuten lang vergat ik te filmen wat ik eigenlijk kwam filmen. Dat zijn de beste dagen."</p>
+            <button class="linklike lb-open" type="button" data-yt="mne_4-19JLY" data-titel="Elephants cooling down">▶ Bekijk de video</button>
           </div>
         </article>
       </div>
@@ -1872,7 +2170,7 @@
             <label class="optcard"><input type="radio" name="voorkeur" value="p1" id="r-p1"><span>Een scherp adviesgesprek over mijn eigen plan<em>De Quick Check · € 195</em></span></label>
             <label class="optcard"><input type="radio" name="voorkeur" value="p2" id="r-p2"><span>Een volledig reisschema op maat<em>De Route Planner · € 795</em></span></label>
             <label class="optcard"><input type="radio" name="voorkeur" value="p3" id="r-p3"><span>Totale ontzorging van A tot Z<em>Het Complete Pakket · € 1.495</em></span></label>
-            <label class="optcard"><input type="radio" name="voorkeur" value="advies" checked><span>Weet ik nog niet — adviseer mij<em>We kijken samen wat past</em></span></label>
+            <label class="optcard"><input type="radio" name="voorkeur" value="advies" checked><span>Weet ik nog niet — adviseer mij<em>Ik kijk met je mee wat past</em></span></label>
           </div>
           <div class="field">
             <label for="f-wensen">Vertel iets over je ideale reis <span class="hint">(optioneel)</span></label>
@@ -1975,7 +2273,12 @@
     '5JaAVwwf4t0': 'media/thumb_5JaAVwwf4t0.jpg', 'dcEKjVgIrJo': 'media/thumb_dcEKjVgIrJo.jpg',
     'qwFzBj2Ha3I': 'media/thumb_qwFzBj2Ha3I.jpg', '8R-ERqkaNGE_t': 'media/thumb_8R-ERqkaNGE.jpg',
     'PuW56gd4gT4': 'media/thumb_PuW56gd4gT4.jpg', 'K9cEfC69GvI': 'media/thumb_K9cEfC69GvI.jpg',
-    'qN-n01Tkz7U': 'media/thumb_qN-n01Tkz7U.jpg', 'mne_4-19JLY': 'media/thumb_mne_4-19JLY.jpg'
+    'qN-n01Tkz7U': 'media/thumb_qN-n01Tkz7U.jpg', 'mne_4-19JLY': 'media/thumb_mne_4-19JLY.jpg',
+    'v3oNanp5mYY': 'media/thumb_v3oNanp5mYY.jpg', '8H33cUV9keo': 'media/thumb_8H33cUV9keo.jpg',
+    'LeI14lzs1mo': 'media/thumb_LeI14lzs1mo.jpg', 'X8OYr5kQ5VM': 'media/thumb_X8OYr5kQ5VM.jpg',
+    'pTJgAUj5v3E': 'media/thumb_pTJgAUj5v3E.jpg', 'CVUIKEF5U8g': 'media/thumb_CVUIKEF5U8g.jpg',
+    'Tih-0zVWNkc': 'media/thumb_Tih-0zVWNkc.jpg', 'GuMNiski8Cs': 'media/thumb_GuMNiski8Cs.jpg',
+    'GXqEpwxE6EE': 'media/thumb_GXqEpwxE6EE.jpg', 'rnQpmPJZnf0': 'media/thumb_rnQpmPJZnf0.jpg'
   };
   // YouTube-insluiting werkt alleen lokaal/op de echte site; de mockup-omgeving blokkeert iframes
   // Embeds werken overal behalve in de artifact-sandbox (claude-*, CSP) en bij file://
@@ -1985,12 +2288,19 @@
     var media = document.getElementById('lbMedia');
     var note = document.getElementById('lbNote');
     document.getElementById('lbTitel').textContent = titel || 'Video';
+    lb.hidden = false;
     if (CLIPS[yt]){
       media.innerHTML = '<video controls autoplay playsinline src="' + CLIPS[yt] + '"></video>';
       note.textContent = 'Fragment uit eigen beelden — op de echte site speelt hier de volledige video in beste kwaliteit.';
     } else if (kanEmbed){
-      media.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + yt + '?autoplay=1&rel=0&vq=hd1080" title="Video" allow="autoplay; fullscreen" allowfullscreen></iframe>';
-      note.textContent = 'Kwaliteit kiest de speler zelf op basis van de venstergrootte.';
+      // YouTube kiest de resolutie op basis van de spelergrootte in CSS-pixels: render de iframe
+      // intern op 4K-breedte en schaal hem terug in de box, zodat de speler de hoogst
+      // beschikbare kwaliteit (tot 4K) pakt in plaats van 720p.
+      var bw = media.clientWidth || 928;
+      var f = Math.max(1, Math.min(4.2, 3840 / bw));
+      media.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + yt + '?autoplay=1&rel=0&vq=hd2160" title="Video" allow="autoplay; fullscreen" allowfullscreen' +
+        ' style="width:' + (100 * f).toFixed(1) + '%;height:' + (100 * f).toFixed(1) + '%;transform:scale(' + (1 / f).toFixed(4) + ');transform-origin:0 0"></iframe>';
+      note.textContent = 'Speelt in de hoogst beschikbare kwaliteit.';
     } else {
       var thumb = THUMBS[yt] || THUMBS[yt + '_t'] || '';
       media.innerHTML = '<div class="lb-fallback">' +
@@ -2055,7 +2365,9 @@
     var thumb = e.target.closest('.a-thumb');
     if (thumb){
       var wrap = thumb.closest('.a-thumbs');
-      openFotoLightbox(ACCO_FOTOS[wrap.dataset.acco], +thumb.dataset.i, ACCO_TYPES[wrap.dataset.acco].n);
+      if (wrap && wrap.dataset.acco){
+        openFotoLightbox(ACCO_FOTOS[wrap.dataset.acco], +thumb.dataset.i, ACCO_TYPES[wrap.dataset.acco].n);
+      }
     }
   });
   // videokaarten: href volledig strippen zodat geen enkele omgeving (ook de artifact-viewer niet)
@@ -2367,13 +2679,13 @@
     if (window.mapResetView) window.mapResetView();
     panel.innerHTML =
       '<p class="ptype">Het sightings-bord</p>' +
-      '<h3>Zo werkt het in het park</h3>' +
+      '<h3>Zo werkt het in het Kruger National Park</h3>' +
       '<p class="pdesc">Bij de receptie van elk kamp hangt een bord met twee kaarten: <b style="color:var(--ink)">vandaag</b> en <b style="color:var(--ink)">gisteren</b>. Zie je onderweg een van de grote soorten, dan prik je bij terugkomst een magneetje in de soortkleur op de plek van je waarneming. ’s Ochtends wisselt het personeel de kaarten om en begint vandaag weer leeg.</p>' +
       '<p class="pdesc" style="margin-top:10px">Dit bord bevat alleen échte waarnemingen: het <b style="color:var(--ink)">Vandaag</b>-bord toont de nieuwste meldingen, <b style="color:var(--ink)">Gisteren</b> de oudere (bron: iNaturalist — er zijn online te weinig publieke meldingen om letterlijk per dag te vullen). Klik een magneetje voor soort, échte datum en foto; bij ▸ kijk je mijn eigen video.</p>' +
       '<div class="spchips">' + BORD_SOORTEN.map(function(sp){
         return '<button class="spchip" data-sp="' + sp + '" type="button"><i style="background:' + SPECIES[sp] + '"></i>' + sp + '</button>';
       }).join('') + '</div>' +
-      '<p class="rhino-note">Het echte bord heeft ook een neushoorn-magneet — wij laten die bewust weg: neushoorn-locaties deel je niet meer, vanwege stroperij.</p>' +
+      '<p class="rhino-note">Het echte bord heeft ook een neushoorn-magneet — ik laat die bewust weg: neushoorn-locaties deel je niet meer, vanwege stroperij.</p>' +
       '<div class="legendrow">' +
         '<span>' + chipSvg.rest + ' Rest camp &nbsp;·&nbsp; ' + chipSvg.bush + ' Bushveld-kamp &nbsp;·&nbsp; ' + chipSvg.gate + ' Poort</span>' +
         '<span>' + chipSvg.gold + ' Hier film ik het meest &nbsp;·&nbsp; ' + chipSvg.s100 + ' S100-route</span>' +
@@ -2422,6 +2734,99 @@
       panelScroll();
     }
   }
+  // Kampfoto's (Wikimedia Commons, credit per foto) + eigen kampvideo's + faciliteiten
+  // Faciliteiten overgenomen van de officiële SANParks-kamppagina's (aug 2026).
+  var KAMP_FOTOS = {
+    skukuza: [
+      {src:'media/kamp-skukuza-1.jpg', cap:'De Sabie vanaf de kampoever — met bloeiende koraalboom', credit:'Foto: Pavel Špindler · CC BY 3.0'},
+      {src:'media/kamp-skukuza-2.jpg', cap:'De kampingang van Skukuza', credit:'Foto: Pavel Špindler · CC BY 3.0'}
+    ],
+    satara: [
+      {src:'media/kamp-satara-1.jpg', cap:'Avond bij Satara — kattengebied', credit:'Foto: Wikimedia Commons · CC BY-SA 4.0'}
+    ],
+    lowersabie: [
+      {src:'media/kamp-lowersabie-1.jpg', cap:'De Sabie, gezien vanaf het restaurantterras', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'},
+      {src:'media/kamp-lowersabie-2.jpg', cap:'Het restaurantdek boven de rivier', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
+    ],
+    letaba: [
+      {src:'media/kamp-letaba-1.jpg', cap:'Uitzicht vanaf het kampterras — olifanten in de Letaba-bedding', credit:'Foto: Chris Eason · CC BY 2.0'}
+    ],
+    olifants: [
+      {src:'media/kamp-olifants-1.jpg', cap:'Het kamp op de heuvelrug, honderd meter boven de rivier', credit:'Foto: Chris Eason · CC BY 2.0'}
+    ],
+    mopani: [
+      {src:'media/kamp-mopani-1.jpg', cap:'Het restaurantdek boven de Pioneer Dam', credit:'Foto: publiek domein · Wikimedia Commons'},
+      {src:'media/kamp-mopani-2.jpg', cap:'De kampingang in het mopaneveld', credit:'Foto: Marcmiquel · CC BY-SA 4.0'}
+    ],
+    shingwedzi: [
+      {src:'media/kamp-shingwedzi-1.jpg', cap:'Het kamp gezien vanaf de Shingwedzi-rivier', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
+    ],
+    punda: [
+      {src:'media/kamp-punda-1.jpg', cap:'Punda Maria Gate met de stenen wachttoren', credit:'Foto: Bjørn Christian Tørrissen · CC BY-SA 4.0'}
+    ],
+    bergendal: [
+      {src:'media/kamp-bergendal-1.jpg', cap:'Moderne bungalows onder de bomen', credit:'Foto: Frans-Banja Mulder · CC BY 3.0'},
+      {src:'media/kamp-bergendal-2.jpg', cap:'De kampingang tussen de kandelaar-euphorbia’s', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
+    ],
+    pretoriuskop: [
+      {src:'media/kamp-pretoriuskop-1.jpg', cap:'Het beroemde zwembad tussen de granietrotsen', credit:'Foto: flowcomm · CC BY 2.0'}
+    ],
+    crocbridge: [
+      {src:'media/kamp-crocbridge-1.jpg', cap:'Wrattenzwijnen bij de ingang — kamp én toegangspoort ineen', credit:'Foto: Chris Eason · CC BY 2.0'}
+    ],
+    orpen: [
+      {src:'media/kamp-orpen-1.jpg', cap:'Zonsopkomst bij Orpen Gate', credit:'Foto: SunTunnels · CC BY 4.0'}
+    ],
+    biyamiti: [
+      {src:'media/kamp-biyamiti-1.jpg', cap:'De eigen toegangsweg van het bushveld-kamp', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
+    ]
+  };
+  var KAMP_VIDS = {
+    olifants: [{yt:'GXqEpwxE6EE', t:'Uitzicht vanaf Olifants over de rivier — eigen video'}],
+    punda:    [{yt:'8H33cUV9keo', t:'De kijkhut aan het kampeerhek, ’s nachts — eigen video'}],
+    mopani:   [{yt:'rnQpmPJZnf0', t:'Het restaurantdek aan de Pioneer Dam — eigen video'}]
+  };
+  var FAC = {
+    skukuza:     ['Restaurant & deli','Winkel','Tankstation','2 zwembaden','Golfbaan','Bank & pinautomaat','Wasserette','Spa & bibliotheek','Eigen vliegveld (SZK)'],
+    lowersabie:  ['Restaurant met rivierdek','Cafetaria','Winkel','Tankstation','Zwembad','Wasserette','Geen pinautomaat'],
+    satara:      ['Restaurant & deli','Winkel','Tankstation','Zwembad + speeltuin','Mini-pinautomaat','Wasserette','Bush braais'],
+    letaba:      ['Restaurant boven de rivier','Cafetaria','Winkel','Tankstation','Zwembad','Olifantenmuseum (Elephant Hall)','Wasserette'],
+    olifants:    ['Restaurant','Cafetaria','Winkel','Tankstation','Uitkijkdekken','Sterrenkunde-gamedrives','Mountainbiketochten','Geen zwembad'],
+    mopani:      ['Restaurant','Bar met dek boven de dam','Winkel','Tankstation','Zwembad','Mini-pinautomaat','Overnachtings-kijkhut (3 km)'],
+    shingwedzi:  ['Restaurant','Cafetaria','Winkel','Tankstation','Zwembad','Mini-pinautomaat','Wasserette'],
+    punda:       ['Restaurant','Cafetaria','Winkel','Tankstation','Zwembad','Kijkhut aan het kampeerhek','Mahonie-wandellus'],
+    bergendal:   ['Restaurant','Cafetaria','Winkel','Tankstation','Zwembad','Rhino-wandelpad (met braille)','Internetcafé','Geen pinautomaat'],
+    pretoriuskop:['Restaurant','Cafetaria','Winkel','Tankstation','Zwembad tussen de rotsen','Sable-kampwandeling','Wasserette'],
+    crocbridge:  ['Winkel met take-away','Tankstation','Wasserette','Geen restaurant','Kamp = ook toegangspoort'],
+    orpen:       ['Winkel','Tankstation','Zwembad','Wasserette','Geen restaurant','Kamp = ook toegangspoort']
+  };
+  var POORT_FOTOS = {
+    pafurigate:  [{src:'media/poort-pafuri.jpg', cap:'De rieten poortgebouwen van Pafuri', credit:'Foto: publiek domein · Wikimedia Commons'}],
+    phalgate:    [{src:'media/poort-phalaborwa.jpg', cap:'Phalaborwa Gate — archiefbeeld uit 1980', credit:'Foto: qwesy qwesy · CC BY 3.0'}],
+    pkgate:      [{src:'media/poort-pkgate.jpg', cap:'Het Paul Kruger-monument bij de poort', credit:'Foto: Dietmar Rabich · CC BY-SA 4.0'}],
+    phabenigate: [{src:'media/poort-phabeni.jpg', cap:'Het gevlochten koepelgebouw van Phabeni', credit:'Foto: Davinci77 · CC BY-SA 3.0'}],
+    malelanegate:[{src:'media/poort-malelane.jpg', cap:'De rieten toegangsboog van Malelane', credit:'Foto: Bgabel · CC BY-SA 3.0'}]
+  };
+  POORT_FOTOS.pmariagate = KAMP_FOTOS.punda;
+  POORT_FOTOS.orpengate = KAMP_FOTOS.orpen;
+  POORT_FOTOS.cbgate = KAMP_FOTOS.crocbridge;
+  function fotoStripHtml(fotos){
+    if (!fotos || !fotos.length) return '';
+    return '<div class="a-thumbs kampstrip">' + fotos.map(function(f, i){
+      return '<button type="button" class="a-thumb kf" data-i="' + i + '" aria-label="Bekijk foto ' + (i + 1) + '"><img src="' + f.src + '" alt=""></button>';
+    }).join('') + '<span class="a-fotohint">' + fotos.length + ' foto' + (fotos.length === 1 ? '' : '’s') + '</span></div>';
+  }
+  function bindFotoStrip(fotos, titel){
+    panel.querySelectorAll('.kampstrip .kf').forEach(function(b){
+      b.addEventListener('click', function(){ openFotoLightbox(fotos, +b.dataset.i, titel); });
+    });
+  }
+  function kampVidHtml(id){
+    return (KAMP_VIDS[id] || []).map(function(v){
+      return '<button class="kampvid lb-open" type="button" data-yt="' + v.yt + '" data-titel="' + v.t.replace(' — eigen video', '') + '">' +
+        '<img src="' + (THUMBS[v.yt] || '') + '" alt=""><span>▶ ' + v.t + '</span></button>';
+    }).join('');
+  }
   function showKamp(id){
     var k = KAMPEN[id]; if (!k) return;
     markSel('kamp:'+id); zoneHighlight(null);
@@ -2431,6 +2836,13 @@
       '<h3>' + k.n + '</h3>' +
       (k.gold ? '<span class="goldbadge">★ ' + (k.ins || 'Hier film ik het meest') + '</span>' : '') +
       '<p class="pdesc">' + k.d + '</p>' +
+      fotoStripHtml(KAMP_FOTOS[id]) +
+      kampVidHtml(id) +
+      (FAC[id]
+        ? '<p class="spotlabel">Faciliteiten in het kamp</p><div class="spotchips fchips">' +
+            FAC[id].map(function(f){ return '<span' + (/^Geen /.test(f) ? ' class="f-geen"' : '') + '>' + f + '</span>'; }).join('') +
+          '</div><p class="fac-bron">Volgens de officiële SANParks-kamppagina — check bij boeking.</p>'
+        : (k.t === 'bush' ? '<p class="fac-noot">Bushveld-kamp: bewust zónder winkel of restaurant — alleen gasten, alleen bush. Alles zelf meenemen.</p>' : '')) +
       '<div class="board" style="margin-top:22px">' +
         '<div class="board-title"><span>Kansen rond dit kamp</span><span>' + k.n + '</span></div>' +
         '<ul class="withfoto">' + BORD_SOORTEN.map(function(s, i){
@@ -2444,7 +2856,7 @@
         }).join('') + '</ul>' +
         '<p class="board-note">Mijn inschatting op basis van eigen bezoeken — bij elk kamp hangt zo’n bord met de échte meldingen van de dag.</p>' +
       '</div>';
-    bindBack(); panelScroll();
+    bindBack(); bindFotoStrip(KAMP_FOTOS[id], k.n); panelScroll();
   }
   function showPoort(id){
     var p = POORTEN[id]; if (!p) return;
@@ -2453,12 +2865,13 @@
       '<p class="ptype">Toegangspoort</p>' +
       '<h3>' + p.n + '</h3>' +
       '<p class="pdesc">' + p.d + '</p>' +
+      fotoStripHtml(POORT_FOTOS[id]) +
       '<div class="airbox">' +
         '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 15.5 14 12V6.2c0-1.1-.9-2.2-2-2.2s-2 1.1-2 2.2V12l-7 3.5v2l7-1.8V20l-2 1.5V23l4-1 4 1v-1.5L14 20v-4.3l7 1.8v-2Z" fill="currentColor"/></svg>' +
         '<div><span class="al">Dichtstbijzijnde vliegveld</span><p><b>' + p.air + '</b><br>' + p.at + '</p></div>' +
       '</div>' +
       '<p class="hint-klik">Vluchten en huurauto regelt de ANVR/SGR-partner — dit hoort bij het reisadvies.</p>';
-    bindBack(); panelScroll();
+    bindBack(); bindFotoStrip(POORT_FOTOS[id], p.n); panelScroll();
   }
   function nlDatum(d){
     if (!d) return '';
@@ -2698,6 +3111,12 @@
     v.play && v.play().catch(function(){});
   });
 
+  // ---- verslag-thumbnails uit het THUMBS-object (één bron, geen dubbele data) ----
+  document.querySelectorAll('img[data-thumb]').forEach(function(img){
+    var t = THUMBS[img.dataset.thumb] || THUMBS[img.dataset.thumb + '_t'];
+    if (t) img.src = t;
+  });
+
   // ---- visuele reisplanner ----
   var DOELEN = [
     {id:'bigfive',    n:'De Big Five',          sub:'Leeuw, luipaard, olifant, buffel — het klassieke lijstje', foto:'media/sp-leeuw.jpg'},
@@ -2716,7 +3135,7 @@
     },
     vogels: {
       mini: {k:[['skukuza',3]], hl:['Lake Panic-kijkhut','Sabie-oevers','visuil na zonsondergang'], tip:'Lake Panic is misschien wel de beste kijkhut van het park — ga er twee keer heen.'},
-      kort: {k:[['letaba',2],['mopani',2]], hl:['Letaba-bedding','Pioneer Dam','visarenden'], tip:'Neem posities bij het water in het gouden uur — de vogels komen naar jou.'},
+      kort: {k:[['skukuza',2],['lowersabie',2]], hl:['Lake Panic-kijkhut','Sunset Dam','visarenden aan de Sabie'], tip:'Met een paar dagen blijf je in het vogelrijke zuiden — Lake Panic en Sunset Dam liggen om de hoek. Kom je ooit langer? Dan wacht het noorden.'},
       week: {k:[['letaba',2],['shingwedzi',3],['punda',2]], hl:['rivierlussen','Kanniedood-dam','sandveld Punda'], tip:'November–maart: trekvogels én broedkleed. Het noorden is dan een feest.'},
       lang: {k:[['skukuza',2],['satara',2],['letaba',2],['mopani',2],['shingwedzi',3],['punda',3]], hl:['Lake Panic','Pafuri & Luvuvhu','Mahonie-lus'], tip:'Reserveer een hele dag voor Pafuri — het beste vogelgebied van het park.'}
     },
@@ -2745,7 +3164,19 @@
       lang: {k:[['bergendal',2],['lowersabie',2],['skukuza',3],['satara',2],['letaba',2],['mopani',2]], hl:['Elephant Hall','Pioneer Dam','rustig noorden'], tip:'Wissel spotdagen af met een kampdag — zo blijft iedereen het leuk vinden.'}
     }
   };
+  ROUTES.oversteek = {
+    week: {k:[['bergendal',2],['satara',2],['letaba',1],['shingwedzi',2]], hl:['granietheuvels → mopaneveld','Olifants-klif onderweg','eindigen in de stilte'], tip:'Rijd de oversteek van zuid naar noord: het wordt elke dag rustiger — en dat contrast neem je mee naar huis.'},
+    lang: {k:[['crocbridge',2],['skukuza',2],['satara',2],['olifants',1],['letaba',2],['mopani',1],['shingwedzi',2],['punda',2]], hl:['álle ecozones in één reis','klifpanorama Olifants','Pafuri als finale'], tip:'Van de Crocodile-rivier tot het sandveld: weinig mensen rijden het hele Kruger National Park — niemand vergeet het.'}
+  };
   var DUUR_TXT = {mini:'2–3 nachten (tussenstop in je rondreis)', kort:'4–6 nachten', week:'±1 week', lang:'±2 weken'};
+  // Toon-van-de-reis per duur: korte bezoeken zijn meestal een safari-stop in een grotere
+  // Zuid-Afrika-rondreis (zuiden = hoogste dichtheid); hoe langer, hoe groter de natuurfan.
+  var DUUR_TONE = {
+    mini: 'Een paar dagen Kruger in je Zuid-Afrika-rondreis? Ik zet je in het zuiden — daar is de wilddichtheid het hoogst en zie je in korte tijd het meest.',
+    kort: 'Vier tot zes nachten: het zuiden blijft je beste basis — één keer verkassen, verder vooral kíjken.',
+    week: 'Een week geeft lucht: een vaste basis in het zuiden én een stap richting het rustigere midden.',
+    lang: 'Twee weken is voor de echte natuurliefhebber — dan verdien je het stille noorden, het Kruger zoals ik het ken.'
+  };
   var SLAAP_TXT = {
     kamperen:'Kamperen: waar het kan plan ik staanplaatsen met de beste ligging; kampen zonder camping vang ik in de route op.',
     bungalow:'Bungalow: klassiek kamperen-plus — ik kies de plekken met de beste ligging.',
@@ -2753,13 +3184,15 @@
   };
   var BUSHVELD = {talamati:1, biyamiti:1, sirheni:1, bateleur:1, shimuwini:1};
   // accommodatietypes per kamp, budget -> luxe (voorbeelden; exacte namen/beschikbaarheid door DN te checken)
+  // p = richtprijs per nacht o.b.v. de officiële SANParks-tarievenlijst (basistarief per unit;
+  // camping/hut/tent/bungalow = 2 pers., cottage en guest house = de hele unit)
   var ACCO_TYPES = {
-    camping:{n:'Kampeerplaats', t:'€',    d:'Eigen staanplaats met stroompunt; gedeelde keuken en sanitair.'},
-    hut:    {n:'Hut',           t:'€',    d:'Eenvoudig huisje met gedeeld sanitair en keuken — de voordeligste vier muren.'},
-    tent:   {n:'Safaritent',    t:'€€',   d:'Vaste tent op platform, bedden opgemaakt — kamperen zonder sjouwen.'},
-    bung:   {n:'Bungalow',      t:'€€',   d:'Rondavel met eigen badkamer, koelkast en braai voor de deur.'},
-    cott:   {n:'Familie-cottage', t:'€€€', d:'Meerdere slaapkamers en eigen keuken — ideaal met gezin of vrienden.'},
-    gh:     {n:'Guest house / lodge', t:'€€€€', d:'Riant verblijf op de mooiste plek van het kamp — de luxe optie.'}
+    camping:{n:'Kampeerplaats', t:'€',    p:'± €15–26 p.n.',  d:'Eigen staanplaats met stroompunt; gedeelde keuken en sanitair.'},
+    hut:    {n:'Hut',           t:'€',    p:'± €25–55 p.n.',  d:'Eenvoudig huisje met gedeeld sanitair en keuken — de voordeligste vier muren.'},
+    tent:   {n:'Safaritent',    t:'€€',   p:'± €35–110 p.n.', d:'Vaste tent op platform, bedden opgemaakt — kamperen zonder sjouwen.'},
+    bung:   {n:'Bungalow',      t:'€€',   p:'± €55–170 p.n.', d:'Rondavel met eigen badkamer, koelkast en braai voor de deur.'},
+    cott:   {n:'Familie-cottage', t:'€€€', p:'± €75–215 p.n.', d:'Meerdere slaapkamers en eigen keuken — ideaal met gezin of vrienden.'},
+    gh:     {n:'Guest house / lodge', t:'€€€€', p:'± €320–630 p.n. · heel huis', d:'Riant verblijf op de mooiste plek van het kamp — de luxe optie, voor 6 tot 12 personen.'}
   };
   var ACCO = {
     punda:      ['camping','tent','bung','cott'],
@@ -2811,20 +3244,33 @@
     tent: [
       {src:'media/acco-tent-1.jpg', cap:'Safaritenten op houten platforms', credit:'Foto: Ossewa · CC BY-SA 4.0'},
       {src:'media/acco-tent-2.jpg', cap:'Rivierzicht en eigen braai vanaf de tent-veranda', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'},
-      {src:'media/acco-tent-3.jpg', cap:'Stormlantaarn op de veranda — Tamboti tented camp', credit:'Foto: CC BY 3.0 · Wikimedia Commons'}
+      {src:'media/acco-tent-3.jpg', cap:'Stormlantaarn op de veranda — Tamboti tented camp', credit:'Foto: CC BY 3.0 · Wikimedia Commons'},
+      {src:'media/acco-tent-4.jpg', cap:'Het uitzicht vanaf tent 40 over de Timbavati-bedding', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
     ],
     bung: [
       {src:'media/acco-bung-1.jpg', cap:'Rondavels in het avondlicht — Skukuza', credit:'Foto: Mart Bouter · CC BY-SA 4.0'},
-      {src:'media/acco-bung-2.jpg', cap:'Rondavels op de klifrand, uitzicht over de vallei — Olifants', credit:'Foto: Chris Eason · CC BY 2.0'}
+      {src:'media/acco-bung-2.jpg', cap:'Rondavels op de klifrand, uitzicht over de vallei — Olifants', credit:'Foto: Chris Eason · CC BY 2.0'},
+      {src:'media/acco-bung-3.jpg', cap:'Binnenkijken: de keuken van een bungalow — Berg-en-Dal', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'},
+      {src:'media/acco-bung-4.jpg', cap:'Rivierzicht vanaf bungalow 17 — Lower Sabie', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
     ],
     cott: [
       {src:'media/acco-cott-1.jpg', cap:'Familie-cottage onder het rieten dak — Satara', credit:'Foto: Chris Eason · CC BY 2.0'},
-      {src:'media/acco-cott-2.jpg', cap:'Ruime cottage op het gazon — Pretoriuskop', credit:'Foto: Chris Eason · CC BY 2.0'}
+      {src:'media/acco-cott-2.jpg', cap:'Ruime cottage op het gazon — Pretoriuskop', credit:'Foto: Chris Eason · CC BY 2.0'},
+      {src:'media/acco-cott-3.jpg', cap:'Binnenkijken: keuken en eethoek van een gastencottage — Biyamiti', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
     ],
     gh: [
       {src:'media/acco-gh-2.jpg', cap:'Het uitzicht vanaf de klifrand — hier liggen de guest houses van Olifants', credit:'Foto: Bjørn Christian Tørrissen · CC BY-SA 4.0'},
       {src:'media/acco-gh-1.jpg', cap:'Gastenverblijf met veranda — Olifants', credit:'Foto: Chris Eason · CC BY 2.0'},
       {src:'media/acco-gh-3.jpg', cap:'Luxe verblijven onder de bomen — Skukuza', credit:'Foto: publiek domein · Wikimedia Commons'}
+    ]
+  };
+  // Eigen video's per accommodatietype (van het @safari_dn-kanaal) — kamp staat in de titel
+  var ACCO_VIDS = {
+    tent: [{yt:'pTJgAUj5v3E', t:'Binnenkijken in een safaritent — Tamboti tented camp'}],
+    gh: [
+      {yt:'CVUIKEF5U8g', t:'Fish Eagle guest house — Letaba'},
+      {yt:'Tih-0zVWNkc', t:'Keartland guest house — Lower Sabie'},
+      {yt:'GuMNiski8Cs', t:'Doherty Bryant guest house — Pretoriuskop'}
     ]
   };
   var plDoel = 'bigfive', plDuur = 'week', plSlaap = 'bungalow';
@@ -2839,9 +3285,11 @@
         '\n\nGraag jullie voorstel op maat!';
     }
     var d = DOELEN.filter(function(x){ return x.id === plDoel; })[0];
+    var doelN = plDoel === 'oversteek' ? 'De Grote Oversteek (heel Kruger, zuid → noord)' : d.n;
     var r = planRoute();
+    if (!r) return 'Via de reisplanner: ' + doelN + ' · ' + DUUR_TXT[plDuur] + ' · ' + plSlaap;
     var stops = r.k.map(function(s){ return (s[2] || KAMPEN[s[0]].n) + ' (' + s[1] + 'n)'; }).join(' → ');
-    return 'Via de reisplanner samengesteld:\nReisdoel: ' + d.n + ' · ' + DUUR_TXT[plDuur] + ' · ' + plSlaap + '\nOpzet: ' + stops + '\n\nGraag jullie reactie op deze eerste opzet!';
+    return 'Via de reisplanner samengesteld:\nReisdoel: ' + doelN + ' · ' + DUUR_TXT[plDuur] + ' · ' + plSlaap + '\nOpzet: ' + stops + '\n\nGraag je reactie op deze eerste opzet!';
   }
   function routeStops(){
     var r = planRoute();
@@ -2854,6 +3302,13 @@
   function renderRouteLaag(){
     var svg = document.getElementById('krugermap');
     if (!svg || !window.GEO) return;
+    if (!planRoute()){
+      var lg = document.getElementById('routelijn'), bg = document.getElementById('routebadges');
+      if (lg) lg.innerHTML = '';
+      if (bg) bg.innerHTML = '';
+      document.querySelectorAll('.mk.route').forEach(function(m){ m.classList.remove('route'); });
+      return;
+    }
     var lijnG = document.getElementById('routelijn');
     if (!lijnG){
       lijnG = svgEl('g', {id:'routelijn'});
@@ -2906,6 +3361,8 @@
     document.querySelectorAll('#doelen .doel').forEach(function(x){ x.classList.toggle('on', x.dataset.doel === plDoel); });
     var ct = document.getElementById('customTrip');
     if (ct) ct.classList.toggle('on', plDoel === 'custom');
+    var ov = document.getElementById('ovTrip');
+    if (ov) ov.classList.toggle('on', plDoel === 'oversteek');
   }
   function accoHtml(id){
     var wens = SLAAP_MATCH[plSlaap] || [];
@@ -2914,11 +3371,18 @@
       var eigen = (ACCO_EIGEN[id] || {})[k];
       var match = wens.indexOf(k) !== -1;
       var fotos = (typeof ACCO_FOTOS !== 'undefined') ? ACCO_FOTOS[k] : null;
-      var thumbs = fotos ? '<div class="a-thumbs" data-acco="' + k + '">' + fotos.map(function(f, i){
-        return '<button type="button" class="a-thumb" data-i="' + i + '" aria-label="Bekijk foto ' + (i + 1) + ' van ' + t.n + '"><img src="' + f.src + '" alt=""></button>';
-      }).join('') + '<span class="a-fotohint">' + fotos.length + ' foto' + (fotos.length === 1 ? '' : '’s') + '</span></div>' : '';
+      var vids = (typeof ACCO_VIDS !== 'undefined') ? ACCO_VIDS[k] : null;
+      var thumbs = (fotos || vids) ? '<div class="a-thumbs" data-acco="' + k + '">' +
+        (fotos ? fotos.map(function(f, i){
+          return '<button type="button" class="a-thumb" data-i="' + i + '" aria-label="Bekijk foto ' + (i + 1) + ' van ' + t.n + '"><img src="' + f.src + '" alt=""></button>';
+        }).join('') : '') +
+        (vids ? vids.map(function(v){
+          return '<button type="button" class="a-thumb vid lb-open" data-yt="' + v.yt + '" data-titel="' + v.t + '" aria-label="Bekijk video: ' + v.t + '"><img src="' + (THUMBS[v.yt] || '') + '" alt=""></button>';
+        }).join('') : '') +
+        '<span class="a-fotohint">' + (fotos ? fotos.length + ' foto' + (fotos.length === 1 ? '' : '’s') : '') +
+        (vids ? (fotos ? ' + ' : '') + vids.length + ' eigen video' + (vids.length === 1 ? '' : '’s') : '') + '</span></div>' : '';
       return '<div class="acco-i' + (match ? ' match' : '') + '"><span class="a-tier">' + t.t + '</span>' +
-        '<div><b>' + t.n + (match ? '<em class="a-match">past bij jouw keuze</em>' : '') + '</b>' +
+        '<div><b>' + t.n + '<em class="a-prijs">' + t.p + '</em>' + (match ? '<em class="a-match">past bij jouw keuze</em>' : '') + '</b>' +
         '<small>' + (eigen || t.d) + '</small>' + thumbs + '</div></div>';
     }).join('');
     var noot = '';
@@ -2929,7 +3393,8 @@
     }
     return '<details class="acco"><summary>Bekijk de accommodaties' +
       '<svg width="10" height="7" viewBox="0 0 10 7" fill="none" aria-hidden="true"><path d="M1 1.5 5 5.5 9 1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>' +
-      '<div class="acco-lijst">' + noot + opties + '</div></details>';
+      '<div class="acco-lijst">' + noot + opties +
+      '<p class="acco-bron">Richtprijzen per nacht volgens de officiële SANParks-tarieven — kampeerplaats t/m bungalow voor 2 personen, cottage en guest house voor de hele unit. De actuele prijs zie je bij het boeken.</p></div></details>';
   }
   function renderOpzetPanel(){
     if (!panel || !window.GEO) return;
@@ -2950,7 +3415,23 @@
       return;
     }
     var d = DOELEN.filter(function(x){ return x.id === plDoel; })[0];
+    var doelNaam = plDoel === 'oversteek' ? 'De Grote Oversteek' : d.n;
     var r = planRoute();
+    if (!r){
+      // oversteek gekozen met een te korte reisduur: eerlijk uitleggen + één klik naar de oplossing
+      panel.innerHTML =
+        '<div class="ro-kop"><h3>De Grote Oversteek</h3><span class="ro-n">' + DUUR_TXT[plDuur].split(' (')[0] + '</span></div>' +
+        '<p class="ro-sub">Heel Kruger, van zuid naar noord — ruim 350 kilometer bushweg.</p>' +
+        '<p class="ro-toon">Eerlijk insider-advies: voor de oversteek heb je minstens een week nodig. Met ' + DUUR_TXT[plDuur].split(' (')[0].toLowerCase() + ' zet ik je liever in het zuiden — daar zie je in korte tijd het meest.</p>' +
+        '<button class="btn pl-cta" type="button" id="ovWeek">Maak er ±1 week van</button>' +
+        '<p class="ro-klein">Of kies hierboven een ander reisdoel voor een korte route.</p>';
+      panel.querySelector('#ovWeek').addEventListener('click', function(){
+        plDuur = 'week';
+        document.querySelectorAll('#segDuur button').forEach(function(x){ x.classList.toggle('on', x.dataset.duur === 'week'); });
+        planUpdate();
+      });
+      return;
+    }
     var nachten = 0;
     r.k.forEach(function(s){ nachten += s[1]; });
     var dag = 1;
@@ -2968,17 +3449,49 @@
       slaapNote = 'Kamperen: let op — bushveld-kampen hebben geen kampeerplek; daar kies ik een cottage of pas ik de route aan.';
     }
     panel.innerHTML =
-      '<div class="ro-kop"><h3>' + d.n + '</h3><span class="ro-n">' + nachten + ' nachten</span></div>' +
+      '<div class="ro-kop"><h3>' + doelNaam + '</h3><span class="ro-n">' + nachten + ' nachten</span></div>' +
       '<p class="ro-sub">Jouw eerste reisopzet — ' + DUUR_TXT[plDuur] + ', getekend op de kaart.</p>' +
+      '<p class="ro-toon">' + (plDoel === 'oversteek'
+        ? 'Elke dag verandert het landschap — tot je eindigt in het stilste deel van het Kruger National Park.'
+        : DUUR_TONE[plDuur]) + '</p>' +
       '<div class="ro-dagen">' + blokken + '</div>' +
       '<div class="ro-hl">' + r.hl.map(function(h){ return '<span>' + h + '</span>'; }).join('') + '</div>' +
       '<p class="ro-slaap">' + slaapNote + '</p>' +
       '<div class="ro-tip"><b>Insider-tip</b>' + r.tip + '</div>' +
       '<button class="btn pl-cta" type="button">Maak hier een echte reis van' +
         '<svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13m0 0L9.5 1.5M14 6l-4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
-      '<p class="ro-klein">Vrijblijvend — je opzet gaat automatisch mee in het formulier.</p>' +
+      '<div class="aanvraag" id="aanvraagBlok" hidden>' +
+        '<div class="opzet-mee" id="opzetMee"></div>' +
+        '<input type="text" id="av-naam" placeholder="Je naam" autocomplete="name">' +
+        '<input type="email" id="av-mail" placeholder="Je e-mailadres" autocomplete="email">' +
+        '<input type="tel" id="av-tel" placeholder="Telefoonnummer (optioneel)" autocomplete="tel">' +
+        '<button class="btn gold" type="button" id="avVerstuur">Stuur mijn reisopzet naar Niek</button>' +
+        '<p class="ro-klein">Binnen 24 uur persoonlijke reactie. Liever alles kwijt kunnen? <button class="linklike" type="button" id="avVolledig">Gebruik het uitgebreide formulier</button></p>' +
+      '</div>' +
+      '<p class="ro-klein" id="avHint">Vrijblijvend — je reisopzet gaat automatisch mee.</p>' +
       '<p class="hint-klik">Tip: klik een kamp uit je route aan voor het sightings-bord van dat kamp.</p>';
-    panel.querySelector('.pl-cta').addEventListener('click', ctaNaarContact);
+    var cta = panel.querySelector('.pl-cta');
+    cta.addEventListener('click', function(){
+      var blok = panel.querySelector('#aanvraagBlok');
+      blok.hidden = false;
+      cta.style.display = 'none';
+      var hint = panel.querySelector('#avHint'); if (hint) hint.hidden = true;
+      panel.querySelector('#opzetMee').textContent = planTekst();
+      panel.querySelector('#av-naam').focus();
+    });
+    panel.querySelector('#avVolledig').addEventListener('click', ctaNaarContact);
+    panel.querySelector('#avVerstuur').addEventListener('click', function(){
+      var naam = panel.querySelector('#av-naam').value.trim();
+      var mail = panel.querySelector('#av-mail').value.trim();
+      if (!naam || !/.+@.+\..+/.test(mail)){
+        panel.querySelector(!naam ? '#av-naam' : '#av-mail').focus();
+        return;
+      }
+      panel.querySelector('#aanvraagBlok').innerHTML =
+        '<div class="aanvraag-ok"><b>Verstuurd — tot zo, ' + naam.split(' ')[0] + '!</b>' +
+        '<p>Je reisopzet ligt bij Niek. Binnen 24 uur krijg je persoonlijke reactie op ' + mail + '.</p>' +
+        '<p style="margin-top:6px;font-size:.74rem;opacity:.7">(Mockup: er wordt nog niets écht verstuurd.)</p></div>';
+    });
   }
   function planUpdate(){
     syncDoelUI();
@@ -3080,6 +3593,12 @@
         panel.scrollIntoView({behavior:'smooth', block:'start'});
         snack('Custom trip — vertel je wensen in het formulier');
       }
+    });
+    var ov = document.getElementById('ovTrip');
+    if (ov) ov.addEventListener('click', function(){
+      plDoel = 'oversteek';
+      planUpdate();
+      if (window.innerWidth <= 1000){ naarKaart(); snack('De Grote Oversteek — route bijgewerkt'); }
     });
     var tc = document.getElementById('teaserCustom');
     if (tc) tc.addEventListener('click', function(){

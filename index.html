@@ -211,7 +211,11 @@
   .lb-titel{font-family:var(--disp);font-weight:800;font-size:1.05rem}
   .lb-x{border:none;background:var(--panel);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem;color:var(--ink);font-family:var(--body);flex:0 0 auto}
   .lb-x:hover{background:var(--gold-tint)}
-  .lb-media{aspect-ratio:16/9;background:#181410;border-radius:12px;overflow:hidden}
+  .lb-media{aspect-ratio:16/9;min-height:180px;background:#181410;border-radius:12px;overflow:hidden}
+  /* foto-stand: natuurlijke hoogte i.p.v. vast 16:9-vak (robuust op álle telefoons, en groter beeld) */
+  .lb-media.is-foto{aspect-ratio:auto;min-height:0}
+  .lb-media.is-foto .lb-galerij{height:auto}
+  .lb-media.is-foto .lb-galerij img{width:100%;height:auto;max-height:70vh;object-fit:contain;display:block}
   .lb-media video,.lb-media iframe{width:100%;height:100%;display:block;border:0}
   .ytwrap{position:relative;width:100%;height:100%;overflow:hidden}
   .yt-klik{position:absolute;left:0;right:0;top:0;bottom:52px;background:none;border:none;cursor:pointer;padding:0}
@@ -561,6 +565,47 @@
   .tl-body p{font-size:.95rem;color:var(--soft);margin-top:4px;max-width:52ch}
   .tl-body .linklike{font-size:.88rem;margin-top:6px}
   .tl-foto{width:100%;max-width:340px;border-radius:12px;display:block;margin-top:12px;box-shadow:0 12px 28px -16px rgba(64,52,41,.5)}
+  .niekquote{max-width:640px;margin:46px auto 8px;text-align:center}
+  .niekquote p{font-family:var(--quote);font-style:italic;font-size:clamp(1.2rem,2.6vw,1.55rem);line-height:1.55;color:var(--ink);margin:0}
+  .niekquote span{display:block;margin-top:12px;font-weight:800;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+  /* seizoenswijzer */
+  .szn-kaart{
+    background:var(--white);border:1.5px solid var(--line);border-radius:20px;
+    padding:26px 28px;box-shadow:var(--shadow);max-width:880px;margin:0 auto;
+  }
+  .maanden{justify-content:center;margin-bottom:22px}
+  .szn-kop{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+  .szn-kop h3{font-family:var(--disp);font-weight:800;font-size:1.55rem;margin:0}
+  .szn-seizoen{font-weight:800;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;background:var(--gold-tint);color:var(--gold);border-radius:999px;padding:6px 14px}
+  .szn-sfeer{font-family:var(--quote);font-style:italic;color:#5C4A22;font-size:1.04rem;margin:6px 0 18px;max-width:58ch}
+  .szn-feiten{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .szn-feit{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 13px;font-size:.85rem;font-weight:600}
+  .szn-feit b{color:var(--sage-deep)}
+  .szn-meters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px;margin-bottom:18px}
+  .szn-meter{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.9rem;font-weight:600}
+  .szn-dots{display:flex;gap:4px}
+  .szn-dots i{width:11px;height:11px;border-radius:50%;background:var(--sage);display:block}
+  .szn-dots i.uit{background:var(--panel)}
+  .szn-blokken{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-bottom:16px}
+  .szn-blok{background:var(--bg);border-radius:12px;padding:13px 15px}
+  .szn-blok b{font-family:var(--disp);font-weight:800;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage-deep);display:block;margin-bottom:4px}
+  .szn-blok p{margin:0;font-size:.88rem}
+  .szn-tip{
+    background:var(--gold-tint);border-radius:12px;padding:14px 17px;
+    font-family:var(--quote);font-style:italic;color:#5C4A22;font-size:.94rem;
+  }
+  .szn-tip b{font-family:var(--body);font-style:normal;font-weight:800;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:3px}
+  .szn-kaart .btn{width:100%;justify-content:center;margin-top:16px}
+  .szn-bron{font-size:.72rem;color:var(--soft);margin-top:14px;text-align:center;max-width:72ch;margin-left:auto;margin-right:auto}
+  .szn-gekozen{
+    display:inline-flex;align-items:center;gap:8px;font-size:.84rem;font-weight:700;
+    background:var(--sage-tint);color:var(--sage-deep);border-radius:999px;padding:6px 8px 6px 14px;margin:0 0 12px;
+  }
+  .szn-gekozen button{border:none;background:rgba(95,125,99,.16);color:var(--sage-deep);width:20px;height:20px;border-radius:50%;cursor:pointer;font-weight:800;line-height:1;padding:0}
+  @media (max-width:560px){
+    .szn-meters,.szn-blokken{grid-template-columns:1fr}
+    .szn-kaart{padding:20px 16px}
+  }
   @media (max-width:560px){
     .tl-item{grid-template-columns:64px 22px minmax(0,1fr);gap:0 12px}
     .tl-jaar{font-size:.92rem}
@@ -1193,7 +1238,7 @@
         <div class="ph">
           <img src="media/niek-uitkijk.jpg" alt="Niek kijkt met de verrekijker uit over een eindeloze Kruger-vlakte" style="object-position:70% 50%">
         </div>
-        <figcaption><span>Niek — speuren over de vlakte</span><span>Eigen beeld · @safari_dn</span></figcaption>
+        <figcaption><span>Niek, Kruger National Park</span><span>Eigen beeld · @safari_dn</span></figcaption>
       </figure>
       <div class="story-copy rv">
         <p class="eyebrow">Het gezicht achter KrugerInside</p>
@@ -1241,6 +1286,22 @@
         </button>
       </div>
       <p class="teaser-custom rv" style="text-align:center"><button class="linklike" type="button" id="teaserCustom">Of iets héél anders? Stel een custom trip samen →</button></p>
+    </div>
+  </section>
+
+  <!-- seizoenswijzer -->
+  <section id="seizoen" style="background:var(--panel)">
+    <div class="wrap">
+      <div class="sec-head center rv">
+        <p class="eyebrow">Wanneer ga jij?</p>
+        <h2 class="title">De Kruger-seizoenswijzer</h2>
+        <p class="lede" style="margin:0 auto">Dé twijfelvraag is niet wáár, maar wannéér. Kies een maand en zie hoe het Kruger National Park er dan bij ligt — met het officiële prijsseizoen erbij en mijn notitie per maand.</p>
+      </div>
+      <div class="rv">
+        <div class="seg maanden" id="sznMaanden"></div>
+        <div class="szn-kaart" id="sznKaart"></div>
+        <p class="szn-bron">Prijsseizoenen: officiële SANParks-tarievenlijst (wisselt jaarlijks per 1 november). Klimaat en drukte: indicatief. Malaria-risico is het hoogst in het natte seizoen (november–april) — bespreek je reis met de GGD of een reisvaccinatie-arts.</p>
+      </div>
     </div>
   </section>
 
@@ -1417,19 +1478,14 @@
           <div class="ph">
             <img src="media/niek-portret.jpg" alt="Niek houdt lachend een gevonden buffelschedel boven zijn hoofd, in het gouden avondlicht">
           </div>
-          <figcaption><span>Niek — de man achter KrugerInside</span><span>Ergens in de bush, gouden uur</span></figcaption>
+          <figcaption><span>Niek — de man achter KrugerInside</span><span>Kruger National Park</span></figcaption>
         </figure>
-        <div class="board rv" style="margin-top:26px;max-width:430px">
-          <div class="board-title"><span>Sightings-bord</span><span>kamp · vandaag</span></div>
-          <ul>
-            <li><span class="dot" style="background:#C05B45"></span>Leeuw<span class="spots"><i></i><i></i><i class="dim"></i></span></li>
-            <li><span class="dot" style="background:#D9A94E"></span>Luipaard<span class="spots"><i></i><i class="dim"></i><i class="dim"></i></span></li>
-            <li><span class="dot" style="background:#9AA88F"></span>Olifant<span class="spots"><i></i><i></i><i></i></span></li>
-            <li><span class="dot" style="background:#7A997D"></span>Buffel<span class="spots"><i></i><i></i><i class="dim"></i></span></li>
-            <li><span class="dot" style="background:#A08F72"></span>Neushoorn<span class="spots"><i></i><i class="dim"></i><i class="dim"></i></span></li>
-          </ul>
-          <p class="board-note">Bij elk kamp hangt zo'n bord met de sightings van de dag. Ik leer je het te lezen — en er je route op aan te passen.</p>
-        </div>
+        <figure class="photo-frame rv" style="margin-top:26px;max-width:430px" aria-label="Niek filmt met telelens boven een rivierkloof">
+          <div class="ph" style="aspect-ratio:4/3">
+            <img src="media/niek-filmt.jpg" alt="Niek filmt met een grote telelens over een rivierkloof in het Kruger National Park">
+          </div>
+          <figcaption><span>Aan het werk boven de rivierkloof</span><span>Eigen beeld</span></figcaption>
+        </figure>
       </div>
       <div class="story-copy rv">
         <p class="big">In 2017 kreeg het Afrika-virus mij te pakken tijdens een rondreis door Zuid-Afrika. Ik bezocht onder andere het Kruger National Park — en sindsdien heeft de wildernis me nooit meer losgelaten.</p>
@@ -1537,6 +1593,36 @@
           <p>community &amp; updates</p>
           <span class="go">Naar de pagina →</span>
         </a>
+      </div>
+    </div>
+  </section>
+  <section style="padding-top:70px;padding-bottom:0">
+    <div class="wrap">
+      <div class="sec-head center rv">
+        <p class="eyebrow">Wat reizigers over Niek zeggen</p>
+        <h2 class="title">"Alsof een vriend je reis regelt"</h2>
+      </div>
+      <div class="minirevs rv">
+        <div class="minirev">
+          <span class="rev-stars">★★★★★</span>
+          <p>"Toen er onverwacht regen aankwam, appte Niek 's avonds nog een alternatief voor de volgende ochtend. Wie dóét dat?"</p>
+          <small>Els · Complete Pakket</small>
+        </div>
+        <div class="minirev">
+          <span class="rev-stars">★★★★★</span>
+          <p>"Je merkt aan álles dat hij er zelf net nog was — tot de beste braaiplek van het kamp aan toe."</p>
+          <small>Jeroen &amp; Kim · Route Planner</small>
+        </div>
+        <div class="minirev">
+          <span class="rev-stars">★★★★★</span>
+          <p>"De videocall voelde als koffie met een vriend die toevallig álles van het Kruger National Park weet."</p>
+          <small>Danielle · Route Planner</small>
+        </div>
+      </div>
+      <p class="rev-note rv">Voorbeeldreviews ter illustratie — echte reizigersreviews volgen.</p>
+      <div class="niekquote rv">
+        <p>"Ik kan je geen leeuwen beloven. Wél dat elke dag klopt: de juiste weg, het juiste moment, de juiste plek om stil te staan. De rest doet Kruger zelf."</p>
+        <span>— Niek</span>
       </div>
     </div>
   </section>
@@ -1973,7 +2059,7 @@
         <div class="btxt">
           <span class="btag">Uitgelicht reisverslag</span>
           <h3>Wilde honden bij het laatste licht</h3>
-          <p class="bmeta">Bij de video "Wild Dogs Finishing Their Meal" · leestijd 3 min</p>
+          <p class="bmeta">Bij de video "Wild Dogs Finishing Their Meal" · eigen beelden</p>
           <p class="excerpt">"De zon hing al laag toen ik de stofwolk zag — en toen, ineens: een heel roedel wilde honden, misschien wel de zeldzaamste ontmoeting die het Kruger National Park je kan geven. Motor uit, raam open, en ademloos kijken hoe de pups hun plek in de rangorde opeisten…"</p>
           <button class="linklike lb-open" type="button" data-yt="OAMg0DFZF7s" data-titel="Wild Dogs Finishing Their Meal" style="margin-top:12px">▶ Bekijk de video erbij</button>
         </div>
@@ -1984,7 +2070,7 @@
           <div class="bm-body">
             <span class="btag">Reisverslag · Shingwedzi</span>
             <h3>De jacht bij Shingwedzi</h3>
-            <p class="bmeta">Bij "Lions On The Prowl" · leestijd 3 min</p>
+            <p class="bmeta">Bij "Lions On The Prowl" · rivierlus bij Shingwedzi</p>
             <p class="bm-excerpt">"Stof, alarmkreten van bavianen — en dan: drie leeuwinnen laag in het gras, de buffelkudde met de kalveren naar het midden. Ik stond al twintig minuten stil bij de rivierlus. Precies dáárom zag ik alles."</p>
             <button class="linklike lb-open" type="button" data-yt="e-vb2TCtrPA" data-titel="Lions On The Prowl — Shingwedzi">▶ Bekijk de video</button>
           </div>
@@ -1994,7 +2080,7 @@
           <div class="bm-body">
             <span class="btag">Reisverslag · vroege ochtend</span>
             <h3>Giraffen op de vroege weg</h3>
-            <p class="bmeta">Bij "Riding with Giraffes" · leestijd 2 min</p>
+            <p class="bmeta">Bij "Riding with Giraffes" · net na poortopening</p>
             <p class="bm-excerpt">"Vijf voor zes, de poort net open, de teer nog koel. Na de tweede bocht: een complete journey giraffen midden op de weg, dravend in het eerste licht. Wie uitslaapt in Kruger, mist het mooiste uur van de dag."</p>
             <button class="linklike lb-open" type="button" data-yt="Au0k1EK8KiE" data-titel="Riding with Giraffes, Just Magic">▶ Bekijk de video</button>
           </div>
@@ -2004,7 +2090,7 @@
           <div class="bm-body">
             <span class="btag">Reisverslag · Letaba</span>
             <h3>Goud aan de Letaba</h3>
-            <p class="bmeta">Bij "Letaba Giraffe" · leestijd 2 min</p>
+            <p class="bmeta">Bij "Letaba Giraffe" · het gouden uur</p>
             <p class="bm-excerpt">"Het laatste uur voor zonsondergang kleurt de rivierbedding honing. Een giraffe plukt onverstoorbaar de hoogste blaadjes terwijl alles om haar heen goud wordt. Soms is de beste sighting gewoon: stilstaan en kijken."</p>
             <button class="linklike lb-open" type="button" data-yt="EeP0B2JtkYs" data-titel="Letaba Giraffe">▶ Bekijk de video</button>
           </div>
@@ -2014,7 +2100,7 @@
           <div class="bm-body">
             <span class="btag">Reisverslag · Olifants</span>
             <h3>Reuzen onder de klif</h3>
-            <p class="bmeta">Bij "Elephants at Olifants Lookout" · leestijd 2 min</p>
+            <p class="bmeta">Bij "Elephants at Olifants Lookout" · het uitkijkpunt</p>
             <p class="bm-excerpt">"Vanaf het uitkijkpunt bij Olifants kijk je op de rúggen van olifanten, diep beneden in de rivier. Ze lijken speelgoed — tot het getrompetter tegen de kliffen echoot. Neem je koffiepauze hier, niet in het kamp."</p>
             <button class="linklike lb-open" type="button" data-yt="8R-ERqkaNGE" data-titel="Elephants at Olifants Lookout">▶ Bekijk de video</button>
           </div>
@@ -2302,6 +2388,7 @@
     var media = document.getElementById('lbMedia');
     var note = document.getElementById('lbNote');
     document.getElementById('lbTitel').textContent = titel || 'Video';
+    media.classList.remove('is-foto');
     lb.hidden = false;
     if (CLIPS[yt]){
       // standaard zonder geluid; gebruiker zet het zelf aan via de native controls
@@ -2368,6 +2455,7 @@
   function lbToonFoto(){
     var f = lbFotos[lbIdx];
     var media = document.getElementById('lbMedia');
+    media.classList.add('is-foto');
     media.innerHTML = '<div class="lb-galerij"><img src="' + f.src + '" alt="">' +
       (lbFotos.length > 1
         ? '<button class="lb-pijl vorige" type="button" aria-label="Vorige foto">‹</button>' +
@@ -3161,6 +3249,166 @@
     if (t) img.src = t;
   });
 
+  // ---- seizoenswijzer (prijsseizoenen: officiële SANParks-tarievenlijst; rest indicatief, door Niek te checken) ----
+  var plMaand = null;
+  var SZN = [
+   {k:'jan', n:'Januari', s:'nat & groen', prijs:'hoog t/m ±15 jan, daarna laag', temp:'±24–33°', regen:'buiig (middag-onweer)',
+    sfeer:'Diep groen, hoge luchten en dramatische middagbuien — het park op z’n weelderigst.',
+    wild:3, groen:5, vogels:5, rust:3,
+    wildTxt:'Hoog gras en volle poelen: dieren zijn verspreid en spotten vraagt geduld. Overal jonge dieren van de geboortegolf.',
+    vogelTxt:'Topmaand: alle trekvogels aanwezig, broedkleed, volop activiteit.',
+    drukTxt:'Eerste helft nog kerstdrukte (ZA-vakantie), daarna wordt het opvallend stil.',
+    tip:'Na 15 januari heb je groen Kruger bijna voor jezelf — en betaal je het laagseizoentarief.'},
+   {k:'feb', n:'Februari', s:'nat & groen', prijs:'laag', temp:'±24–33°', regen:'natste maand',
+    sfeer:'De warmste, natste kern van de zomer: alles groeit, bloeit en zoemt.',
+    wild:2, groen:5, vogels:5, rust:5,
+    wildTxt:'Het lastigst voor de Big Five (hoog gras, water overal) — maar geboortes, insecten en kleur maken veel goed.',
+    vogelTxt:'Uitstekend: trekvogels op hun piek, veel broedactiviteit.',
+    drukTxt:'Rustigste periode van het jaar, laagseizoenprijzen.',
+    tip:'Voor wie al eens geweest is en het park écht anders wil zien — en voor vogelaars een geheime topmaand.'},
+   {k:'mrt', n:'Maart', s:'einde regen', prijs:'laag t/m ±19 mrt, daarna hoog', temp:'±22–31°', regen:'afnemend',
+    sfeer:'De regen zwakt af, het groen staat nog vol overeind en de lucht wordt helderder.',
+    wild:3, groen:5, vogels:4, rust:4,
+    wildTxt:'Nog steeds verspreid wild, maar zichtbaar makkelijker dan in februari.',
+    vogelTxt:'Laatste kans op de trekvogels voor ze vertrekken.',
+    drukTxt:'Rustig tot de paas-/schoolvakantie losbarst.',
+    tip:'Begin maart = laagseizoen, vol groen én afnemende regen: een slimme prijs-kwaliteitkeuze.'},
+   {k:'apr', n:'April', s:'overgang', prijs:'hoog', temp:'±19–29°', regen:'enkele buien',
+    sfeer:'Goudgroene overgangsmaand: zacht licht, aangename temperaturen, het gras zakt langzaam.',
+    wild:3, groen:4, vogels:3, rust:3,
+    wildTxt:'Elke week wordt spotten iets makkelijker; de poelen beginnen te slinken.',
+    vogelTxt:'De trekkers zijn grotendeels weg; standvogels volop aanwezig.',
+    drukTxt:'Rond Pasen en de ZA-schoolvakantie flink drukker.',
+    tip:'Mooiste licht van het jaar voor foto’s — plan de paasdrukte er slim omheen.'},
+   {k:'mei', n:'Mei', s:'droog begint', prijs:'hoog', temp:'±14–27°', regen:'vrijwel droog',
+    sfeer:'De bush kleurt goud, ochtenden worden fris en het zicht wordt elke dag beter.',
+    wild:4, groen:3, vogels:3, rust:4,
+    wildTxt:'Gras laag, water schaarser: dieren worden voorspelbaarder langs rivieren en poelen.',
+    vogelTxt:'Minder soorten, maar roofvogels vallen nu extra op.',
+    drukTxt:'Heerlijk rustig — tussen de vakanties in.',
+    tip:'Onderschatte maand: winterzicht zonder wintervakantiedrukte.'},
+   {k:'jun', n:'Juni', s:'droog & fris', prijs:'hoog', temp:'±8–25°', regen:'droog',
+    sfeer:'Winter in de bush: koude ochtenden, zachte middagen, glashelder zicht.',
+    wild:4, groen:2, vogels:3, rust:3,
+    wildTxt:'Kale bush en vaste drinkplekken — klassiek goed wildkijken.',
+    vogelTxt:'Standvogels goed zichtbaar in de kale bomen.',
+    drukTxt:'Eind juni start de ZA-wintervakantie.',
+    tip:'Neem een warme jas voor de vroege gamedrive — en zit ’s middags in je t-shirt bij de braai.'},
+   {k:'jul', n:'Juli', s:'droog & fris', prijs:'hoog', temp:'±7–25°', regen:'droogste tijd',
+    sfeer:'Hartje droogseizoen: stofgoud licht, dieren geconcentreerd bij het laatste water.',
+    wild:5, groen:2, vogels:3, rust:2,
+    wildTxt:'Uitstekend: rivieren en poelen zijn dé ontmoetingsplekken.',
+    vogelTxt:'Prima voor roofvogels en watervogels bij de slinkende poelen.',
+    drukTxt:'ZA-wintervakantie + Europese zomervakantie = drukste wintermaand. Vroeg boeken.',
+    tip:'Wees bij poortopening buiten: de eerste twee uur zijn in juli letterlijk goud.'},
+   {k:'aug', n:'Augustus', s:'droog', prijs:'hoog', temp:'±10–28°', regen:'droog',
+    sfeer:'De droogte piekt: elk watergat is theater, van de eerste tot de laatste zonnestraal.',
+    wild:5, groen:1, vogels:3, rust:3,
+    wildTxt:'Samen met september de beste wildmaand — alles draait om water.',
+    vogelTxt:'Watervogels geconcentreerd; eerste zomergasten eind augustus.',
+    drukTxt:'Na de ZA-vakantie wordt het geleidelijk rustiger.',
+    tip:'Mijn favoriete filmmaand: parkeer bij een poel, zet de motor uit en laat de dag naar jóu komen.'},
+   {k:'sep', n:'September', s:'droogte-piek', prijs:'hoog', temp:'±13–30°', regen:'vrijwel droog',
+    sfeer:'Het park houdt de adem in: maximale droogte, maximale spanning bij het water.',
+    wild:5, groen:1, vogels:4, rust:3,
+    wildTxt:'Topmaand voor de Big Five; kuddes pendelen zichtbaar tussen graas en water.',
+    vogelTxt:'De trekvogels druppelen binnen; bloeiende bomen trekken zonnevogels.',
+    drukTxt:'Korte ZA-lentevakantie eind september, verder goed te doen.',
+    tip:'De klassieke "beste maand" — wil je één keer alles op z’n scherpst zien, kom in september.'},
+   {k:'okt', n:'Oktober', s:'heet, wachtend op regen', prijs:'hoog', temp:'±18–33°+', regen:'eerste buien mogelijk',
+    sfeer:'Heet en geladen: de bush wacht op de eerste regen, en jij voelt dat mee.',
+    wild:4, groen:1, vogels:4, rust:4,
+    wildTxt:'Nog steeds sterk rond water; hitte maakt de middagen traag — plan vroeg en laat.',
+    vogelTxt:'Trekvogels arriveren volop.',
+    drukTxt:'Buiten de vakanties om: aangenaam rustig.',
+    tip:'Voor wie tegen hitte kan: dramatischer dan oktober wordt Kruger niet.'},
+   {k:'nov', n:'November', s:'eerste regen', prijs:'midden', temp:'±20–32°', regen:'onweersbuien',
+    sfeer:'De ommekeer: eerste stortbuien, een groen waas over de bush, geboortes op komst.',
+    wild:3, groen:3, vogels:5, rust:4,
+    wildTxt:'Eind november begint de impala-geboortegolf — kwetsbaar, ontroerend, en de roofdieren weten het ook.',
+    vogelTxt:'Alle zomergasten terug, het broedseizoen barst los.',
+    drukTxt:'Stil, en middenseizoen-tarief: goede deal.',
+    tip:'De eerste regenbui boven de bush meemaken vergeet je nooit — en een week later is alles groen.'},
+   {k:'dec', n:'December', s:'groen & feestelijk', prijs:'midden t/m ±12 dec, daarna hoog', temp:'±21–32°', regen:'buiig',
+    sfeer:'Jong groen, jonge dieren en volle kampen rond de feestdagen.',
+    wild:3, groen:4, vogels:5, rust:2,
+    wildTxt:'Kalfjes en lammetjes overal; het wild is verspreid door de regen.',
+    vogelTxt:'Topseizoen in vol bedrijf.',
+    drukTxt:'Tweede helft = ZA-kerstvakantie: het drukst van het jaar. Ver vooruit boeken.',
+    tip:'Begin december pak je het groene seizoen mét middenseizoen-tarief, nog nét voor de kerstdrukte.'}
+  ];
+  function sznMaand(k){ return SZN.filter(function(m){ return m.k === k; })[0]; }
+  (function initSeizoen(){
+    var mWrap = document.getElementById('sznMaanden'), kaart = document.getElementById('sznKaart');
+    if (!mWrap || !kaart) return;
+    function dots(n){
+      var h = '';
+      for (var i = 1; i <= 5; i++) h += '<i class="' + (i <= n ? '' : 'uit') + '"></i>';
+      return '<span class="szn-dots">' + h + '</span>';
+    }
+    function toon(k){
+      var m = sznMaand(k);
+      mWrap.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.k === k); });
+      kaart.innerHTML =
+        '<div class="szn-kop"><h3>' + m.n + '</h3><span class="szn-seizoen">' + m.s + '</span></div>' +
+        '<p class="szn-sfeer">' + m.sfeer + '</p>' +
+        '<div class="szn-feiten">' +
+          '<span class="szn-feit"><b>Prijsseizoen:</b> ' + m.prijs + '</span>' +
+          '<span class="szn-feit"><b>Temperatuur:</b> ' + m.temp + '</span>' +
+          '<span class="szn-feit"><b>Regen:</b> ' + m.regen + '</span>' +
+        '</div>' +
+        '<div class="szn-meters">' +
+          '<div class="szn-meter"><span>Wild spotten</span>' + dots(m.wild) + '</div>' +
+          '<div class="szn-meter"><span>Groen landschap</span>' + dots(m.groen) + '</div>' +
+          '<div class="szn-meter"><span>Vogels</span>' + dots(m.vogels) + '</div>' +
+          '<div class="szn-meter"><span>Rust (weinig drukte)</span>' + dots(m.rust) + '</div>' +
+        '</div>' +
+        '<div class="szn-blokken">' +
+          '<div class="szn-blok"><b>Het wild</b><p>' + m.wildTxt + '</p></div>' +
+          '<div class="szn-blok"><b>De vogels</b><p>' + m.vogelTxt + '</p></div>' +
+          '<div class="szn-blok" style="grid-column:1/-1"><b>Drukte &amp; boeken</b><p>' + m.drukTxt + '</p></div>' +
+        '</div>' +
+        '<div class="szn-tip"><b>Insider-notitie · Niek</b>' + m.tip + '</div>' +
+        '<button class="btn" type="button" id="sznCta">Neem ' + m.n.toLowerCase() + ' mee in mijn reisplan' +
+          '<svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13m0 0L9.5 1.5M14 6l-4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
+      kaart.querySelector('#sznCta').addEventListener('click', function(){
+        plMaand = m.k;
+        go('reisplanner');
+        requestAnimationFrame(function(){
+          var el = document.getElementById('planStart');
+          if (el) el.scrollIntoView({behavior:'instant', block:'start'});
+        });
+        if (typeof planUpdate === 'function') planUpdate();
+        if (window.innerWidth <= 1000) snack(m.n + ' staat in je reisplan — kies nu je reisdoel');
+      });
+    }
+    SZN.forEach(function(m){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = m.n.slice(0, 3).toLowerCase();
+      b.dataset.k = m.k;
+      b.addEventListener('click', function(){ toon(m.k); });
+      mWrap.appendChild(b);
+    });
+    toon('sep');
+    // linkje in de reisplanner: twijfel over de maand -> seizoenswijzer
+    var sd = document.getElementById('segDuur');
+    if (sd){
+      var pl = document.createElement('p');
+      pl.className = 'ro-klein';
+      pl.style.cssText = 'text-align:left;margin-top:10px';
+      pl.innerHTML = 'Twijfel je over de reismaand? <button class="linklike" type="button">Bekijk de seizoenswijzer →</button>';
+      pl.querySelector('button').addEventListener('click', function(){
+        go('home');
+        requestAnimationFrame(function(){ requestAnimationFrame(function(){
+          var el = document.getElementById('seizoen');
+          if (el) el.scrollIntoView({behavior:'instant', block:'start'});
+        }); });
+      });
+      sd.parentNode.insertBefore(pl, sd.nextSibling);
+    }
+  })();
+
   // ---- visuele reisplanner ----
   var DOELEN = [
     {id:'bigfive',    n:'De Big Five',          sub:'Leeuw, luipaard, olifant, buffel — het klassieke lijstje', foto:'media/sp-leeuw.jpg'},
@@ -3323,17 +3571,18 @@
 
   function planRoute(){ return (ROUTES[plDoel] || {})[plDuur]; }
   function planTekst(){
+    var maandRegel = plMaand ? '\nVoorkeursmaand: ' + sznMaand(plMaand).n : '';
     if (plDoel === 'custom'){
-      return 'Via de reisplanner (custom trip):\nDuur: ' + DUUR_TXT[plDuur] + ' · ' + plSlaap +
+      return 'Via de reisplanner (custom trip):\nDuur: ' + DUUR_TXT[plDuur] + ' · ' + plSlaap + maandRegel +
         '\nMijn droomreis: ' + (customWens.trim() || '(nog in te vullen)') +
-        '\n\nGraag jullie voorstel op maat!';
+        '\n\nGraag je voorstel op maat!';
     }
     var d = DOELEN.filter(function(x){ return x.id === plDoel; })[0];
     var doelN = plDoel === 'oversteek' ? 'De Grote Oversteek (heel Kruger, zuid → noord)' : d.n;
     var r = planRoute();
-    if (!r) return 'Via de reisplanner: ' + doelN + ' · ' + DUUR_TXT[plDuur] + ' · ' + plSlaap;
+    if (!r) return 'Via de reisplanner: ' + doelN + ' · ' + DUUR_TXT[plDuur] + ' · ' + plSlaap + maandRegel;
     var stops = r.k.map(function(s){ return (s[2] || KAMPEN[s[0]].n) + ' (' + s[1] + 'n)'; }).join(' → ');
-    return 'Via de reisplanner samengesteld:\nReisdoel: ' + doelN + ' · ' + DUUR_TXT[plDuur] + ' · ' + plSlaap + '\nOpzet: ' + stops + '\n\nGraag je reactie op deze eerste opzet!';
+    return 'Via de reisplanner samengesteld:\nReisdoel: ' + doelN + ' · ' + DUUR_TXT[plDuur] + ' · ' + plSlaap + maandRegel + '\nOpzet: ' + stops + '\n\nGraag je reactie op deze eerste opzet!';
   }
   function routeStops(){
     var r = planRoute();
@@ -3498,6 +3747,7 @@
       '<p class="ro-toon">' + (plDoel === 'oversteek'
         ? 'Elke dag verandert het landschap — tot je eindigt in het stilste deel van het Kruger National Park.'
         : DUUR_TONE[plDuur]) + '</p>' +
+      (plMaand ? '<p class="szn-gekozen">Reismaand: <b>&nbsp;' + sznMaand(plMaand).n + '</b><button type="button" id="maandWeg" aria-label="Reismaand verwijderen">×</button></p>' : '') +
       '<div class="ro-dagen">' + blokken + '</div>' +
       '<div class="ro-hl">' + r.hl.map(function(h){ return '<span>' + h + '</span>'; }).join('') + '</div>' +
       '<p class="ro-slaap">' + slaapNote + '</p>' +
@@ -3514,6 +3764,8 @@
       '</div>' +
       '<p class="ro-klein" id="avHint">Vrijblijvend — je reisopzet gaat automatisch mee.</p>' +
       '<p class="hint-klik">Tip: klik een kamp uit je route aan voor het sightings-bord van dat kamp.</p>';
+    var mw = panel.querySelector('#maandWeg');
+    if (mw) mw.addEventListener('click', function(){ plMaand = null; renderOpzetPanel(); });
     var cta = panel.querySelector('.pl-cta');
     cta.addEventListener('click', function(){
       var blok = panel.querySelector('#aanvraagBlok');

@@ -3570,6 +3570,23 @@
   var customWens = '';
 
   function planRoute(){ return (ROUTES[plDoel] || {})[plDuur]; }
+  function routeHeeftNoord(r){
+    return !!r && r.k.some(function(s){ var k = KAMPEN[s[0]]; return k && k.r === 'noord'; });
+  }
+  // Toon-tekst die klopt met de route op de kaart: "het stille noorden" alleen beloven
+  // als de route daar ook echt komt.
+  function planToon(r){
+    if (plDoel === 'oversteek') return 'Elke dag verandert het landschap — tot je eindigt in het stilste deel van het Kruger National Park.';
+    if (plDuur === 'lang'){
+      return routeHeeftNoord(r)
+        ? DUUR_TONE.lang
+        : 'Twee weken is voor de echte natuurliefhebber — genoeg tijd om het beste gebied voor jouw reisdoel écht uit te wonen, zonder één dag te haasten.';
+    }
+    if (plDuur === 'week' && routeHeeftNoord(r)){
+      return 'Een week geeft lucht — en jouw reisdoel trekt je meteen het rustige noorden in: minder mensen, meer bush.';
+    }
+    return DUUR_TONE[plDuur];
+  }
   function planTekst(){
     var maandRegel = plMaand ? '\nVoorkeursmaand: ' + sznMaand(plMaand).n : '';
     if (plDoel === 'custom'){
@@ -3744,9 +3761,10 @@
     panel.innerHTML =
       '<div class="ro-kop"><h3>' + doelNaam + '</h3><span class="ro-n">' + nachten + ' nachten</span></div>' +
       '<p class="ro-sub">Jouw eerste reisopzet — ' + DUUR_TXT[plDuur] + ', getekend op de kaart.</p>' +
-      '<p class="ro-toon">' + (plDoel === 'oversteek'
-        ? 'Elke dag verandert het landschap — tot je eindigt in het stilste deel van het Kruger National Park.'
-        : DUUR_TONE[plDuur]) + '</p>' +
+      '<p class="ro-toon">' + planToon(r) + '</p>' +
+      (plDoel !== 'oversteek' && plDuur === 'lang' && !routeHeeftNoord(r)
+        ? '<p class="ro-klein" style="text-align:left;margin:-4px 0 12px"><button class="linklike" id="naarOversteek" type="button">Liever in twee weken heel Kruger zien? Kies de Grote Oversteek →</button></p>'
+        : '') +
       (plMaand ? '<p class="szn-gekozen">Reismaand: <b>&nbsp;' + sznMaand(plMaand).n + '</b><button type="button" id="maandWeg" aria-label="Reismaand verwijderen">×</button></p>' : '') +
       '<div class="ro-dagen">' + blokken + '</div>' +
       '<div class="ro-hl">' + r.hl.map(function(h){ return '<span>' + h + '</span>'; }).join('') + '</div>' +
@@ -3766,6 +3784,8 @@
       '<p class="hint-klik">Tip: klik een kamp uit je route aan voor het sightings-bord van dat kamp.</p>';
     var mw = panel.querySelector('#maandWeg');
     if (mw) mw.addEventListener('click', function(){ plMaand = null; renderOpzetPanel(); });
+    var no = panel.querySelector('#naarOversteek');
+    if (no) no.addEventListener('click', function(){ plDoel = 'oversteek'; planUpdate(); });
     var cta = panel.querySelector('.pl-cta');
     cta.addEventListener('click', function(){
       var blok = panel.querySelector('#aanvraagBlok');

@@ -218,7 +218,12 @@
   .lb-media.is-foto .lb-galerij img{width:100%;height:auto;max-height:70vh;object-fit:contain;display:block}
   .lb-media video,.lb-media iframe{width:100%;height:100%;display:block;border:0}
   .ytwrap{position:relative;width:100%;height:100%;overflow:hidden}
-  .yt-klik{position:absolute;left:0;right:0;top:0;bottom:52px;background:none;border:none;cursor:pointer;padding:0}
+  .yt-klik{position:absolute;left:0;right:0;top:0;bottom:80px;background:none;border:none;cursor:pointer;padding:0}
+  .yt-seek{position:absolute;left:16px;right:16px;bottom:54px;z-index:2;display:flex;gap:10px;align-items:center}
+  .yt-tijd{font-family:var(--body);font-weight:700;font-size:.74rem;color:#F7F2EC;text-shadow:0 1px 4px rgba(0,0,0,.75);font-variant-numeric:tabular-nums;min-width:34px;text-align:center}
+  .yt-track{position:relative;flex:1;height:22px;cursor:pointer}
+  .yt-track::before{content:"";position:absolute;left:0;right:0;top:9px;height:4px;border-radius:99px;background:rgba(255,255,255,.38)}
+  .yt-vul{position:absolute;left:0;top:9px;height:4px;border-radius:99px;background:#C9973B;width:0;pointer-events:none}
   .yt-bar{
     position:absolute;left:0;right:0;bottom:0;height:52px;z-index:2;
     display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;
@@ -672,6 +677,7 @@
 
   /* ---------- pakketten ---------- */
   .packs-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:stretch}
+  .packs-grid.kanalen{grid-template-columns:repeat(4,minmax(0,1fr))}
   .packs-upgradenote{
     margin-top:26px;text-align:center;color:var(--soft);
     font-family:var(--quote);font-style:italic;font-size:.95rem;
@@ -805,6 +811,16 @@
   }
   .fbtn:hover{border-color:var(--sage);color:var(--sage-deep)}
   .fbtn.on{background:var(--sage);border-color:var(--sage);color:#fff}
+  /* regiokaartje naast de streekfilters */
+  .filterrij{display:flex;gap:18px;align-items:center}
+  .filterrij .filters{flex:1;min-width:0}
+  .regiokaartje{flex:0 0 auto;width:56px}
+  .regiokaartje svg{display:block;width:100%;height:auto}
+  .rk-zone{fill:transparent;cursor:pointer;transition:fill .15s}
+  .rk-zone:hover{fill:rgba(151,117,33,.16)}
+  .rk-zone.on{fill:rgba(151,117,33,.32)}
+  .rk-lijn{stroke:#6B8F4E;stroke-width:3;stroke-dasharray:9 9;pointer-events:none}
+  .rk-txt{font-family:var(--body);font-weight:800;font-size:44px;fill:#42542F;pointer-events:none}
 
   /* blogvoorbeeld */
   .blogcard{
@@ -1020,6 +1036,7 @@
     .daytoggle{top:10px;transform:translateX(-50%)}
     .mapzoom{top:10px;left:10px}
     .packs-grid,.steps,.vid-grid,.vid-grid.four{grid-template-columns:1fr;max-width:560px;margin-left:auto;margin-right:auto}
+    .packs-grid.kanalen{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
     .stats .wrap{grid-template-columns:1fr 1fr;gap:28px}
     .duo{grid-template-columns:1fr}
     .duo-plus{justify-content:center;padding:2px 0}
@@ -1234,11 +1251,11 @@
   <!-- verhaal-teaser -->
   <section>
     <div class="wrap split">
-      <figure class="photo-frame rv" aria-label="Niek speurt met de verrekijker over de vlakte">
-        <div class="ph">
-          <img src="media/niek-uitkijk.jpg" alt="Niek kijkt met de verrekijker uit over een eindeloze Kruger-vlakte" style="object-position:70% 50%">
+      <figure class="photo-frame rv" aria-label="Niek filmt een wilde hond vanuit de auto">
+        <div class="ph" style="aspect-ratio:1/1">
+          <img src="media/niek-wildehond.jpg" alt="Niek in de auto met zijn camera op het raam — buiten loopt een wilde hond" style="object-position:88% 50%">
         </div>
-        <figcaption><span>Niek, Kruger National Park</span><span>Eigen beeld · @safari_dn</span></figcaption>
+        <figcaption><span>Niek, aan het werk in Kruger</span><span>Eigen beeld · @safari_dn</span></figcaption>
       </figure>
       <div class="story-copy rv">
         <p class="eyebrow">Het gezicht achter KrugerInside</p>
@@ -1489,7 +1506,7 @@
       </div>
       <div class="story-copy rv">
         <p class="big">In 2017 kreeg het Afrika-virus mij te pakken tijdens een rondreis door Zuid-Afrika. Ik bezocht onder andere het Kruger National Park — en sindsdien heeft de wildernis me nooit meer losgelaten.</p>
-        <p>Inmiddels heb ik honderden uren op de zandwegen doorgebracht, de unieke diversiteit van het Kruger National Park ontdekt en zelf ervaren welke kampen de meeste sfeer ademen. Van Shingwedzi in het rustige noorden — mijn thuiskamp — tot de rivierlussen in het zuiden.</p>
+        <p>Inmiddels heb ik honderden uren op de zandwegen doorgebracht, de unieke diversiteit van het Kruger National Park ontdekt en zelf ervaren welke kampen de meeste sfeer ademen. Van de stille rivierlussen bij Shingwedzi in het noorden tot de drukke Sabie-oevers in het zuiden.</p>
         <p>Die kennis bewaar ik niet voor mezelf. Alles wat ik onderweg zie leg ik vast — meer dan 950 video's inmiddels — en die kennis gebruik ik om voor jou de perfecte route uit te stippelen.</p>
         <p><strong>Het resultaat? Jij bezoekt het Kruger National Park niet alleen — je belééft het.</strong></p>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0 0">
@@ -1536,7 +1553,7 @@
           <div class="tl-body">
             <b>Alles vastgelegd — en gedeeld</b>
             <p>Wat ik zie, leg ik vast: meer dan 950 video's op vier kanalen, van jagende leeuwen tot de stilste zandweggetjes. Bij elke video schrijf ik een reisverslag met de plek, de tijd en de les — zo kijk je niet alleen mee, je leert het park kennen.</p>
-            <img class="tl-foto" src="media/niek-wildehond.jpg" alt="Niek in de auto met zijn camera op het raam — buiten loopt een wilde hond">
+            <img class="tl-foto" src="media/niek-uitkijk.jpg" alt="Niek kijkt met de verrekijker uit over een eindeloze Kruger-vlakte">
             <button class="linklike" type="button" data-go="kijkmee">Kijk mee met de video's en reisverslagen →</button>
           </div>
         </div>
@@ -1565,10 +1582,10 @@
     <div class="wrap">
       <div class="sec-head rv">
         <p class="eyebrow">Volg het avontuur</p>
-        <h2 class="title">Dagelijks in de bush als @safari_dn</h2>
+        <h2 class="title">In de bush met @safari_dn</h2>
         <p class="lede">Alle kennis op deze site kun je zelf controleren — het staat allemaal online.</p>
       </div>
-      <div class="packs-grid" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+      <div class="packs-grid kanalen">
         <a class="tpack cardish rv" href="https://www.youtube.com/@safari_dn" target="_blank" rel="noopener">
           <span class="pack-no" style="color:var(--gold)">YouTube</span>
           <h3 style="font-size:1.6rem">954</h3>
@@ -1758,7 +1775,7 @@
             <li><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Gedetailleerd dagschema (PDF), opgebouwd rond jouw wensen — fotografie, rust of de Big Five</li>
             <li><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>De beste wegen, rustpunten en must-see waterholes per dag</li>
             <li><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Kampkeuze met karakter — geen standaardrondje</li>
-            <li><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Officiële boeking van kampen &amp; huurauto door de ANVR/SGR-partner</li>
+            <li><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Officiële boeking van kampen, vluchten &amp; huurauto door de ANVR/SGR-partner</li>
           </ul>
           <div class="bookbox"><b>De boeking:</b> volledig verzorgd via mijn vaste tussenpersoon — scherpe tarieven, wettelijke reisgarantie.</div>
           <button class="btn pick" data-pick="p2" type="button">Kies de Route Planner</button>
@@ -1792,6 +1809,10 @@
         <span class="g-ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 18 18" fill="none"><path d="M9 1.5 14.5 4v4.5c0 3.6-2.4 6.4-5.5 7.5-3.1-1.1-5.5-3.9-5.5-7.5V4L9 1.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="m6.2 8.6 2 2 3.6-4.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <div><b>Niet goed? Geld terug.</b><span>Ben je na de eerste sessie niet overtuigd van de waarde, dan krijg je het volledige bedrag terug — zonder kleine lettertjes.</span></div>
       </div>
+      <div class="garantie rv" style="margin-top:14px">
+        <span class="g-ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 18 18" fill="none"><circle cx="6.2" cy="6" r="2.6" stroke="currentColor" stroke-width="1.4"/><path d="M1.8 15.5c.5-3 2.2-4.6 4.4-4.6s3.9 1.6 4.4 4.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="12.6" cy="6.6" r="2.1" stroke="currentColor" stroke-width="1.4"/><path d="M12 11.2c2.4-.3 4 1.3 4.4 4.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+        <div><b>Elk pakket geldt voor een reisgezelschap t/m 4 personen.</b><span>Reis je met een grotere groep? Dan maak ik een maatwerkvoorstel tegen meerprijs — vermeld je groepsgrootte in het formulier.</span></div>
+      </div>
     </div>
   </section>
 
@@ -1813,12 +1834,13 @@
           <tr><td>Video-call van 45 minuten</td><td><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td class="colmid"><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
           <tr><td>Check van je eigen planning + 5 insider-tips</td><td><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td class="colmid"><span class="dash">—</span></td><td><span class="dash">—</span></td></tr>
           <tr><td>Dagschema op maat (PDF) met wegen &amp; waterholes</td><td><span class="dash">—</span></td><td class="colmid"><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
-          <tr><td>Boeking kampen &amp; huurauto via ANVR/SGR-partner</td><td><span class="dash">—</span></td><td class="colmid"><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
+          <tr><td>Boeking kampen, vluchten &amp; huurauto via ANVR/SGR-partner</td><td><span class="dash">—</span></td><td class="colmid"><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
           <tr><td>Bush walks &amp; night drives geregeld</td><td><span class="dash">—</span></td><td class="colmid"><span class="dash">—</span></td><td><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
           <tr><td>Inpak- &amp; voorbereidingsgids</td><td><span class="dash">—</span></td><td class="colmid"><span class="dash">—</span></td><td><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
           <tr><td>Directe lijn tijdens je reis</td><td><span class="dash">—</span></td><td class="colmid"><span class="dash">—</span></td><td><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
           <tr><td>Betaald bedrag volledig verrekend bij upgrade</td><td><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td class="colmid"><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="dash">hoogste pakket</span></td></tr>
           <tr><td>Niet-goed-geld-terug-garantie</td><td><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td class="colmid"><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
+          <tr><td>Voor reisgezelschappen t/m 4 personen<small style="display:block;font-weight:400;color:var(--soft)">groter gezelschap? maatwerk tegen meerprijs</small></td><td><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td class="colmid"><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td><td><span class="chk"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="m2.5 7.5 3 3 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td></tr>
           <tr><td>Prijs (eenmalig)</td><td class="prijs">€ 195</td><td class="colmid prijs">€ 795</td><td class="prijs">€ 1.495</td></tr>
         </table>
       </div>
@@ -1948,6 +1970,10 @@
           <p class="a">Ja, altijd — en zonder risico. Begin je met de Quick Check en wil je daarna toch een volledig reisschema, dan wordt je € 195 volledig verrekend en betaal je alleen het verschil (€ 600). Hetzelfde geldt van de Route Planner naar het Complete Pakket (€ 700 bijbetalen). Wat je betaalde, telt dus altijd volledig mee.</p>
         </details>
         <details>
+          <summary>Voor hoeveel personen geldt een pakket?<span class="tgl" aria-hidden="true">+</span></summary>
+          <p class="a">Elk pakket geldt voor een reisgezelschap tot en met 4 personen — een gezin of twee stellen bijvoorbeeld. Reis je met een grotere groep, dan maak ik een maatwerkvoorstel tegen meerprijs: de route-logica blijft hetzelfde, maar meer mensen betekent meer accommodaties, voertuigen en afstemming. Vermeld je groepsgrootte in het formulier, dan neem ik het direct mee in de kennismaking.</p>
+        </details>
+        <details>
           <summary>Hoe werkt de niet-goed-geld-terug-garantie?<span class="tgl" aria-hidden="true">+</span></summary>
           <p class="a">Simpel: ben je na de eerste sessie niet overtuigd dat dit je reis beter maakt, dan zeg je dat gewoon — en krijg je het volledige bedrag terug. Geen formulieren, geen discussie. Ik kan dit aanbieden omdat het vrijwel nooit nodig is: wie eenmaal ziet wat insider-kennis met een Kruger-route doet, wil niet meer terug.</p>
         </details>
@@ -1983,11 +2009,30 @@
   </section>
   <section style="padding-top:0">
     <div class="wrap">
-      <div class="filters rv" role="group" aria-label="Filter video's op streek">
-        <button class="fbtn on" data-f="alle" type="button">Alles</button>
-        <button class="fbtn" data-f="noord" type="button">Noord</button>
-        <button class="fbtn" data-f="midden" type="button">Midden</button>
-        <button class="fbtn" data-f="park" type="button">Park-breed</button>
+      <div class="filterrij rv">
+        <div class="regiokaartje" aria-hidden="true" title="Noord · Midden · Zuid">
+          <svg viewBox="0 0 405 1000">
+            <defs><clipPath id="rkClip"><path d="M54.5 132.6L88.4 137L57.3 238.2L100.8 364.5L106.9 370.2L107.6 375.8L117.1 375.2L114.3 383.8L118.8 389.2L112 395.2L124.1 411.7L129.6 501.3L134.4 510.2L141.4 515.2L142.2 534.5L150.7 540L152.9 548.6L215.8 547.9L215.5 562.6L212.2 569.3L200.3 575.9L206 594.7L203.2 608.7L192 620.3L190.1 633L178.5 641.2L194.6 648.8L190 661.2L213.1 660.6L199.5 673.3L207.2 683.1L227.9 695.1L247.8 699.2L245.2 710.7L251 740.9L248.3 752.7L254.4 801.3L236.4 802.6L229.6 807.5L219.9 805.8L214.3 810.8L204.5 811.2L198.5 805.9L188.7 803.9L178.9 808L171 804.1L169.5 808.5L163.8 811L155.4 808.6L152.4 813.7L153.8 820L148.5 824.3L147.3 829.9L138.4 840.9L137.9 850.9L135.5 854.3L137.2 861.2L142.8 876.7L149.3 879.1L153.2 885.5L151.5 892.2L156 898.9L154.7 908.8L170.3 943.4L172.6 959.7L176.3 963.6L181.2 962.1L181.9 968.2L185.9 973.1L193.5 968.2L204 967.6L221.2 960.4L230.9 953.7L227.1 947.3L236.3 943.1L239.8 936.8L253.3 934.3L253.4 946L262.8 944.1L264.8 938.9L277.9 928.2L285.9 927.5L291 930.1L289 909.1L295.1 905.4L296.9 914.5L306.8 915L306.9 923.7L316.5 928L321.1 924.1L324.2 928.8L327.9 929.2L331 915.7L339.5 915.9L346.6 924.6L344.2 928.6L345.1 933.3L351.5 932.4L347.7 942.3L351.2 945.9L354.5 945L361.6 929.2L366.6 854.6L356.8 722.3L359.9 652.6L353.4 607.7L332.4 570.9L324.9 502.5L294.1 482.3L274.9 433.7L272.9 404.9L237.7 362.1L234.9 340.7L238.4 277.4L168.5 46.4L158.1 29.7L142.8 29.9L135.8 21L129.1 17.9L109.1 24.1L98.5 21.6L95.8 42.7L102.8 45L103.9 56L101.6 64L98.3 66.4L100.6 69L91 75.8L87.9 71.1L83 69.7L77.6 74.8L73.3 85.7L75.4 91.7L82.5 95.3L82.5 100.1L72.7 106.8L73.2 109.7L65.9 111.2L63.5 120.8L57.3 122.6L59.6 126.3L54.5 132.6Z"/></clipPath></defs>
+            <path d="M54.5 132.6L88.4 137L57.3 238.2L100.8 364.5L106.9 370.2L107.6 375.8L117.1 375.2L114.3 383.8L118.8 389.2L112 395.2L124.1 411.7L129.6 501.3L134.4 510.2L141.4 515.2L142.2 534.5L150.7 540L152.9 548.6L215.8 547.9L215.5 562.6L212.2 569.3L200.3 575.9L206 594.7L203.2 608.7L192 620.3L190.1 633L178.5 641.2L194.6 648.8L190 661.2L213.1 660.6L199.5 673.3L207.2 683.1L227.9 695.1L247.8 699.2L245.2 710.7L251 740.9L248.3 752.7L254.4 801.3L236.4 802.6L229.6 807.5L219.9 805.8L214.3 810.8L204.5 811.2L198.5 805.9L188.7 803.9L178.9 808L171 804.1L169.5 808.5L163.8 811L155.4 808.6L152.4 813.7L153.8 820L148.5 824.3L147.3 829.9L138.4 840.9L137.9 850.9L135.5 854.3L137.2 861.2L142.8 876.7L149.3 879.1L153.2 885.5L151.5 892.2L156 898.9L154.7 908.8L170.3 943.4L172.6 959.7L176.3 963.6L181.2 962.1L181.9 968.2L185.9 973.1L193.5 968.2L204 967.6L221.2 960.4L230.9 953.7L227.1 947.3L236.3 943.1L239.8 936.8L253.3 934.3L253.4 946L262.8 944.1L264.8 938.9L277.9 928.2L285.9 927.5L291 930.1L289 909.1L295.1 905.4L296.9 914.5L306.8 915L306.9 923.7L316.5 928L321.1 924.1L324.2 928.8L327.9 929.2L331 915.7L339.5 915.9L346.6 924.6L344.2 928.6L345.1 933.3L351.5 932.4L347.7 942.3L351.2 945.9L354.5 945L361.6 929.2L366.6 854.6L356.8 722.3L359.9 652.6L353.4 607.7L332.4 570.9L324.9 502.5L294.1 482.3L274.9 433.7L272.9 404.9L237.7 362.1L234.9 340.7L238.4 277.4L168.5 46.4L158.1 29.7L142.8 29.9L135.8 21L129.1 17.9L109.1 24.1L98.5 21.6L95.8 42.7L102.8 45L103.9 56L101.6 64L98.3 66.4L100.6 69L91 75.8L87.9 71.1L83 69.7L77.6 74.8L73.3 85.7L75.4 91.7L82.5 95.3L82.5 100.1L72.7 106.8L73.2 109.7L65.9 111.2L63.5 120.8L57.3 122.6L59.6 126.3L54.5 132.6Z" fill="#DCE8C2" stroke="#6B8F4E" stroke-width="4"/>
+            <g clip-path="url(#rkClip)">
+              <rect class="rk-zone" data-rk="noord" x="0" y="0" width="405" height="395"/>
+              <rect class="rk-zone" data-rk="midden" x="0" y="395" width="405" height="175"/>
+              <rect class="rk-zone" data-rk="zuid" x="0" y="570" width="405" height="430"/>
+              <line class="rk-lijn" x1="0" y1="395" x2="405" y2="395"/>
+              <line class="rk-lijn" x1="0" y1="570" x2="405" y2="570"/>
+            </g>
+            <text class="rk-txt" x="168" y="225" text-anchor="middle">N</text>
+            <text class="rk-txt" x="152" y="500" text-anchor="middle">M</text>
+            <text class="rk-txt" x="164" y="660" text-anchor="middle">Z</text>
+          </svg>
+        </div>
+        <div class="filters" role="group" aria-label="Filter video's op streek">
+          <button class="fbtn on" data-f="alle" type="button">Alles</button>
+          <button class="fbtn" data-f="noord" type="button">Noord</button>
+          <button class="fbtn" data-f="midden" type="button">Midden</button>
+          <button class="fbtn" data-f="zuid" type="button">Zuid</button>
+          <button class="fbtn" data-f="park" type="button">Park-breed</button>
+        </div>
       </div>
       <div class="vid-grid four" id="vidGrid">
         <a class="vid rv" data-region="noord" href="https://www.youtube.com/watch?v=e-vb2TCtrPA" target="_blank" rel="noopener">
@@ -1998,9 +2043,13 @@
           <div class="thumb"><img src="media/thumb_Au0k1EK8KiE.jpg" alt="Giraffen rennen over de weg"><span class="rtag">Park</span><span class="play" aria-hidden="true"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M3 2v16l13-8L3 2Z" fill="#5F7D63"/></svg></span><span class="dur">2:47</span></div>
           <div class="meta"><h3>Riding with Giraffes, Just Magic</h3><p>De video achter de homepage</p></div>
         </a>
-        <a class="vid rv" data-region="midden" href="https://www.youtube.com/watch?v=EeP0B2JtkYs" target="_blank" rel="noopener">
-          <div class="thumb"><img src="media/thumb_EeP0B2JtkYs.jpg" alt="Giraffe in gouden licht bij Letaba"><span class="rtag">Midden</span><span class="play" aria-hidden="true"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M3 2v16l13-8L3 2Z" fill="#5F7D63"/></svg></span><span class="dur">0:46</span></div>
+        <a class="vid rv" data-region="noord" href="https://www.youtube.com/watch?v=EeP0B2JtkYs" target="_blank" rel="noopener">
+          <div class="thumb"><img src="media/thumb_EeP0B2JtkYs.jpg" alt="Giraffe in gouden licht bij Letaba"><span class="rtag">Noord</span><span class="play" aria-hidden="true"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M3 2v16l13-8L3 2Z" fill="#5F7D63"/></svg></span><span class="dur">0:46</span></div>
           <div class="meta"><h3>Letaba Giraffe</h3><p>Gouden uur aan de rivier</p></div>
+        </a>
+        <a class="vid rv" data-region="zuid" href="https://www.youtube.com/watch?v=v3oNanp5mYY" target="_blank" rel="noopener">
+          <div class="thumb"><img src="media/thumb_v3oNanp5mYY.jpg" alt="Leeuwentroep met een hinkend welpje bij Berg-en-Dal"><span class="rtag">Zuid</span><span class="play" aria-hidden="true"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M3 2v16l13-8L3 2Z" fill="#5F7D63"/></svg></span><span class="dur">1:43</span></div>
+          <div class="meta"><h3>A Pride with a Limping Cub — Berg-en-Dal</h3><p>Leeuwen tussen de granietheuvels</p></div>
         </a>
         <a class="vid rv" data-region="park" href="https://www.youtube.com/watch?v=OAMg0DFZF7s" target="_blank" rel="noopener">
           <div class="thumb"><img src="media/thumb_OAMg0DFZF7s.jpg" alt="Wilde honden bij hun maaltijd"><span class="rtag">Park</span><span class="play" aria-hidden="true"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M3 2v16l13-8L3 2Z" fill="#5F7D63"/></svg></span><span class="dur">1:58</span></div>
@@ -2025,6 +2074,10 @@
         <a class="vid rv" data-region="midden" href="https://www.youtube.com/watch?v=PuW56gd4gT4" target="_blank" rel="noopener">
           <div class="thumb"><img src="media/thumb_PuW56gd4gT4.jpg" alt="Bavianen en bosbokken bij het uitkijkdek van Roodewal"><span class="rtag">Midden</span><span class="play" aria-hidden="true"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M3 2v16l13-8L3 2Z" fill="#5F7D63"/></svg></span><span class="dur">1:34</span></div>
           <div class="meta"><h3>Baboons &amp; Bushbucks at Roodewal</h3><p>Vanaf het uitkijkdek</p></div>
+        </a>
+        <a class="vid rv" data-region="zuid" href="https://www.youtube.com/watch?v=X8OYr5kQ5VM" target="_blank" rel="noopener">
+          <div class="thumb"><img src="media/thumb_X8OYr5kQ5VM.jpg" alt="Onderweg van Skukuza naar Lower Sabie over de H4-1"><span class="rtag">Zuid</span><span class="play" aria-hidden="true"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M3 2v16l13-8L3 2Z" fill="#5F7D63"/></svg></span><span class="dur">5:21</span></div>
+          <div class="meta"><h3>Skukuza naar Lower Sabie</h3><p>Over de beroemde rivierweg H4-1</p></div>
         </a>
         <a class="vid rv" data-region="park" href="https://www.youtube.com/watch?v=K9cEfC69GvI" target="_blank" rel="noopener">
           <div class="thumb"><img src="media/thumb_K9cEfC69GvI.jpg" alt="Zebra's in de verzengende hitte"><span class="rtag">Park</span><span class="play" aria-hidden="true"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M3 2v16l13-8L3 2Z" fill="#5F7D63"/></svg></span><span class="dur">0:48</span></div>
@@ -2191,7 +2244,7 @@
             <span class="btag">Reisverslag · Shingwedzi</span>
             <h3>De ochtend begint bij het hek</h3>
             <p class="bmeta">Bij "Lion pride &amp; elephants outside Shingwedzi" · Shingwedzi</p>
-            <p class="bm-excerpt">"Wakker worden, poort door — en binnen vijf minuten: een complete leeuwentroep, met verderop olifanten. Zó dicht bij mijn thuiskamp. De eerste kilometer na het hek is vaak de beste van de dag; sla 'm nooit slaperig over."</p>
+            <p class="bm-excerpt">"Wakker worden, poort door — en binnen vijf minuten: een complete leeuwentroep, met verderop olifanten. Zó dicht bij het kamp. De eerste kilometer na het hek is vaak de beste van de dag; sla 'm nooit slaperig over."</p>
             <button class="linklike lb-open" type="button" data-yt="LeI14lzs1mo" data-titel="Lion pride &amp; elephants outside Shingwedzi rest camp">▶ Bekijk de video</button>
           </div>
         </article>
@@ -2406,6 +2459,7 @@
         '<iframe src="https://www.youtube-nocookie.com/embed/' + yt + '?autoplay=1&mute=1&rel=0&controls=0&playsinline=1&enablejsapi=1&vq=hd2160" title="Video" allow="autoplay; fullscreen" allowfullscreen' +
         ' style="width:' + (100 * f).toFixed(1) + '%;height:' + (100 * f).toFixed(1) + '%;transform:scale(' + (1 / f).toFixed(4) + ');transform-origin:0 0"></iframe>' +
         '<button type="button" class="yt-klik" aria-label="Afspelen of pauzeren"></button>' +
+        '<div class="yt-seek"><span class="yt-tijd" data-yts="nu">0:00</span><div class="yt-track" role="slider" aria-label="Spoelen"><div class="yt-vul"></div></div><span class="yt-tijd" data-yts="duur">–:––</span></div>' +
         '<div class="yt-bar">' +
           '<button type="button" class="ytknop" data-ytk="geluid">🔇&nbsp; Geluid aan</button>' +
           '<button type="button" class="ytknop" data-ytk="fs">⛶&nbsp; Volledig scherm</button>' +
@@ -2431,7 +2485,40 @@
         if (document.fullscreenElement){ document.exitFullscreen(); }
         else if (wrap.requestFullscreen){ wrap.requestFullscreen(); }
       });
-      note.textContent = 'Hoogst beschikbare kwaliteit · start zonder geluid — klik op de video om te pauzeren.';
+      // eigen tijdbalk: YouTube meldt tijd/duur via de postMessage-API zodra we 'listening' sturen
+      var track = wrap.querySelector('.yt-track'), vul = wrap.querySelector('.yt-vul'),
+          tNu = wrap.querySelector('[data-yts="nu"]'), tDuur = wrap.querySelector('[data-yts="duur"]'),
+          duur = 0, luistert = false;
+      function fmt(s){ s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+      function ytMsg(e){
+        if (!document.body.contains(wrap)){ window.removeEventListener('message', ytMsg); return; }
+        if (String(e.origin).indexOf('youtube') === -1) return;
+        var d; try { d = JSON.parse(e.data); } catch (_){ return; }
+        if (!d || !d.info) return;
+        luistert = true;
+        if (d.info.duration > 0){ duur = d.info.duration; tDuur.textContent = fmt(duur); }
+        if (typeof d.info.currentTime === 'number'){
+          tNu.textContent = fmt(d.info.currentTime);
+          if (duur) vul.style.width = (100 * d.info.currentTime / duur).toFixed(2) + '%';
+        }
+        if (typeof d.info.playerState === 'number') speelt = d.info.playerState === 1 || d.info.playerState === 3;
+      }
+      window.addEventListener('message', ytMsg);
+      var pogingen = 0;
+      var tikker = setInterval(function(){
+        if (luistert || !document.body.contains(wrap) || ++pogingen > 50){ clearInterval(tikker); return; }
+        var fr = wrap.querySelector('iframe');
+        if (fr && fr.contentWindow) fr.contentWindow.postMessage(JSON.stringify({event:'listening', id:'kilb', channel:'widget'}), '*');
+      }, 350);
+      track.addEventListener('click', function(ev){
+        if (!duur) return;
+        var r = track.getBoundingClientRect();
+        var p = Math.min(1, Math.max(0, (ev.clientX - r.left) / r.width));
+        ytCmd('seekTo', [p * duur, true]);
+        vul.style.width = (p * 100).toFixed(2) + '%';
+        tNu.textContent = fmt(p * duur);
+      });
+      note.textContent = 'Hoogst beschikbare kwaliteit · start zonder geluid · spoel met de tijdbalk.';
     } else {
       var thumb = THUMBS[yt] || THUMBS[yt + '_t'] || '';
       media.innerHTML = '<div class="lb-fallback">' +
@@ -2589,13 +2676,20 @@
       document.querySelectorAll('#vidGrid .vid').forEach(function(v){
         v.style.display = (f === 'alle' || v.dataset.region === f) ? '' : 'none';
       });
+      document.querySelectorAll('.rk-zone').forEach(function(z){ z.classList.toggle('on', z.dataset.rk === f); });
+    });
+  });
+  document.querySelectorAll('.rk-zone').forEach(function(z){
+    z.addEventListener('click', function(){
+      var kn = document.querySelector('.fbtn[data-f="' + z.dataset.rk + '"]');
+      if (kn) kn.click();
     });
   });
 
   // ---- interactieve Kruger-kaart ----
   var KAMPEN = {
     punda:      {n:'Punda Maria', x:142, y:114, t:'rest', r:'noord', lx:153, ly:118, la:'start', d:'Het sandveld-kamp in het uiterste noorden: botanisch uniek, heerlijk stil en de springplank naar Pafuri — het beste vogelgebied van het park.', s:['Nyala','Olifant','Luipaard','Vogels']},
-    shingwedzi: {n:'Shingwedzi', x:176, y:218, t:'rest', r:'noord', lx:187, ly:222, la:'start', gold:true, ins:'Mijn thuisbasis — hier komen de meeste van mijn 950+ video’s vandaan.', d:'Rivierlussen vol grote olifantsbullen, luipaarden in de jackalberry-bomen en vrijwel geen ander verkeer. De rivierweg bij zonsopgang is pure magie.', s:['Olifant','Luipaard','Buffel','Vogels']},
+    shingwedzi: {n:'Shingwedzi', x:176, y:218, t:'rest', r:'noord', lx:187, ly:222, la:'start', gold:true, ins:'Hier komen veel van mijn 950+ video’s vandaan.', d:'Rivierlussen vol grote olifantsbullen, luipaarden in de jackalberry-bomen en vrijwel geen ander verkeer. De rivierweg bij zonsopgang is pure magie.', s:['Olifant','Luipaard','Buffel','Vogels']},
     sirheni:    {n:'Sirheni', x:152, y:244, t:'bush', r:'noord', lx:141, ly:248, la:'end', d:'Afgelegen dam-kamp in het stille noorden — olifanten voor de deur en verder niemand.', s:['Olifant','Luipaard','Vogels']},
     bateleur:   {n:'Bateleur', x:148, y:272, t:'bush', r:'noord', lx:137, ly:276, la:'end', d:'Het kleinste kamp van Kruger, met twee dammen om de hoek. Voor wie écht alleen wil zijn met de bush.', s:['Olifant','Buffel','Roofvogels']},
     mopani:     {n:'Mopani', x:170, y:314, t:'rest', r:'noord', lx:181, ly:318, la:'start', gold:true, ins:'Vanaf het terras film ik zó de dam af.', d:'Aan de Pioneer Dam: nijlpaarden en visarenden vanaf het terras, tsessebe in het mopaneveld. Vaak het rustigste grote kamp.', s:['Olifant','Nijlpaard','Tsessebe','Vogels']},
@@ -2624,7 +2718,7 @@
     cbgate:      {n:'Croc. Bridge Gate', x:232, y:676, r:'zuid', lx:240, ly:682, la:'start', air:'Kruger Mpumalanga Int. (MQP)', at:'± 1 uur rijden, via Komatipoort', d:'De zuidoostpoort — je rijdt meteen leeuwen- en cheetagebied in.'}
   };
   var REGIOS = {
-    noord: {n:'Het noorden — mijn thuisbasis', d:'Stil, uitgestrekt mopane-landschap rond Shingwedzi en Mopani. Hier rijd je uren zonder ander verkeer — en hier komen de meeste van mijn beelden vandaan.', fav:'★ Insider-favoriet voor rust & olifanten'},
+    noord: {n:'Het noorden — hier film ik veel', d:'Stil, uitgestrekt mopane-landschap rond Shingwedzi en Mopani. Hier rijd je uren zonder ander verkeer — en hier komen veel van mijn beelden vandaan.', fav:'★ Insider-favoriet voor rust & olifanten'},
     midden:{n:'Het midden — open savanne', d:'De grasvlaktes rond Satara staan bekend om leeuwen en cheeta’s, met de legendarische S100 en verborgen kampen zoals Talamati.', fav:'★ Grote kans op katachtigen'},
     zuid:  {n:'Het zuiden — rivieren & Big Five', d:'De hoogste dierdichtheid langs de Sabie-rivier — maar ook het drukste deel van het park. Slim timen en de juiste lussen kiezen maakt hier hét verschil.', fav:'★ Ideaal voor een eerste bezoek'}
   };
@@ -3513,7 +3607,7 @@
     lowersabie: {tent:'Safaritenten op de oever van de Sabie.', gh:'Guest houses met weids rivierzicht — sightings vanaf je veranda.'},
     letaba:     {camping:'Groene kampeerterrassen richting de rivierbedding.', bung:'Klassieke rondavels onder grote schaduwbomen; bosbokken wandelen er langs.'},
     satara:     {camping:'Grote kampeerweide langs het hek.', bung:'Rondavels in ringen rond grasvelden — ’s nachts hoor je de leeuwen.'},
-    shingwedzi: {bung:'Ouderwetse rondavels in mijn thuiskamp — rustiek en heerlijk rustig.', gh:'Het gastenverblijf aan de rivierbocht is een verborgen parel.'},
+    shingwedzi: {bung:'Ouderwetse rondavels in een van mijn vaste kampen — rustiek en heerlijk rustig.', gh:'Het gastenverblijf aan de rivierbocht is een verborgen parel.'},
     mopani:     {bung:'Ruime stenen bungalows in het mopaneveld.', gh:'Guest house met uitzicht over de Pioneer Dam.'},
     skukuza:    {tent:'Nieuwe safaritenten aan de rand van het kamp.', gh:'Riverfront guest houses aan de Sabie.'},
     pretoriuskop:{hut:'De voordeligste huisjes van het park — prima uitvalsbasis.'},

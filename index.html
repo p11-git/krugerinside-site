@@ -2497,8 +2497,10 @@
     var thumb = e.target.closest('.a-thumb');
     if (thumb){
       var wrap = thumb.closest('.a-thumbs');
-      if (wrap && wrap.dataset.acco){
-        openFotoLightbox(ACCO_FOTOS[wrap.dataset.acco], +thumb.dataset.i, ACCO_TYPES[wrap.dataset.acco].n);
+      if (wrap && wrap.dataset.acco && wrap.dataset.kamp){
+        var kf = (ACCO_FOTOS_K[wrap.dataset.kamp] || {})[wrap.dataset.acco];
+        if (kf) openFotoLightbox(kf, +thumb.dataset.i,
+          (KAMPEN[wrap.dataset.kamp] ? KAMPEN[wrap.dataset.kamp].n + ' · ' : '') + ACCO_TYPES[wrap.dataset.acco].n);
       }
     }
   });
@@ -3496,7 +3498,7 @@
     letaba:     ['camping','hut','tent','bung','cott','gh'],
     olifants:   ['bung','cott','gh'],
     satara:     ['camping','bung','cott','gh'],
-    orpen:      ['bung','cott'],
+    orpen:      ['tent','bung','cott'],
     talamati:   ['cott'],
     skukuza:    ['camping','tent','bung','cott','gh'],
     lowersabie: ['camping','hut','tent','bung','cott','gh'],
@@ -3517,6 +3519,7 @@
     pretoriuskop:{hut:'De voordeligste huisjes van het park — prima uitvalsbasis.'},
     punda:      {bung:'Historische bungalows uit de jaren dertig, fraai gerenoveerd.'},
     crocbridge: {tent:'Safaritenten direct bij de poort — zó het leeuwengebied in.'},
+    orpen:      {tent:'Safaritenten liggen in satellietkamp Tamboti om de hoek — inchecken doe je bij Orpen.'},
     talamati:   {cott:'Cottages aan het watergat, met twee kijkhutten voor gasten.'},
     biyamiti:   {cott:'Cottages aan de rivierbedding, met eigen toegangsweg.'},
     sirheni:    {cott:'Cottages rond de dam — het kamp is exclusief voor gasten.'},
@@ -3525,45 +3528,81 @@
   };
   var SLAAP_MATCH = {kamperen:['camping'], bungalow:['bung'], comfort:['gh','cott']};
   // foto's per accommodatietype (Wikimedia Commons, credits in bijschrift + STATUS)
-  var ACCO_FOTOS = {
-    camping: [
-      {src:'media/acco-camping-1.jpg', cap:'Elke plek z’n eigen braai — hier met uitzicht over de Sabie', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'},
-      {src:'media/acco-camping-2.jpg', cap:'Kampvuur in de avond — kamperen bij Shingwedzi', credit:'Foto: srlasky · CC BY 3.0'}
-    ],
-    hut: [
-      {src:'media/acco-hut-1.jpg', cap:'Budgethuisje — hut 42, met stoelen voor de deur', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
-    ],
-    tent: [
-      {src:'media/acco-tent-1.jpg', cap:'Safaritenten op houten platforms', credit:'Foto: Ossewa · CC BY-SA 4.0'},
-      {src:'media/acco-tent-2.jpg', cap:'Rivierzicht en eigen braai vanaf de tent-veranda', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'},
-      {src:'media/acco-tent-3.jpg', cap:'Stormlantaarn op de veranda — Tamboti tented camp', credit:'Foto: CC BY 3.0 · Wikimedia Commons'},
-      {src:'media/acco-tent-4.jpg', cap:'Het uitzicht vanaf tent 40 over de Timbavati-bedding', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
-    ],
-    bung: [
-      {src:'media/acco-bung-1.jpg', cap:'Rondavels in het avondlicht — Skukuza', credit:'Foto: Mart Bouter · CC BY-SA 4.0'},
-      {src:'media/acco-bung-2.jpg', cap:'Rondavels op de klifrand, uitzicht over de vallei — Olifants', credit:'Foto: Chris Eason · CC BY 2.0'},
-      {src:'media/acco-bung-3.jpg', cap:'Binnenkijken: de keuken van een bungalow — Berg-en-Dal', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'},
-      {src:'media/acco-bung-4.jpg', cap:'Rivierzicht vanaf bungalow 17 — Lower Sabie', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
-    ],
-    cott: [
-      {src:'media/acco-cott-1.jpg', cap:'Familie-cottage onder het rieten dak — Satara', credit:'Foto: Chris Eason · CC BY 2.0'},
-      {src:'media/acco-cott-2.jpg', cap:'Ruime cottage op het gazon — Pretoriuskop', credit:'Foto: Chris Eason · CC BY 2.0'},
-      {src:'media/acco-cott-3.jpg', cap:'Binnenkijken: keuken en eethoek van een gastencottage — Biyamiti', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
-    ],
-    gh: [
-      {src:'media/acco-gh-2.jpg', cap:'Het uitzicht vanaf de klifrand — hier liggen de guest houses van Olifants', credit:'Foto: Bjørn Christian Tørrissen · CC BY-SA 4.0'},
-      {src:'media/acco-gh-1.jpg', cap:'Gastenverblijf met veranda — Olifants', credit:'Foto: Chris Eason · CC BY 2.0'},
-      {src:'media/acco-gh-3.jpg', cap:'Luxe verblijven onder de bomen — Skukuza', credit:'Foto: publiek domein · Wikimedia Commons'}
-    ]
+  // Accommodatiefoto's en -video's PER KAMP (geen hergebruik over kampen — elk beeld is
+  // geverifieerd van dát kamp; kamp zonder eigen beeld toont alleen tekst).
+  var ACCO_FOTOS_K = {
+    lowersabie: {
+      hut:  [{src:'media/acco-hut-1.jpg', cap:'Budgethuisje — hut 42, met stoelen voor de deur', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}],
+      tent: [
+        {src:'media/acco-tent-2.jpg', cap:'Rivierzicht en eigen braai vanaf de tent-veranda', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'},
+        {src:'media/acco-camping-1.jpg', cap:'Braaien boven de Sabie, bij de safaritenten', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
+      ],
+      bung: [
+        {src:'media/acco-bung-4.jpg', cap:'Rivierzicht vanaf bungalow 17', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'},
+        {src:'media/acco-ls-bung-2.jpg', cap:'De overdekte veranda van bungalow 17', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'},
+        {src:'media/acco-ls-bung-3.jpg', cap:'Binnenkijken: de slaapkamer', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'},
+        {src:'media/acco-ls-bung-4.jpg', cap:'Binnenkijken: de keuken, met doorkijk naar de tuin', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
+      ]
+    },
+    skukuza: {
+      bung: [{src:'media/acco-bung-1.jpg', cap:'Rondavels in het avondlicht', credit:'Foto: Mart Bouter · CC BY-SA 4.0'}],
+      cott: [
+        {src:'media/acco-sk-cott-1.jpg', cap:'Cottages onder de grote jakkalsbessen', credit:'Foto: Chris Eason · CC BY 2.0'},
+        {src:'media/acco-sk-cott-3.jpg', cap:'Huisje 224, met veranda in de schaduw', credit:'Foto: Chris Eason · CC BY 2.0'},
+        {src:'media/acco-sk-cott-2.jpg', cap:'Koffie op de veranda', credit:'Foto: Chris Eason · CC BY 2.0'},
+        {src:'media/acco-sk-cott-4.jpg', cap:'Binnenkijken: woonkamer met open keuken', credit:'Foto: Chris Eason · CC BY 2.0'}
+      ],
+      gh: [
+        {src:'media/acco-sk-gh-2.jpg', cap:'Riant gastenverblijf onder het riet', credit:'Foto: Chris Eason · CC BY 2.0'},
+        {src:'media/acco-gh-3.jpg', cap:'Luxe verblijven onder de bomen', credit:'Foto: publiek domein · Wikimedia Commons'}
+      ]
+    },
+    olifants: {
+      bung: [{src:'media/acco-bung-2.jpg', cap:'Rondavels op de klifrand, uitzicht over de vallei', credit:'Foto: Chris Eason · CC BY 2.0'}],
+      gh: [
+        {src:'media/acco-gh-2.jpg', cap:'Het uitzicht vanaf de klifrand — hier liggen de guest houses', credit:'Foto: Bjørn Christian Tørrissen · CC BY-SA 4.0'},
+        {src:'media/acco-gh-1.jpg', cap:'Gastenverblijf met veranda', credit:'Foto: Chris Eason · CC BY 2.0'}
+      ]
+    },
+    bergendal: {
+      bung: [
+        {src:'media/acco-bd-bung-1.jpg', cap:'Bungalow 27 onder het rieten dak', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'},
+        {src:'media/acco-bd-bung-2.jpg', cap:'Het terras met pergola en eigen braai', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'},
+        {src:'media/acco-bd-bung-3.jpg', cap:'Binnenkijken: de slaapkamer met leisteen-wand', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'},
+        {src:'media/acco-bung-3.jpg', cap:'Binnenkijken: de keuken van bungalow 27', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
+      ]
+    },
+    satara: {
+      cott: [{src:'media/acco-cott-1.jpg', cap:'Familie-cottage onder het rieten dak', credit:'Foto: Chris Eason · CC BY 2.0'}]
+    },
+    pretoriuskop: {
+      cott: [{src:'media/acco-cott-2.jpg', cap:'Ruime cottage op het gazon', credit:'Foto: Chris Eason · CC BY 2.0'}]
+    },
+    biyamiti: {
+      cott: [
+        {src:'media/acco-cott-3.jpg', cap:'Binnenkijken: keuken en eethoek van een gastencottage', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'},
+        {src:'media/acco-biy-cott-2.jpg', cap:'Binnenkijken: de zithoek', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
+      ]
+    },
+    letaba: {
+      cott: [{src:'media/acco-let-cott-1.jpg', cap:'Gastenhuisje onder de bomen', credit:'Foto: Chris Eason · CC BY 2.0'}]
+    },
+    shingwedzi: {
+      camping: [{src:'media/acco-camping-2.jpg', cap:'Kampvuur in de avond op de kampeerplaats', credit:'Foto: srlasky · CC BY 3.0'}],
+      cott: [{src:'media/acco-shi-cott-1.jpg', cap:'Bezoekers-cottage in het late licht', credit:'Foto: Chris Eason · CC BY 2.0'}]
+    },
+    orpen: {
+      tent: [
+        {src:'media/acco-tent-3.jpg', cap:'Stormlantaarn op de veranda — safaritent in Tamboti', credit:'Foto: CC BY 3.0 · Wikimedia Commons'},
+        {src:'media/acco-tent-4.jpg', cap:'Het uitzicht vanaf tent 40 over de Timbavati-bedding', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
+      ]
+    }
   };
-  // Eigen video's per accommodatietype (van het @safari_dn-kanaal) — kamp staat in de titel
-  var ACCO_VIDS = {
-    tent: [{yt:'pTJgAUj5v3E', t:'Binnenkijken in een safaritent — Tamboti tented camp'}],
-    gh: [
-      {yt:'CVUIKEF5U8g', t:'Fish Eagle guest house — Letaba'},
-      {yt:'Tih-0zVWNkc', t:'Keartland guest house — Lower Sabie'},
-      {yt:'GuMNiski8Cs', t:'Doherty Bryant guest house — Pretoriuskop'}
-    ]
+  var ACCO_VIDS_K = {
+    letaba:       {gh:   [{yt:'CVUIKEF5U8g', t:'Fish Eagle guest house — Letaba, eigen video'}]},
+    lowersabie:   {gh:   [{yt:'Tih-0zVWNkc', t:'Keartland guest house — Lower Sabie, eigen video'}]},
+    pretoriuskop: {gh:   [{yt:'GuMNiski8Cs', t:'Doherty Bryant guest house — Pretoriuskop, eigen video'}]},
+    orpen:        {tent: [{yt:'pTJgAUj5v3E', t:'Binnenkijken in een safaritent — Tamboti, eigen video'}]}
   };
   var plDoel = 'bigfive', plDuur = 'week', plSlaap = 'bungalow';
   var panelMode = 'bord';
@@ -3680,9 +3719,9 @@
       var t = ACCO_TYPES[k];
       var eigen = (ACCO_EIGEN[id] || {})[k];
       var match = wens.indexOf(k) !== -1;
-      var fotos = (typeof ACCO_FOTOS !== 'undefined') ? ACCO_FOTOS[k] : null;
-      var vids = (typeof ACCO_VIDS !== 'undefined') ? ACCO_VIDS[k] : null;
-      var thumbs = (fotos || vids) ? '<div class="a-thumbs" data-acco="' + k + '">' +
+      var fotos = (ACCO_FOTOS_K[id] || {})[k] || null;
+      var vids = (ACCO_VIDS_K[id] || {})[k] || null;
+      var thumbs = (fotos || vids) ? '<div class="a-thumbs" data-acco="' + k + '" data-kamp="' + id + '">' +
         (fotos ? fotos.map(function(f, i){
           return '<button type="button" class="a-thumb" data-i="' + i + '" aria-label="Bekijk foto ' + (i + 1) + ' van ' + t.n + '"><img src="' + f.src + '" alt=""></button>';
         }).join('') : '') +

@@ -507,8 +507,8 @@
     font-family:var(--body);font-size:.9rem;color:var(--soft);font-weight:600;
   }
   .legbtn:hover{color:var(--ink)}
-  @keyframes legpulse{from{opacity:1}to{opacity:.12}}
-  .legflash{animation:legpulse .38s ease-in-out 4 alternate}
+  /* legenda-flits gebeurt via JS (rAF): CSS/WAAPI-transform-animaties op deze SVG-groepen
+     worden door Chromium niet gecomposit — statische transforms wél. */
   .rchips{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
   .rchip{
     font-family:var(--body);font-weight:700;font-size:.86rem;color:var(--soft);
@@ -2340,6 +2340,7 @@
             <li>✔ &nbsp;Reis- en annuleringsverzekeringen</li>
             <li>✔ &nbsp;Reisdocumenten compleet aangeleverd</li>
             <li>✔ &nbsp;Bereikbaar buiten kantoortijden — ook tijdens je reis</li>
+            <li>✔ &nbsp;<b>Scherpe prijzen</b> — vergelijkbaar met zelf online boeken, mét persoonlijke service</li>
           </ul>
         </div>
         <div class="cardish" style="padding:26px 28px">
@@ -2864,7 +2865,7 @@
     'Buffel': 'Grote kuddes pendelen tussen graasvlaktes en water — een stofwolk in de verte verraadt ze vaak eerder dan je ogen.',
     'Cheeta': 'Open savanne met kort gras is cheetaland; scan termietenheuvels — daar zitten ze graag op uitkijk.',
     'Wilde hond': 'De zeldzaamste ontmoeting van allemaal: enorme leefgebieden, dus vooral geluk. Vroeg rijden en het bord bij de receptie volgen vergroot je kans.',
-    'Neushoorn': 'Witte neushoorns grazen in open savanne, vroege ochtend en late middag. Locaties deel je nooit — ook niet online.'
+    'Neushoorn': 'Twee soorten: de witte (grazer, open savanne) zie je het vaakst; de zwarte is een schuwe struik-eter die je bijna nooit spot. Locaties deel je nooit — ook niet online.'
   };
   var FREQ_ZIN = [
     'Hier hoef je er eerlijk gezegd niet op te rekenen.',
@@ -3185,15 +3186,31 @@
     hide: '#pois [data-poi^="hide"]',
     trail: '#pois .trailflag'
   };
+  var flegToken = 0;
   function flashLeg(t){
     var sel = LEG_SEL[t]; if (!sel) return;
-    var els = document.querySelectorAll(sel);
+    var els = Array.prototype.slice.call(document.querySelectorAll(sel));
+    var isPad = (t === 's100');
+    var token = ++flegToken;
     els.forEach(function(el){
-      el.classList.remove('legflash');
-      void el.getBoundingClientRect();
-      el.classList.add('legflash');
+      if (!isPad){ el.style.transformBox = 'fill-box'; el.style.transformOrigin = 'center'; }
     });
-    setTimeout(function(){ els.forEach(function(el){ el.classList.remove('legflash'); }); }, 1700);
+    var start = performance.now(), DUUR = 3000, PULSEN = 3;
+    function opruimen(){
+      els.forEach(function(el){ el.style.transform = ''; el.style.strokeWidth = ''; el.style.opacity = ''; });
+    }
+    var ticker = setInterval(function(){
+      if (token !== flegToken){ clearInterval(ticker); return; }
+      var p = (performance.now() - start) / DUUR;
+      if (p >= 1){ clearInterval(ticker); opruimen(); return; }
+      var f = Math.abs(Math.sin(p * Math.PI * PULSEN));
+      var zacht = f * f * (3 - 2 * f);
+      els.forEach(function(el){
+        if (isPad){ el.style.strokeWidth = (3 + 7 * zacht) + 'px'; }
+        else { el.style.transform = 'scale(' + (1 + 1.15 * zacht).toFixed(3) + ')'; }
+        el.style.opacity = String(1 - 0.22 * zacht);
+      });
+    }, 33);
     if (window.innerWidth <= 1000) naarKaart();
   }
   function backBtnHtml(){ return '<button class="backbtn" type="button">← Terug naar de kaart-uitleg</button>'; }
@@ -3406,6 +3423,12 @@
       '<p class="pdesc">Neushoorns zíjn er — maar je vindt hier bewust géén magneetjes of waarnemingslocaties. Locaties van neushoorns deel je niet meer, vanwege stroperij. Dat doen de kampborden in het park zelf ook niet meer, en rangers vertellen het je evenmin. Zo hoort het.</p>' +
       '<p class="pdesc" style="margin-top:10px">Wat ik wél eerlijk kan zeggen, op basis van de officiële kampinformatie: <b style="color:var(--ink)">het zuiden</b> (nu oplicht op de kaart) is klassiek neushoorngebied — klik op kampen als Crocodile Bridge, Lower Sabie of Berg-en-Dal en je ziet per kampbord een kans-indicatie. Rond Letaba en in het noorden is de kans juist klein.</p>' +
       '<div class="ro-tip"><b>Insider-tip</b>Witte neushoorns grazen in open savanne, vaak in de vroege ochtend en late middag. Zie je er één: geniet, filmpje voor jezelf — maar deel de locatie nergens.</div>' +
+      '<p class="spotlabel" style="margin-top:24px">Twee soorten, twee verhalen</p>' +
+      '<div class="szn-blokken" style="margin-top:2px">' +
+        '<div class="szn-blok"><b>Witte neushoorn</b><p>De grazer van de open savanne, met de brede vierkante mond — vaak in kleine groepjes. Dít is de soort op de foto hierboven, en de soort die je kúnt tegenkomen.</p></div>' +
+        '<div class="szn-blok"><b>Zwarte neushoorn</b><p>De schuwe solitair van de dichte bush, met de spitse grijplip — een struik-eter die zich zelden laat zien. Deze spot je bijna nooit; lukt het tóch, dan heb je iets héél bijzonders meegemaakt.</p></div>' +
+      '</div>' +
+      '<p class="fac-bron">De officiële kampinfo noemt beide soorten onder meer rond Pretoriuskop en Crocodile Bridge.</p>' +
       '<p class="spotlabel" style="margin-top:24px">De stille bewakers</p>' +
       '<img class="obsfoto" src="media/apu-unit.jpg" alt="Drie leden van een anti-stroperij-eenheid op patrouille kijken uit over olifanten" style="max-width:100%;aspect-ratio:auto;height:auto">' +
       '<p class="obscredit">Anti-stroperij-eenheid op patrouille (Bumi Hills, Zimbabwe) · Foto: Bumi Hills Foundation · CC BY-SA 4.0</p>' +

@@ -108,7 +108,7 @@
   /* ---------- hero ---------- */
   .hero{position:relative;min-height:600px;height:86vh;max-height:820px;overflow:hidden;background:#2A241C;display:flex;align-items:flex-end}
   .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(30,24,16,.18) 0%,rgba(30,24,16,0) 34%,rgba(30,24,16,.62) 100%)}
+  .hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(30,24,16,.10) 0%,rgba(30,24,16,0) 30%,rgba(30,24,16,.46) 100%)}
   .hero .wrap{position:relative;z-index:2;padding-bottom:72px;width:100%}
   .hero .kicker{
     display:inline-flex;align-items:center;gap:8px;
@@ -680,6 +680,15 @@
   .board .spots i.dim{background:rgba(243,237,228,.22)}
   .board ul.withfoto{gap:7px}
   .board ul.withfoto li{gap:13px;padding-bottom:7px}
+  /* uitklapbare soortrijen op het kampbord */
+  .board ul.withfoto li.klikbaar{display:block;cursor:pointer}
+  .board .sp-rij{display:flex;align-items:center;gap:13px}
+  .board .sp-chev{margin-left:6px;font-size:.72rem;opacity:.55;transition:transform .18s ease;flex:0 0 auto}
+  .board li.open .sp-chev{transform:rotate(90deg)}
+  .board .sp-uit{display:none;padding:9px 2px 3px 53px;font-size:.82rem;line-height:1.6;color:rgba(243,237,228,.85)}
+  .board li.open .sp-uit{display:block}
+  .board .sp-uit b{color:#E3C77E;font-weight:700}
+  .board .sp-uit .linklike{color:#E3C77E;font-size:.8rem}
   .spfoto{
     width:40px;height:40px;border-radius:9px;object-fit:cover;flex:0 0 auto;
     border:2.5px solid;box-shadow:0 2px 10px rgba(0,0,0,.4);background:#FFFDF6;
@@ -2838,6 +2847,37 @@
     crocbridge:3, lowersabie:2, skukuza:2, bergendal:2, pretoriuskop:2, satara:2, orpen:2,
     letaba:0, olifants:0, mopani:0, shingwedzi:0, punda:0
   };
+  // Uitklap-info per bordsoort: algemene spot-tip (per soort) + officiële kamp-notities
+  // (alleen combinaties die de officiële SANParks-kamppagina expliciet noemt) + frequentie-zin uit de stippen.
+  var SOORT_TIP = {
+    'Leeuw': 'Vroege ochtend is leeuwentijd: net na poortopening liggen ze nog op of langs de weg. Overdag slapen ze — zoek de schaduw af.',
+    'Luipaard': 'De moeilijkste van de vijf: speur dikke boomtakken af langs rivieren en rijd langzaam — luipaarden zie je pas als je stopt.',
+    'Olifant': 'Volg het water: rivieren en poelen, vooral in de middag. Kuddes met kalfjes geef je altijd ruim baan.',
+    'Buffel': 'Grote kuddes pendelen tussen graasvlaktes en water — een stofwolk in de verte verraadt ze vaak eerder dan je ogen.',
+    'Cheeta': 'Open savanne met kort gras is cheetaland; scan termietenheuvels — daar zitten ze graag op uitkijk.',
+    'Wilde hond': 'De zeldzaamste ontmoeting van allemaal: enorme leefgebieden, dus vooral geluk. Vroeg rijden en het bord bij de receptie volgen vergroot je kans.',
+    'Neushoorn': 'Witte neushoorns grazen in open savanne, vroege ochtend en late middag. Locaties deel je nooit — ook niet online.'
+  };
+  var FREQ_ZIN = [
+    'Hier hoef je er eerlijk gezegd niet op te rekenen.',
+    'Kan zeker, maar vraagt geduld en een beetje geluk.',
+    'Goede kans als je hier een paar dagen zit.',
+    'Rond dit kamp zie je ze heel regelmatig.'
+  ];
+  var KAMP_SP_NOOT = {
+    skukuza:     {'Wilde hond':'Officiële kampinfo: ook wilde honden zijn hier te zoeken.', 'Buffel':'Kampinfo: de rivieroever vóór het kamp is ’s ochtends goed voor buffels en nijlpaarden.'},
+    lowersabie:  {'Leeuw':'Kampinfo: dit gebied is rijk aan leeuwen.', 'Cheeta':'Kampinfo noemt cheeta’s expliciet in dit gebied.', 'Olifant':'Kampinfo: veel olifanten in het gebied.', 'Buffel':'Kampinfo: hier lopen kuddes tot zo’n 800 buffels.'},
+    satara:      {'Leeuw':'Kampinfo: Satara staat bekend om de grote katten.', 'Luipaard':'Kampinfo: luipaard wordt hier regelmatig geregistreerd.', 'Cheeta':'Kampinfo: cheeta hoort hier bij de vaste waarnemingen.'},
+    letaba:      {'Olifant':'Kampinfo: olifanten gedijen hier — vooral in de rivierbedding zelf.', 'Buffel':'Kampinfo: buffels en waterbokken zijn talrijk.'},
+    olifants:    {'Olifant':'Kampinfo: olifanten zijn algemeen in dit gebied.', 'Leeuw':'Kampinfo: leeuwen worden op gamedrives regelmatig gezien.', 'Luipaard':'Kampinfo: luipaarden worden op gamedrives regelmatig gezien.'},
+    mopani:      {'Olifant':'Kampinfo: vanaf het uitkijkpunt en het bardek zie je een gestage stroom dieren — ook olifanten.'},
+    shingwedzi:  {'Leeuw':'Kampinfo: leeuw hoort bij de vaste roofdieren van dit gebied.', 'Wilde hond':'Kampinfo: in deze noordelijke streken zwerven een paar roedels wilde honden.', 'Buffel':'Kampinfo: buffel is hier de talrijkste grazer.'},
+    punda:       {'Wilde hond':'Kampinfo: wilde hond wordt hier geregeld geregistreerd.', 'Leeuw':'Kampinfo: ook leeuw wordt hier regelmatig gemeld.'},
+    bergendal:   {'Luipaard':'Kampinfo: luipaarden worden hier geregeld gezien — soms zelfs drinkend bij de dam vóór het kamp.', 'Wilde hond':'Kampinfo: wilde honden komen in dit gebied voor.', 'Leeuw':'Kampinfo: leeuwen zoek je vooral op de vlaktes richting Skukuza en Crocodile Bridge.'},
+    pretoriuskop:{'Wilde hond':'Kampinfo: wilde hond wordt hier geregeld geregistreerd.', 'Cheeta':'Kampinfo: ondanks het hoge gras worden ook cheeta’s gemeld.', 'Buffel':'Kampinfo: buffel zie je op de lusroutes rond het kamp.'},
+    crocbridge:  {'Leeuw':'Kampinfo: de “Southern Circle” is beroemd om z’n vele leeuwentroepen.', 'Cheeta':'Kampinfo: cheeta wordt hier regelmatig geregistreerd.', 'Luipaard':'Kampinfo: luipaard hoort hier bij de vaste roofdieren.'},
+    orpen:       {'Cheeta':'Kampinfo: de open vlaktes trekken cheeta’s aan.', 'Wilde hond':'Kampinfo: ook wilde hond komt in dit gebied voor.', 'Leeuw':'Kampinfo: leeuw en luipaard zie je waarschijnlijk op de route langs de Timbavati.'}
+  };
   // Te doen & te boeken per kamp — overgenomen van de officiële SANParks-kamppagina's (aug 2026);
   // gamedrives (ochtend/zonsondergang/nacht) draaien volgens de algemene SANParks-activiteitenpagina
   // vanuit elk verblijfskamp, boeken bij de receptie.
@@ -3255,29 +3295,47 @@
       ((FAC[id] || ACT[id]) ? '<p class="fac-bron">Faciliteiten en activiteiten volgens de officiële SANParks-pagina’s — boeken bij de receptie, check bij reservering.</p>' : '') +
       '<div class="board" style="margin-top:22px">' +
         '<div class="board-title"><span>Kansen rond dit kamp</span><span>' + k.n + '</span></div>' +
-        '<ul class="withfoto">' + BORD_SOORTEN.map(function(s, i){
-          var f = (FREQ6[id] || [])[i]; if (f == null) f = 1;
-          var dots = '';
-          for (var d = 1; d <= 3; d++) dots += '<i class="' + (d <= f ? '' : 'dim') + '"></i>';
-          return '<li>' +
-            '<img class="spfoto" src="' + SP_FOTO[s] + '" alt="' + s + '" style="border-color:' + (SPECIES[s] || '#B4A184') + '">' +
-            '<span>' + s + '</span>' +
-            '<span class="spots">' + dots + '</span></li>';
-        }).join('') +
-        (RHINO[id] != null
-          ? (function(){
-              var dots = '';
-              for (var d = 1; d <= 3; d++) dots += '<i class="' + (d <= RHINO[id] ? '' : 'dim') + '"></i>';
-              return '<li>' +
-                '<img class="spfoto" src="' + SP_FOTO['Neushoorn'] + '" alt="Neushoorn" style="border-color:' + SPECIES['Neushoorn'] + '">' +
-                '<span>Neushoorn</span><span class="spots">' + dots + '</span></li>';
-            })()
-          : '') +
+        '<ul class="withfoto">' + (function(){
+          function bordRij(s, f, extra){
+            var dots = '';
+            for (var d = 1; d <= 3; d++) dots += '<i class="' + (d <= f ? '' : 'dim') + '"></i>';
+            var noot = (KAMP_SP_NOOT[id] || {})[s];
+            return '<li class="klikbaar" tabindex="0" role="button" aria-expanded="false" aria-label="' + s + ' — klik voor uitleg">' +
+              '<div class="sp-rij">' +
+                '<img class="spfoto" src="' + SP_FOTO[s] + '" alt="' + s + '" style="border-color:' + (SPECIES[s] || '#B4A184') + '">' +
+                '<span>' + s + '</span>' +
+                '<span class="spots">' + dots + '</span>' +
+                '<span class="sp-chev" aria-hidden="true">▸</span>' +
+              '</div>' +
+              '<div class="sp-uit"><b>' + FREQ_ZIN[f] + '</b> ' + (noot ? noot + ' ' : '') + SOORT_TIP[s] + (extra || '') + '</div></li>';
+          }
+          var html = BORD_SOORTEN.map(function(s, i){
+            var f = (FREQ6[id] || [])[i]; if (f == null) f = 1;
+            return bordRij(s, f);
+          }).join('');
+          if (RHINO[id] != null){
+            html += bordRij('Neushoorn', RHINO[id], ' <button class="linklike" data-rhinomeer type="button">Waarom geen locaties? →</button>');
+          }
+          return html;
+        })() +
         '</ul>' +
         '<p class="board-note">Mijn inschatting op basis van eigen bezoeken; de neushoorn-kans volgt de officiële kampinformatie. Exacte neushoorn-locaties deel ik nooit — stroperij.</p>' +
       '</div>';
     var kt = panel.querySelector('#kampTrails');
     if (kt) kt.addEventListener('click', function(){ showTrails(id); });
+    panel.querySelectorAll('.board li.klikbaar').forEach(function(li){
+      function toggle(){
+        li.classList.toggle('open');
+        li.setAttribute('aria-expanded', li.classList.contains('open') ? 'true' : 'false');
+      }
+      li.addEventListener('click', function(e){
+        if (e.target.closest('[data-rhinomeer]')){ showRhino(); return; }
+        toggle();
+      });
+      li.addEventListener('keydown', function(e){
+        if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }
+      });
+    });
     bindBack(); bindFotoStrip(KAMP_FOTOS[id], k.n); panelScroll();
   }
   function showPoort(id){
@@ -3305,7 +3363,12 @@
       '<p class="obscredit">Foto: Charles J. Sharp · CC BY-SA 4.0 · gefotografeerd in Kruger</p>' +
       '<p class="pdesc">Neushoorns zíjn er — maar je vindt hier bewust géén magneetjes of waarnemingslocaties. Locaties van neushoorns deel je niet meer, vanwege stroperij. Dat doen de kampborden in het park zelf ook niet meer, en rangers vertellen het je evenmin. Zo hoort het.</p>' +
       '<p class="pdesc" style="margin-top:10px">Wat ik wél eerlijk kan zeggen, op basis van de officiële kampinformatie: <b style="color:var(--ink)">het zuiden</b> (nu oplicht op de kaart) is klassiek neushoorngebied — klik op kampen als Crocodile Bridge, Lower Sabie of Berg-en-Dal en je ziet per kampbord een kans-indicatie. Rond Letaba en in het noorden is de kans juist klein.</p>' +
-      '<div class="ro-tip"><b>Insider-tip</b>Witte neushoorns grazen in open savanne, vaak in de vroege ochtend en late middag. Zie je er één: geniet, filmpje voor jezelf — maar deel de locatie nergens.</div>';
+      '<div class="ro-tip"><b>Insider-tip</b>Witte neushoorns grazen in open savanne, vaak in de vroege ochtend en late middag. Zie je er één: geniet, filmpje voor jezelf — maar deel de locatie nergens.</div>' +
+      '<p class="spotlabel" style="margin-top:24px">De stille bewakers</p>' +
+      '<img class="obsfoto" src="media/anti-poaching.jpg" alt="Gewapende Kruger-ranger, gezien op de rug, met geweer over de schouder" style="max-width:100%;aspect-ratio:3/4;object-fit:cover">' +
+      '<p class="obscredit">Ranger op ochtendpatrouille bij Pretoriuskop · Foto: Chris Eason · CC BY 2.0</p>' +
+      '<p class="pdesc">Kruger heeft gespecialiseerde anti-stroperij-eenheden die vrijwel volledig om de neushoorn draaien: zwaarbewapende rangers die dag en nacht in de bush leven, ondersteund door speurhond-teams (K9) en vliegtuigjes en helikopters vanuit de lucht. Het zijn heel andere rangers dan de gidsen die je op een bushwalk meenemen — je ziet ze zelden, en dat is precies de bedoeling: de eenheden zelf blijven bewust buiten beeld. Ook dat is bescherming.</p>' +
+      '<p class="pdesc" style="margin-top:10px">Kom je bij een poort of kamp een controle tegen? Dat is dit werk in actie — een beetje geduld is je bijdrage.</p>';
     bindBack(); panelScroll();
   }
   function showPicnic(i){
@@ -3375,7 +3438,7 @@
       panel.innerHTML = backBtnHtml() +
         '<p class="ptype">Sightings-bord · echte waarneming</p>' +
         '<h3><span class="magdot" style="background:' + (SPECIES[m.sp] || '#B4A184') + '"></span>' + m.sp + '</h3>' +
-        '<p class="pdesc">Hier is op <b style="color:var(--ink)">' + nlDatum(m.datum) + '</b> écht een ' + m.sp.toLowerCase() + ' gemeld.</p>' +
+        '<p class="pdesc">Van het <b style="color:var(--ink)">' + (m.panel === 'v' ? 'Vandaag' : 'Gisteren') + '</b>-bord: een ' + m.sp.toLowerCase() + ', geplaatst op iNaturalist op <b style="color:var(--ink)">' + nlDatum(m.datum) + '</b>.</p>' +
         (m.foto ? '<img class="obsfoto" src="' + m.foto + '" alt="Waarnemingsfoto: ' + m.sp + '">' : '') +
         '<p class="obscredit">Foto: ' + (m.att || 'iNaturalist') + ' via iNaturalist · <a href="' + m.url + '" target="_blank" rel="noopener">bron ↗</a></p>' +
         '<p class="hint-klik">Ververst bij elke site-update. Video per melding kan zodra er een Latest Sightings-koppeling is.</p>';

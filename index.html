@@ -2520,7 +2520,7 @@
     </div>
     <div class="legal">
       <span>© 2026 KrugerInside · KvK 00000000 (placeholder)</span>
-      <span>Concept-mockup — video's &amp; stills © @safari_dn · soortfoto's: Wikimedia Commons · waarnemingen: iNaturalist · kaart © OpenStreetMap</span>
+      <span>Concept-mockup — video's, stills &amp; wildfoto's © @safari_dn · overige foto's: Wikimedia Commons (credits per foto) · waarnemingen: iNaturalist · vogelmeldingen: eBird (Cornell Lab) · kaart © OpenStreetMap</span>
     </div>
   </div>
 </footer>
@@ -2869,7 +2869,7 @@
     lowersabie:[3,2,3,3,1,1], pretoriuskop:[1,1,2,2,1,2], biyamiti:[2,3,2,2,1,1], bergendal:[1,3,2,2,0,2],
     crocbridge:[3,2,3,3,2,1]
   };
-  // portretfoto's per bordsoort (Wikimedia Commons, vrije licenties — credits in STATUS.md)
+  // portretfoto's per bordsoort — eigen werk Niek (@safari_dn), bron: fotoalbum 22-8 (zie STATUS/manifest)
   var SP_FOTO = {
     'Leeuw':'media/sp-leeuw.jpg', 'Luipaard':'media/sp-luipaard.jpg', 'Olifant':'media/sp-olifant.jpg',
     'Buffel':'media/sp-buffel.jpg', 'Cheeta':'media/sp-cheeta.jpg', 'Wilde hond':'media/sp-wildehond.jpg',
@@ -3171,7 +3171,9 @@
       '<p class="ptype">Het sightings-bord</p>' +
       '<h3>Zo werkt het in het Kruger National Park</h3>' +
       '<p class="pdesc">Bij de receptie van elk kamp hangt een bord met twee kaarten: <b style="color:var(--ink)">vandaag</b> en <b style="color:var(--ink)">gisteren</b>. Zie je onderweg een van de grote soorten, dan prik je bij terugkomst een magneetje in de soortkleur op de plek van je waarneming. ’s Ochtends wisselt het personeel de kaarten om en begint vandaag weer leeg.</p>' +
-      '<p class="pdesc" style="margin-top:10px">Dit bord bevat alleen échte waarnemingen (bron: iNaturalist): <b style="color:var(--ink)">Vandaag</b> toont de nieuwste meldingen, <b style="color:var(--ink)">Gisteren</b> de meldingen daarvóór, en <b style="color:var(--ink)">Écht gespot</b> het volle bord van het afgelopen halfjaar. Klik een magneetje voor soort, échte datum en foto; bij ▸ kijk je mijn eigen video.</p>' +
+      '<img class="obsfoto" src="media/bord-echt.jpg" alt="Het echte sightings-bord in een kamp: kaart van het park met magneetjes per soort" style="max-width:100%;aspect-ratio:auto;height:auto;margin-top:12px">' +
+      '<p class="obscredit">Het echte bord, gisteren-kant — let op de neushoorn-regel: locaties meld je niet · Foto: Niek</p>' +
+      '<p class="pdesc" style="margin-top:10px">Dit bord bevat alleen échte waarnemingen (bron: iNaturalist): <b style="color:var(--ink)">Vandaag</b> toont de nieuwste meldingen, <b style="color:var(--ink)">Gisteren</b> de meldingen daarvóór, en <b style="color:var(--ink)">Écht gespot</b> het volle bord van het afgelopen halfjaar. Klik een magneetje voor soort, échte datum en foto; bij ▸ kijk je mijn eigen video. Het bord ververst elke nacht automatisch.</p>' +
       '<div class="spchips">' + BORD_SOORTEN.map(function(sp){
         return '<button class="spchip" data-sp="' + sp + '" type="button"><i style="background:' + SPECIES[sp] + '"></i>' + sp + '</button>';
       }).join('') +
@@ -3492,8 +3494,8 @@
     panel.innerHTML = backBtnHtml() +
       '<p class="ptype">De vijfde van de Big Five</p>' +
       '<h3><span class="magdot" style="background:' + SPECIES['Neushoorn'] + '"></span>Neushoorn</h3>' +
-      '<img class="obsfoto" src="media/rhino-groot.jpg" alt="Witte neushoorn met kalf, neus aan neus, in het Kruger National Park" style="margin-top:12px;max-width:100%;aspect-ratio:auto;height:auto">' +
-      '<p class="obscredit">Moeder met kalf, gefotografeerd in Kruger · Foto: Charles J. Sharp · CC BY-SA 4.0</p>' +
+      '<img class="obsfoto" src="media/rhino-groot.jpg" alt="Twee witte neushoorns steken een zandweg over in het Kruger National Park" style="margin-top:12px;max-width:100%;aspect-ratio:auto;height:auto">' +
+      '<p class="obscredit">Witte neushoorns op de weg, zelf gefilmd moment — de plek blijft bewust onvermeld · Foto: Niek</p>' +
       '<p class="pdesc">Neushoorns zíjn er — maar je vindt hier bewust géén magneetjes of waarnemingslocaties. Locaties van neushoorns deel je niet meer, vanwege stroperij. Dat doen de kampborden in het park zelf ook niet meer, en rangers vertellen het je evenmin. Zo hoort het.</p>' +
       '<p class="pdesc" style="margin-top:10px">Wat ik wél eerlijk kan zeggen, op basis van de officiële kampinformatie: <b style="color:var(--ink)">het zuiden</b> (nu oplicht op de kaart) is klassiek neushoorngebied — klik op kampen als Crocodile Bridge, Lower Sabie of Berg-en-Dal en je ziet per kampbord een kans-indicatie. Rond Letaba en in het noorden is de kans juist klein.</p>' +
       '<div class="ro-tip"><b>Insider-tip</b>Witte neushoorns grazen in open savanne, vaak in de vroege ochtend en late middag. Zie je er één: geniet, filmpje voor jezelf — maar deel de locatie nergens.</div>' +
@@ -3595,7 +3597,7 @@
         (m.tg ? '<p class="obscredit">Locatie door iNaturalist bewust vervaagd ter bescherming van de soort — de stip toont de omgeving, niet de exacte plek.</p>' : '') +
         (m.foto ? '<img class="obsfoto" src="' + m.foto + '" alt="Waarnemingsfoto: ' + m.sp + '">' : '') +
         '<p class="obscredit">' + (m.foto ? 'Foto: ' + (m.att || 'iNaturalist') + ' via iNaturalist · ' : 'Waarneming via iNaturalist · ') + '<a href="' + m.url + '" target="_blank" rel="noopener">bron ↗</a></p>' +
-        '<p class="hint-klik">Ververst bij elke site-update. Video per melding kan zodra er een Latest Sightings-koppeling is.</p>';
+        '<p class="hint-klik">Ververst elke nacht automatisch. Video per melding kan zodra er een Latest Sightings-koppeling is.</p>';
     }
     bindBack(); panelScroll();
   }

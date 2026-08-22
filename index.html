@@ -3191,24 +3191,48 @@
     var sel = LEG_SEL[t]; if (!sel) return;
     var els = Array.prototype.slice.call(document.querySelectorAll(sel));
     var isPad = (t === 's100');
+    var klein = (t === 'gate' || t === 'picnic' || t === 'hide' || t === 'trail');
+    var schaalMax = klein ? 2.2 : 1.15; // extra schaal bovenop 1 (kleine markers groeien naar ×3.2)
     var token = ++flegToken;
+    var svg = document.getElementById('krugermap');
+    var oudeLaag = document.getElementById('flashlaag');
+    if (oudeLaag) oudeLaag.remove();
+    var laag = null, halos = [];
+    if (!isPad && svg){
+      laag = svgEl('g', {id:'flashlaag', 'pointer-events':'none'});
+      svg.appendChild(laag); // bovenop alle andere lagen
+      els.forEach(function(el){
+        var hit = el.querySelector('.hit');
+        if (!hit) return;
+        var cx = hit.getAttribute('cx'), cy = hit.getAttribute('cy');
+        var ring = svgEl('circle', {cx:cx, cy:cy, r:6, fill:'none', stroke:'#977521', 'stroke-width':'3'});
+        laag.appendChild(ring);
+        halos.push(ring);
+      });
+    }
     els.forEach(function(el){
       if (!isPad){ el.style.transformBox = 'fill-box'; el.style.transformOrigin = 'center'; }
     });
-    var start = performance.now(), DUUR = 3000, PULSEN = 3;
+    var start = performance.now(), DUUR = 3200, PULSEN = 3;
     function opruimen(){
       els.forEach(function(el){ el.style.transform = ''; el.style.strokeWidth = ''; el.style.opacity = ''; });
+      if (laag) laag.remove();
     }
     var ticker = setInterval(function(){
-      if (token !== flegToken){ clearInterval(ticker); return; }
+      if (token !== flegToken){ clearInterval(ticker); opruimen(); return; }
       var p = (performance.now() - start) / DUUR;
       if (p >= 1){ clearInterval(ticker); opruimen(); return; }
       var f = Math.abs(Math.sin(p * Math.PI * PULSEN));
       var zacht = f * f * (3 - 2 * f);
+      var golf = (p * PULSEN) % 1; // 0→1 per golf, voor de uitdijende ring
       els.forEach(function(el){
-        if (isPad){ el.style.strokeWidth = (3 + 7 * zacht) + 'px'; }
-        else { el.style.transform = 'scale(' + (1 + 1.15 * zacht).toFixed(3) + ')'; }
-        el.style.opacity = String(1 - 0.22 * zacht);
+        if (isPad){ el.style.strokeWidth = (3 + 8 * zacht) + 'px'; el.style.opacity = String(1 - 0.2 * zacht); }
+        else { el.style.transform = 'scale(' + (1 + schaalMax * zacht).toFixed(3) + ')'; }
+      });
+      halos.forEach(function(ring){
+        ring.setAttribute('r', (5 + 26 * golf).toFixed(1));
+        ring.setAttribute('stroke-width', (3.5 - 2.2 * golf).toFixed(2));
+        ring.setAttribute('opacity', (1 - golf).toFixed(2));
       });
     }, 33);
     if (window.innerWidth <= 1000) naarKaart();
@@ -3429,7 +3453,7 @@
         '<div class="szn-blok"><b>Zwarte neushoorn</b><p>De schuwe solitair van de dichte bush, met de spitse grijplip — een struik-eter die zich zelden laat zien. Deze spot je bijna nooit; lukt het tóch, dan heb je iets héél bijzonders meegemaakt.</p></div>' +
       '</div>' +
       '<p class="fac-bron">De officiële kampinfo noemt beide soorten onder meer rond Pretoriuskop en Crocodile Bridge.</p>' +
-      '<p class="spotlabel" style="margin-top:24px">De stille bewakers</p>' +
+      '<p class="spotlabel" style="margin-top:24px">Anti-poaching unit</p>' +
       '<img class="obsfoto" src="media/apu-unit.jpg" alt="Drie leden van een anti-stroperij-eenheid op patrouille kijken uit over olifanten" style="max-width:100%;aspect-ratio:auto;height:auto">' +
       '<p class="obscredit">Anti-stroperij-eenheid op patrouille (Bumi Hills, Zimbabwe) · Foto: Bumi Hills Foundation · CC BY-SA 4.0</p>' +
       '<p class="pdesc">Kruger heeft gespecialiseerde anti-stroperij-eenheden die vrijwel volledig om de neushoorn draaien: zwaarbewapende rangers die dag en nacht in de bush leven, ondersteund door speurhond-teams (K9) en luchtsteun. Het zijn heel andere rangers dan de gidsen van een bushwalk — en je ziet ze zelden. De foto hierboven toont zo’n eenheid bij de buren in Zimbabwe: de teams van Kruger zelf blijven bewust buiten beeld, en ook dat is bescherming.</p>' +

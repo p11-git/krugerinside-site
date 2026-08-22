@@ -3062,6 +3062,7 @@
     (GEO.hides || []).forEach(function(h, i){
       var slaap = !!HIDE_SLAAP[h.n];
       var g = svgEl('g', {'class':'poi', 'data-poi':'hide:' + i, tabindex:'0', role:'button'});
+      if (slaap) g.setAttribute('data-slaap', '1');
       g.setAttribute('aria-label', h.n + ' — kijkhut' + (slaap ? ' (ook overnachten)' : ''));
       g.appendChild(svgEl('circle', {'class':'hit', cx:h.x, cy:h.y, r:11, fill:'transparent'}));
       g.appendChild(svgEl('path', {
@@ -3157,7 +3158,8 @@
         ['gold', chipSvg.gold + ' Hier film ik het meest'],
         ['s100', chipSvg.s100 + ' S100-route'],
         ['picnic', '<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><circle cx="6.5" cy="6.5" r="4.6" fill="#C08A3E" stroke="#FFFDF6" stroke-width="1.4"/><circle cx="6.5" cy="6.5" r="1.4" fill="#FFFDF6"/></svg> Picknickplek'],
-        ['hide', '<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M1.9 11 1.9 5.5 6.5 1.8 11.1 5.5 11.1 11 Z" fill="#5F7D63" stroke="#FFFDF6" stroke-width="1.2"/></svg> Vogelkijkhut <em style="font-style:normal;color:var(--gold)">(2 gouden = daar kun je overnachten)</em>'],
+        ['hide', '<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M1.9 11 1.9 5.5 6.5 1.8 11.1 5.5 11.1 11 Z" fill="#5F7D63" stroke="#FFFDF6" stroke-width="1.2"/></svg> Vogelkijkhut'],
+        ['hidegoud', '<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M1.9 11 1.9 5.5 6.5 1.8 11.1 5.5 11.1 11 Z" fill="#977521" stroke="#FFFDF6" stroke-width="1.2"/></svg> Overnachtings-vogelhut (2×)'],
         ['trail', '<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M3.5 12 3.5 1.5 11 4.2 3.5 7" fill="#977521" stroke="#FFFDF6" stroke-width="1"/></svg> Wilderness trail-vertrek']
       ].map(function(l){
         return '<button class="legbtn" type="button" data-leg="' + l[0] + '" aria-label="Licht op de kaart op: ' + l[0] + '">' + l[1] + '</button>';
@@ -3203,6 +3205,7 @@
     s100: '#s100pad',
     picnic: '#pois [data-poi^="picnic"]',
     hide: '#pois [data-poi^="hide"]',
+    hidegoud: '#pois [data-poi^="hide"][data-slaap="1"]',
     trail: '#pois .trailflag'
   };
   var flegToken = 0;
@@ -3210,8 +3213,8 @@
     var sel = LEG_SEL[t]; if (!sel) return;
     var els = Array.prototype.slice.call(document.querySelectorAll(sel));
     var isPad = (t === 's100');
-    var klein = (t === 'gate' || t === 'picnic' || t === 'hide' || t === 'trail');
-    // kleine markers: flinke groei + sonar-ring; kampen: bescheiden puls zonder ring (feedback: was te groot)
+    // kleine markers: flinke groei + sonar-ring; kampen én poorten: bescheiden puls zonder ring
+    var klein = (t === 'picnic' || t === 'hide' || t === 'hidegoud' || t === 'trail');
     var schaalMax = klein ? 2.2 : 0.35;
     var token = ++flegToken;
     var svg = document.getElementById('krugermap');
@@ -3723,9 +3726,11 @@
       var zones = { noord:[0, GEO.yOli], midden:[GEO.yOli, GEO.ySab], zuid:[GEO.ySab, Hh] };
       var z = zones[r]; if (!z) return;
       var pad = 26;
-      var h = (z[1] - z[0]) + pad * 2;
+      // niet dieper inzoomen dan ±half het park: midden en zuid zijn korte zones en
+      // werden anders onbruikbaar diep ingezoomd (noord blijft zoals het was)
+      var h = Math.max((z[1] - z[0]) + pad * 2, Hh * 0.52);
       var w = h * A();
-      vb = [W / 2 - w / 2 + bias(w), z[0] - pad, w, h];
+      vb = [W / 2 - w / 2 + bias(w), (z[0] + z[1]) / 2 - h / 2, w, h];
       clamp(); apply();
     };
     window.mapFitRect = function(x, y, w2, h2){

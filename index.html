@@ -2927,6 +2927,25 @@
   };
   var HIDE_SLAAP = { 'Shipandani': 'Check-in bij Mopani Rest Camp.', 'Sable Dam': 'Check-in bij Phalaborwa Gate.' };
   var HIDE_GASTEN = { 'Talamati': 1, 'Shimuwini': 1 };
+  // foto's bij kijkhutten en picknickplekken (Wikimedia Commons, per plek geverifieerd via de bestandstitel)
+  var HIDE_FOTOS = {
+    'Lake Panic': [
+      {src:'media/poi-lakepanic-1.jpg', cap:'Het meer vanuit de hut — dode bomen vol vogelleven', credit:'Foto: Chris Eason · CC BY 2.0'},
+      {src:'media/poi-lakepanic-2.jpg', cap:'Het uitzicht vanaf de kijkbank', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}
+    ],
+    'Nthandanyathi': [{src:'media/poi-nthanda.jpg', cap:'De waterloop vóór de hut', credit:'Foto: Chris Eason · CC BY 2.0'}],
+    'Orpen Dam': [
+      {src:'media/poi-orpendam-1.jpg', cap:'De wijde vallei van Orpen Dam', credit:'Foto: Chris Eason · CC BY 2.0'},
+      {src:'media/poi-orpendam-2.jpg', cap:'Groen seizoen boven de dam', credit:'Foto: Chris Eason · CC BY 2.0'}
+    ],
+    'Sweni': [{src:'media/poi-sweni.jpg', cap:'Het Sweni-water vanuit de hut', credit:'Foto: Bernard Dupont · CC BY-SA 2.0'}]
+  };
+  var PICNIC_FOTOS = {
+    'Afsaal': [{src:'media/poi-afsaal.jpg', cap:'Het rieten paviljoen van Afsaal', credit:'Foto: Chris Eason · CC BY 2.0'}],
+    'Tshokwane': [{src:'media/poi-tshokwane.jpg', cap:'Het beroemde terras onder de grote jakkalsbes', credit:'Foto: Pavel Špindler · CC BY 3.0'}],
+    "N'wanetsi": [{src:'media/poi-nwanetsi.jpg', cap:'Het uitkijkdek met zicht over de vlakte', credit:'Foto: Chris Eason · CC BY 2.0'}],
+    'Pafuri': [{src:'media/poi-pafuri.jpg', cap:'Picknicken onder de koortsbomen aan de Luvuvhu', credit:'Foto: NJR ZA · CC BY-SA 3.0'}]
+  };
 
   // echte posities uit OpenStreetMap-projectie (GEO) + kleine leesbaarheids-nudges
   var NUDGE_K = { orpen:{dx:12} };
@@ -3467,9 +3486,10 @@
       '<p class="ptype">Picknickplek</p>' +
       '<h3>' + p.n + '</h3>' +
       (PICNIC_INFO[p.n] ? '<p class="pdesc">' + PICNIC_INFO[p.n] + '</p>' : '') +
+      fotoStripHtml(PICNIC_FOTOS[p.n]) +
       '<p class="pdesc">Een van de vaste plekken in het Kruger National Park waar je de auto uit mag: benen strekken, koffie, of een braai-ontbijt. Op de grotere plekken huur je een gas-skottel bij de beheerder.</p>' +
       '<div class="ro-tip"><b>Insider-tip</b>Rijd de eerste twee uur na poortopening dóór en ontbijt pas hier — zo mis je het gouden uur niet.</div>';
-    bindBack(); panelScroll();
+    bindBack(); bindFotoStrip(PICNIC_FOTOS[p.n], p.n); panelScroll();
   }
   function showHide(i){
     var h = (GEO.hides || [])[i]; if (!h) return;
@@ -3479,10 +3499,11 @@
       '<p class="ptype">Vogelkijkhut</p>' +
       '<h3>' + h.n + '</h3>' +
       (slaap ? '<span class="poi-boekchip">🌙 Ook te boeken als overnachtingshut (2 pers.)</span>' : '') +
+      fotoStripHtml(HIDE_FOTOS[h.n]) +
       '<p class="pdesc">Stil binnenlopen, luik open, wachten. Kijkhutten zijn gratis, onbemand en verrassend vaak het beste half uur van je dag' + (HIDE_GASTEN[h.n] ? ' — deze hut is exclusief voor gasten van het bushveld-kamp' : '') + '.</p>' +
       (slaap ? '<p class="pdesc">Na sluitingstijd heb je hem voor jezelf: een nacht óp de drinkplaats, met alleen de geluiden van het water. ' + slaap + ' Ver vooruit boeken bij SANParks.</p>' : '') +
       '<div class="ro-tip"><b>Insider-tip</b>Geef een kijkhut minstens twintig minuten — hutten belonen geduld, niet haast.</div>';
-    bindBack(); panelScroll();
+    bindBack(); bindFotoStrip(HIDE_FOTOS[h.n], h.n); panelScroll();
   }
   function showTrails(kid){
     var lijst = TRAILS_BY_KAMP[kid]; if (!lijst || !lijst.length) return;

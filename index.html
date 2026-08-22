@@ -1222,7 +1222,7 @@
         <h2 class="title">Ik ken het Kruger National Park van gate tot gate</h2>
         <p class="lede" style="margin:0 auto">Kruger is bijna zo groot als Nederland zonder de Waddeneilanden — wáár je slaapt en rijdt bepaalt wat je ziet. Verken alle kampen en poorten op de kaart, en bekijk de magneetjes: échte recente waarnemingen, verdeeld over Vandaag en Gisteren zoals op het bord in het park. Klik op een kamp voor het kampbord, op een poort voor het dichtstbijzijnde vliegveld — of op een magneetje voor de melding zelf.</p>
       </div>
-      <div class="boardwrap rv">
+      <div class="boardwrap"><!-- bewust GEEN .rv: de kaart is het kernproduct en mag nooit achter een gemiste reveal-animatie schuilgaan (bug 22-8: kaart bleef soms opacity:0) -->
           <svg id="krugermap" viewBox="0 0 405 1000" role="img" aria-label="Kaart van het Kruger National Park met kampen, toegangspoorten en sighting-magneetjes">
             <defs>
               <clipPath id="parkclip"><path d="M54.5 132.6L88.4 137L57.3 238.2L100.8 364.5L106.9 370.2L107.6 375.8L117.1 375.2L114.3 383.8L118.8 389.2L112 395.2L124.1 411.7L129.6 501.3L134.4 510.2L141.4 515.2L142.2 534.5L150.7 540L152.9 548.6L215.8 547.9L215.5 562.6L212.2 569.3L200.3 575.9L206 594.7L203.2 608.7L192 620.3L190.1 633L178.5 641.2L194.6 648.8L190 661.2L213.1 660.6L199.5 673.3L207.2 683.1L227.9 695.1L247.8 699.2L245.2 710.7L251 740.9L248.3 752.7L254.4 801.3L236.4 802.6L229.6 807.5L219.9 805.8L214.3 810.8L204.5 811.2L198.5 805.9L188.7 803.9L178.9 808L171 804.1L169.5 808.5L163.8 811L155.4 808.6L152.4 813.7L153.8 820L148.5 824.3L147.3 829.9L138.4 840.9L137.9 850.9L135.5 854.3L137.2 861.2L142.8 876.7L149.3 879.1L153.2 885.5L151.5 892.2L156 898.9L154.7 908.8L170.3 943.4L172.6 959.7L176.3 963.6L181.2 962.1L181.9 968.2L185.9 973.1L193.5 968.2L204 967.6L221.2 960.4L230.9 953.7L227.1 947.3L236.3 943.1L239.8 936.8L253.3 934.3L253.4 946L262.8 944.1L264.8 938.9L277.9 928.2L285.9 927.5L291 930.1L289 909.1L295.1 905.4L296.9 914.5L306.8 915L306.9 923.7L316.5 928L321.1 924.1L324.2 928.8L327.9 929.2L331 915.7L339.5 915.9L346.6 924.6L344.2 928.6L345.1 933.3L351.5 932.4L347.7 942.3L351.2 945.9L354.5 945L361.6 929.2L366.6 854.6L356.8 722.3L359.9 652.6L353.4 607.7L332.4 570.9L324.9 502.5L294.1 482.3L274.9 433.7L272.9 404.9L237.7 362.1L234.9 340.7L238.4 277.4L168.5 46.4L158.1 29.7L142.8 29.9L135.8 21L129.1 17.9L109.1 24.1L98.5 21.6L95.8 42.7L102.8 45L103.9 56L101.6 64L98.3 66.4L100.6 69L91 75.8L87.9 71.1L83 69.7L77.6 74.8L73.3 85.7L75.4 91.7L82.5 95.3L82.5 100.1L72.7 106.8L73.2 109.7L65.9 111.2L63.5 120.8L57.3 122.6L59.6 126.3L54.5 132.6Z"/></clipPath>
@@ -2742,6 +2742,9 @@
     });
     if (history.replaceState) history.replaceState(null,'','#'+page);
     if (!skipScroll) window.scrollTo(0,0);
+    // kaart altijd fris in beeld bij thuiskomst (een resize op een andere — display:none — pagina
+    // kan de viewBox-aspect scheeftrekken; A() valt dan terug op de kaartverhouding)
+    if (page === 'home' && window.mapResetView) window.mapResetView();
     revealInit();
     if (typeof sluitMenu === 'function') sluitMenu();
     if (typeof plannerSync === 'function') plannerSync(page);
@@ -3670,10 +3673,22 @@
     var vb = [0, 0, W, Hh];
     var homeH = Hh;
     function A(){
+      // DE kaart-verdwijnbug (22-8): tijdens vroege layout kan de SVG een (bijna) nul-BREEDTE
+      // hebben terwijl de hoogte er al staat — dan werd h = W/a ~85.000 en zag je een flinterdun
+      // reepje kaart. Daarom: beide assen substantieel én aspect binnen reële grenzen, anders
+      // terugvallen op de kaartverhouding.
       var r = svg.getBoundingClientRect();
-      return r.height > 0 ? r.width / r.height : W / Hh;
+      if (r.width < 20 || r.height < 20) return W / Hh;
+      var a = r.width / r.height;
+      return (a > 0.15 && a < 8) ? a : W / Hh;
     }
-    function apply(){ svg.setAttribute('viewBox', vb.join(' ')); }
+    function apply(){
+      // sanity-guard: een NaN/Infinity in de viewBox maakt de hele SVG onzichtbaar — dan liever vers resetten
+      if (!(isFinite(vb[0]) && isFinite(vb[1]) && isFinite(vb[2]) && isFinite(vb[3]) && vb[2] > 0 && vb[3] > 0)){
+        vb = [0, 0, W, Hh]; homeH = Hh;
+      }
+      svg.setAttribute('viewBox', vb.join(' '));
+    }
     function clampAxis(v, size, total){
       if (size >= total){ return Math.min(0, Math.max(total - size, v)); }
       return Math.min(total - size, Math.max(0, v));
@@ -3763,8 +3778,19 @@
       });
     });
     window.addEventListener('resize', function(){ clamp(); apply(); });
+    // home() draait synchroon bij script-parse; als de layout dan nog niet af was klopt de
+    // aspect niet. Zodra álles geladen is (fonts, media) één keer vers passen — tenzij de
+    // gebruiker al zelf zoomt/pant.
+    var userTouched = false;
+    svg.addEventListener('pointerdown', function(){ userTouched = true; });
+    document.querySelectorAll('.mapzoom button').forEach(function(b){
+      b.addEventListener('click', function(){ userTouched = true; });
+    });
+    if (document.readyState === 'complete'){ home(); }
+    else window.addEventListener('load', function(){ if (!userTouched) home(); });
     window.mapResetView = home;
     window.zoomToRegion = function(r){
+      userTouched = true;
       var zones = { noord:[0, GEO.yOli], midden:[GEO.yOli, GEO.ySab], zuid:[GEO.ySab, Hh] };
       var z = zones[r]; if (!z) return;
       var pad = 26;
@@ -3776,6 +3802,7 @@
       clamp(); apply();
     };
     window.mapFitRect = function(x, y, w2, h2){
+      userTouched = true;
       var pad = 60;
       var h = Math.max(h2 + pad * 2, Hh * 0.58);
       var w = h * A();
@@ -3818,13 +3845,25 @@
     var els = document.querySelectorAll('.page.active .rv:not(.in)');
     if (!('IntersectionObserver' in window)){ els.forEach(function(el){ el.classList.add('in'); }); return; }
     if (!io){
+      // threshold 0: onthullen zodra ook maar één pixel in beeld is — threshold .1 kon
+      // (grote secties, trage frames) nét gemist worden en liet content onzichtbaar achter
       io = new IntersectionObserver(function(entries){
         entries.forEach(function(en){
           if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
         });
-      }, {threshold:.1});
+      }, {threshold:0});
     }
     els.forEach(function(el){ io.observe(el); });
+    // vangnet: staat een element na 1,2s tóch nog verborgen in de viewport, onthul het dan alsnog
+    setTimeout(function(){
+      document.querySelectorAll('.page.active .rv:not(.in)').forEach(function(el){
+        var r = el.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < window.innerHeight && (r.width || r.height)){
+          el.classList.add('in');
+          if (io) io.unobserve(el);
+        }
+      });
+    }, 1200);
   }
 
   // ---- video's zeker laten spelen ----

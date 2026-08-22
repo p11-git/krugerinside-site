@@ -1266,11 +1266,11 @@
   <!-- verhaal-teaser -->
   <section>
     <div class="wrap split">
-      <figure class="photo-frame rv" aria-label="Niek filmt een wilde hond vanuit de auto">
-        <div class="ph" style="aspect-ratio:1/1">
-          <img src="media/niek-wildehond.jpg" alt="Niek in de auto met zijn camera op het raam — buiten loopt een wilde hond" style="object-position:88% 50%">
+      <figure class="photo-frame rv" style="max-width:520px" aria-label="Niek filmt een wilde hond vanuit de auto">
+        <div class="ph" style="aspect-ratio:16/9">
+          <img src="media/niek-wildehond.jpg" alt="Niek in de auto, camera op statief op het raam — buiten loopt een wilde hond langs">
         </div>
-        <figcaption><span>Niek, aan het werk in Kruger</span><span>Eigen beeld · @safari_dn</span></figcaption>
+        <figcaption><span>Camera op het raam, wilde hond in beeld</span><span>Eigen beeld · @safari_dn</span></figcaption>
       </figure>
       <div class="story-copy rv">
         <p class="eyebrow">Het gezicht achter KrugerInside</p>
@@ -1516,7 +1516,7 @@
           <div class="ph" style="aspect-ratio:4/3">
             <img src="media/niek-filmt.jpg" alt="Niek filmt met een grote telelens over een rivierkloof in het Kruger National Park">
           </div>
-          <figcaption><span>Aan het werk boven de rivierkloof</span><span>Eigen beeld</span></figcaption>
+          <figcaption><span>Filmen boven de rivierkloof</span><span>Eigen beeld</span></figcaption>
         </figure>
       </div>
       <div class="story-copy rv">
@@ -3076,7 +3076,9 @@
       '<p class="pdesc" style="margin-top:10px">Dit bord bevat alleen échte waarnemingen: het <b style="color:var(--ink)">Vandaag</b>-bord toont de nieuwste meldingen, <b style="color:var(--ink)">Gisteren</b> de oudere (bron: iNaturalist — er zijn online te weinig publieke meldingen om letterlijk per dag te vullen). Klik een magneetje voor soort, échte datum en foto; bij ▸ kijk je mijn eigen video.</p>' +
       '<div class="spchips">' + BORD_SOORTEN.map(function(sp){
         return '<button class="spchip" data-sp="' + sp + '" type="button"><i style="background:' + SPECIES[sp] + '"></i>' + sp + '</button>';
-      }).join('') + '</div>' +
+      }).join('') +
+        '<button class="spchip" id="rhinoChip" type="button"><i style="background:' + SPECIES['Neushoorn'] + '"></i>Neushoorn</button>' +
+      '</div>' +
       '<p class="rhino-note">Neushoorn-magneetjes zie je hier bewust niet — locaties deel je niet, vanwege stroperij. Wél toont elk kampbord een eerlijke neushoorn-kans, volgens de officiële kampinformatie.</p>' +
       '<div class="legendrow">' +
         '<span>' + chipSvg.rest + ' Rest camp &nbsp;·&nbsp; ' + chipSvg.bush + ' Bushveld-kamp &nbsp;·&nbsp; ' + chipSvg.gate + ' Poort</span>' +
@@ -3090,6 +3092,11 @@
       '</div>';
     panel.querySelectorAll('.rchip').forEach(function(c){
       c.addEventListener('click', function(){ showRegio(c.dataset.r); });
+    });
+    var rc = panel.querySelector('#rhinoChip');
+    if (rc) rc.addEventListener('click', function(){
+      showRhino();
+      if (window.innerWidth <= 1000){ naarKaart(); snack('Neushoorn — waarom er geen locaties op de kaart staan lees je onder de kaart'); }
     });
     panel.querySelectorAll('.spchip').forEach(function(c){
       c.addEventListener('click', function(){
@@ -3288,6 +3295,18 @@
       '<p class="hint-klik">Vluchten en huurauto regelt de ANVR/SGR-partner — dit hoort bij het reisadvies.</p>' +
       (id === 'phalgate' ? '<p class="fac-noot">Bijzonder: vlak bij deze poort ligt de Sable Dam-kijkhut, ook te boeken als overnachtingshut (check-in bij de poort).</p>' : '');
     bindBack(); bindFotoStrip(POORT_FOTOS[id], p.n); panelScroll();
+  }
+  function showRhino(){
+    markSel(null); spFilter(null); zoneHighlight('zuid');
+    panel.innerHTML = backBtnHtml() +
+      '<p class="ptype">De vijfde van de Big Five</p>' +
+      '<h3><span class="magdot" style="background:' + SPECIES['Neushoorn'] + '"></span>Neushoorn</h3>' +
+      '<img class="obsfoto" src="' + SP_FOTO['Neushoorn'] + '" alt="Witte neushoorn in het Kruger National Park" style="margin-top:12px">' +
+      '<p class="obscredit">Foto: Charles J. Sharp · CC BY-SA 4.0 · gefotografeerd in Kruger</p>' +
+      '<p class="pdesc">Neushoorns zíjn er — maar je vindt hier bewust géén magneetjes of waarnemingslocaties. Locaties van neushoorns deel je niet meer, vanwege stroperij. Dat doen de kampborden in het park zelf ook niet meer, en rangers vertellen het je evenmin. Zo hoort het.</p>' +
+      '<p class="pdesc" style="margin-top:10px">Wat ik wél eerlijk kan zeggen, op basis van de officiële kampinformatie: <b style="color:var(--ink)">het zuiden</b> (nu oplicht op de kaart) is klassiek neushoorngebied — klik op kampen als Crocodile Bridge, Lower Sabie of Berg-en-Dal en je ziet per kampbord een kans-indicatie. Rond Letaba en in het noorden is de kans juist klein.</p>' +
+      '<div class="ro-tip"><b>Insider-tip</b>Witte neushoorns grazen in open savanne, vaak in de vroege ochtend en late middag. Zie je er één: geniet, filmpje voor jezelf — maar deel de locatie nergens.</div>';
+    bindBack(); panelScroll();
   }
   function showPicnic(i){
     var p = (GEO.picnics || [])[i]; if (!p) return;

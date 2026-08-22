@@ -180,6 +180,19 @@
   .mag.sel rect.pt{stroke:#403429;stroke-width:3}
   .mag.dim{opacity:.15;pointer-events:none}
   .mag.off{display:none}
+  .poi{cursor:pointer}
+  .poi .pt{transition:stroke-width .12s ease}
+  .poi:hover .pt,.poi:focus-visible .pt{stroke:#403429;stroke-width:2.2}
+  .poi.sel .pt{stroke:#403429;stroke-width:2.6}
+  .trailflag{cursor:pointer}
+  .trailflag:hover path,.trailflag:focus-visible path{stroke:#403429;stroke-width:1.6}
+  .boekgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+  @media (max-width:720px){ .boekgrid{grid-template-columns:1fr} }
+  .poi-boekchip{
+    display:inline-flex;align-items:center;gap:7px;margin-top:14px;
+    background:var(--gold-tint);color:var(--gold);font-weight:800;font-size:.74rem;
+    letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:7px 14px;
+  }
   #krugermap{cursor:grab;touch-action:pan-y;display:block;width:100%;height:100%}
   #krugermap.actief{touch-action:none}
   #krugermap.panning{cursor:grabbing}
@@ -428,6 +441,7 @@
   .pl-rij{display:grid;grid-template-columns:1fr 1fr;gap:28px}
   .plannerstand .daytoggle{display:none}
   .plannerstand .mag{display:none !important}
+  .plannerstand .poi{display:none !important}
   #routelijn,#routebadges{display:none}
   .plannerstand #routelijn,.plannerstand #routebadges{display:block}
   .mk.route rect.pt{stroke:#977521;stroke-width:3.5}
@@ -1229,6 +1243,7 @@
               <text x="67" y="-9" text-anchor="middle" font-family="Figtree,Arial" font-size="10.5" font-weight="700" fill="#8A8272">50 km</text>
             </g>
             <!-- magneetjes onder, kampen/poorten erboven (via JS gevuld met interactie) -->
+            <g id="pois"></g>
             <g id="magnets"></g>
             <g id="markers" font-family="Figtree,Arial" font-size="14.5" font-weight="700" fill="#403429"></g>
           </svg>
@@ -1813,6 +1828,7 @@
         <span class="g-ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 18 18" fill="none"><circle cx="6.2" cy="6" r="2.6" stroke="currentColor" stroke-width="1.4"/><path d="M1.8 15.5c.5-3 2.2-4.6 4.4-4.6s3.9 1.6 4.4 4.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="12.6" cy="6.6" r="2.1" stroke="currentColor" stroke-width="1.4"/><path d="M12 11.2c2.4-.3 4 1.3 4.4 4.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
         <div><b>Elk pakket geldt voor een reisgezelschap t/m 4 personen.</b><span>Reis je met een grotere groep? Dan maak ik een maatwerkvoorstel tegen meerprijs — vermeld je groepsgrootte in het formulier.</span></div>
       </div>
+      <p class="rev-note rv" style="margin-top:18px">Benieuwd hoe advies en boeking precies samenwerken? <button class="linklike" type="button" data-go="boeking">Lees hoe de boeking werkt →</button></p>
     </div>
   </section>
 
@@ -2273,6 +2289,68 @@
   </section>
 </div>
 
+<!-- ============================================================= DE BOEKING -->
+<div class="page" id="page-boeking">
+  <section style="padding-bottom:36px">
+    <div class="wrap sec-head">
+      <p class="eyebrow">Advies + boeking, netjes geregeld</p>
+      <h2 class="title" style="font-size:clamp(2.1rem,4.4vw,3.2rem)">Zo werkt de boeking</h2>
+      <p class="lede">Ik ben geen reisbureau — en dat is precies de kracht. Ik maak het plan; een professionele, volledig aangesloten boekingspartner legt alles vast. Jij krijgt het beste van twee werelden: insider-kennis én officiële garanties.</p>
+    </div>
+  </section>
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="steps rv">
+        <div class="step"><div class="num">1</div><h3>Ik maak jouw plan</h3><p>Routes, kampen, accommodatievoorkeuren, activiteiten en het dag-voor-dag-schema — op maat, uit eigen ervaring in het Kruger National Park.</p></div>
+        <div class="step"><div class="num">2</div><h3>De boekingspartner legt vast</h3><p>Een zelfstandig reisadviseur, aangesloten bij ANVR en SGR, boekt de kampen, vluchten, huurauto en eventuele verzekeringen — tegen scherpe tarieven, met alle papieren geregeld.</p></div>
+        <div class="step"><div class="num">3</div><h3>Jij rijdt — met mij op zak</h3><p>Je reist met mijn schema en tips; bij het Complete Pakket heb je onderweg een directe lijn met mij voor vragen of aanpassingen.</p></div>
+      </div>
+    </div>
+  </section>
+  <section style="background:var(--panel)">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <p class="eyebrow">De boekingspartner</p>
+        <h2 class="title">Persoonlijk, en volledig aangesloten</h2>
+        <p class="lede">De boekingen lopen via een ervaren zelfstandig reisadviseur — geen anoniem callcenter, maar één vast aanspreekpunt dat ook buiten kantoortijden bereikbaar is.</p>
+      </div>
+      <div class="packs-grid boekgrid rv">
+        <div class="cardish" style="padding:26px 28px">
+          <p class="pack-no" style="color:var(--gold)">Wat de partner regelt</p>
+          <ul class="pack-ul" style="list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px">
+            <li>✔ &nbsp;Alle kamp- en accommodatieboekingen bij SANParks</li>
+            <li>✔ &nbsp;Vluchten (IATA-agent) en huurauto op bestemming</li>
+            <li>✔ &nbsp;Reis- en annuleringsverzekeringen</li>
+            <li>✔ &nbsp;Reisdocumenten compleet aangeleverd</li>
+            <li>✔ &nbsp;Bereikbaar buiten kantoortijden — ook tijdens je reis</li>
+          </ul>
+        </div>
+        <div class="cardish" style="padding:26px 28px">
+          <p class="pack-no" style="color:var(--gold)">Jouw zekerheden</p>
+          <ul class="pack-ul" style="list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px">
+            <li>🛡 &nbsp;<b>SGR</b> — je (aan)betaling is beschermd als een aanbieder omvalt</li>
+            <li>🛡 &nbsp;<b>ANVR</b> — heldere, eerlijke reisvoorwaarden</li>
+            <li>🛡 &nbsp;<b>Calamiteitenfonds</b> — dekking bij natuurrampen of onlusten</li>
+            <li>🛡 &nbsp;<b>Mijn garantie</b> — niet goed? Geld terug op het advieswerk</li>
+          </ul>
+        </div>
+      </div>
+      <p class="rev-note rv" style="margin-top:20px">Bij livegang stellen we de boekingspartner hier persoonlijk aan je voor.</p>
+    </div>
+  </section>
+  <section style="padding-top:64px;padding-bottom:70px">
+    <div class="wrap" style="text-align:center">
+      <div class="rv">
+        <h2 class="title">Eerst het plan, dan de boeking</h2>
+        <p class="lede" style="margin:0 auto 28px">Kies je pakket — het advieswerk van mij, de vastlegging via de partner.</p>
+        <a class="btn" href="#pakketten" data-go="pakketten">Bekijk de pakketten
+          <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13m0 0L9.5 1.5M14 6l-4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
 <!-- ============================================================= CONTACT -->
 <div class="page" id="page-contact">
   <section style="padding-bottom:56px">
@@ -2385,7 +2463,7 @@
     <div class="cols">
       <div>
         <h4>Menu</h4>
-        <p><a href="#home" data-go="home">Home</a><br><a href="#verhaal" data-go="verhaal">Het verhaal</a><br><a href="#pakketten" data-go="pakketten">Pakketten</a><br><a href="#kijkmee" data-go="kijkmee">Kijk mee</a><br><a href="#contact" data-go="contact">Contact</a></p>
+        <p><a href="#home" data-go="home">Home</a><br><a href="#verhaal" data-go="verhaal">Mijn verhaal</a><br><a href="#pakketten" data-go="pakketten">Pakketten</a><br><a href="#kijkmee" data-go="kijkmee">Kijk mee</a><br><a href="#boeking" data-go="boeking">Zo werkt de boeking</a><br><a href="#contact" data-go="contact">Contact</a></p>
       </div>
       <div>
         <h4>Volg @safari_dn</h4>
@@ -2393,7 +2471,7 @@
       </div>
       <div>
         <h4>Zekerheid</h4>
-        <p>Boekingen verlopen via een<br>ANVR/SGR-aangesloten<br>tussenpersoon.</p>
+        <p>Boekingen verlopen via een<br>ANVR/SGR-aangesloten<br>tussenpersoon.<br><a href="#boeking" data-go="boeking">Lees hoe dat werkt →</a></p>
       </div>
     </div>
     <div class="legal">
@@ -2413,7 +2491,7 @@
 </div>
 
 <script>
-  var GEO = {"W":405,"H":1000,"kampen":{"punda":{"x":90.6,"y":126.6},"shingwedzi":{"x":202.9,"y":250.6},"sirheni":{"x":149.2,"y":199.2},"bateleur":{"x":139.2,"y":289.9},"mopani":{"x":191.9,"y":374},"shimuwini":{"x":175.5,"y":432.2},"letaba":{"x":241.9,"y":472.8},"olifants":{"x":285.8,"y":519.2},"satara":{"x":297,"y":633.8},"orpen":{"x":194.3,"y":658.8},"talamati":{"x":235,"y":682.7},"skukuza":{"x":246.1,"y":813.9},"lowersabie":{"x":334.3,"y":850.7},"pretoriuskop":{"x":158.2,"y":865.7},"biyamiti":{"x":275.6,"y":907.2},"bergendal":{"x":206.6,"y":942.1},"crocbridge":{"x":328.3,"y":921.9}},"poorten":{"pafurigate":{"x":97.8,"y":39.2},"pmariagate":{"x":76,"y":139.2},"phalgate":{"x":128.7,"y":500.2},"orpengate":{"x":190.4,"y":658.8},"pkgate":{"x":217.5,"y":809},"phabenigate":{"x":150.1,"y":821.9},"numbigate":{"x":138.4,"y":861.3},"malelanegate":{"x":229.8,"y":952.7},"cbgate":{"x":328.3,"y":923.9}},"magnets":[{"x":270.2,"y":832.9},{"x":286.2,"y":518},{"x":203.9,"y":251},{"x":320.6,"y":900.9},{"x":248.3,"y":731.5},{"x":327.8,"y":648.7},{"x":303.7,"y":832.1},{"x":196.5,"y":247.5},{"x":245.4,"y":828.5},{"x":226.5,"y":277.9},{"x":324.6,"y":914.9},{"x":179.5,"y":855},{"x":331.2,"y":822.9},{"x":152.9,"y":391.3},{"x":275.6,"y":835.9},{"x":324.8,"y":909},{"x":340.1,"y":651.1},{"x":255.3,"y":805.1},{"x":218.2,"y":647.8},{"x":245.4,"y":828.5},{"x":310.3,"y":897.4},{"x":331.4,"y":811.4},{"x":281.6,"y":592.1},{"x":195.7,"y":239.8},{"x":178.1,"y":495.8},{"x":324.6,"y":914.8},{"x":310.3,"y":897.4},{"x":294.9,"y":682.9},{"x":204.7,"y":283.9},{"x":272.9,"y":834.4},{"x":321.4,"y":907},{"x":202.1,"y":884.7},{"x":221.1,"y":301.8},{"x":327.8,"y":648.7},{"x":324.6,"y":914.9},{"x":288.1,"y":603.9},{"x":194.8,"y":849.4},{"x":151.2,"y":184.1},{"x":219.4,"y":811.1},{"x":202.1,"y":884.7}],"echt":[{"sp":"Olifant","x":266.3,"y":459.8,"d":"2026-08-16","url":"https://www.inaturalist.org/observations/391898604","att":"karbonara7 (CC BY-NC)","foto":"media/inat-391898604.jpg"},{"sp":"Luipaard","x":299.2,"y":558.3,"d":"2026-08-16","url":"https://www.inaturalist.org/observations/391900218","att":"karbonara7 (CC BY-NC)","foto":"media/inat-391900218.jpg"},{"sp":"Olifant","x":194.9,"y":642.9,"d":"2026-08-14","url":"https://www.inaturalist.org/observations/391163622","att":"gilawild (CC BY)","foto":"media/inat-391163622.jpg"},{"sp":"Leeuw","x":251.9,"y":600,"d":"2026-08-14","url":"https://www.inaturalist.org/observations/392157732","att":"pantheraleomelanochaita (CC BY-NC)","foto":"media/inat-392157732.jpg"},{"sp":"Wilde hond","x":325,"y":898.4,"d":"2026-08-13","url":"https://www.inaturalist.org/observations/390922854","att":"luksza (CC BY)","foto":"media/inat-390922854.jpg"},{"sp":"Luipaard","x":219.1,"y":682.5,"d":"2026-08-13","url":"https://www.inaturalist.org/observations/391400688","att":"jevetts10 (CC BY-NC)","foto":"media/inat-391400688.jpg"},{"sp":"Buffel","x":236,"y":511.7,"d":"2026-08-12","url":"https://www.inaturalist.org/observations/390662780","att":"bobgl073 (CC BY-NC)","foto":"media/inat-390662780.jpg"},{"sp":"Cheeta","x":232,"y":676.4,"d":"2026-08-11","url":"https://www.inaturalist.org/observations/390517366","att":"martin_winnock (CC BY-NC)","foto":"media/inat-390517366.jpg"},{"sp":"Cheeta","x":248.6,"y":811.8,"d":"2026-08-08","url":"https://www.inaturalist.org/observations/390805962","att":"kennyg67 (CC BY-NC)","foto":"media/inat-390805962.jpg"},{"sp":"Leeuw","x":353.4,"y":786,"d":"2026-08-08","url":"https://www.inaturalist.org/observations/392908170","att":"luksza (CC BY)","foto":"media/inat-392908170.jpg"},{"sp":"Leeuw","x":277.5,"y":766.3,"d":"2026-08-08","url":"https://www.inaturalist.org/observations/390805984","att":"kennyg67 (CC BY-NC)","foto":"media/inat-390805984.jpg"},{"sp":"Leeuw","x":183,"y":838.1,"d":"2026-08-07","url":"https://www.inaturalist.org/observations/392770673","att":"luksza (CC BY)","foto":"media/inat-392770673.jpg"},{"sp":"Cheeta","x":245.1,"y":652.2,"d":"2026-08-06","url":"https://www.inaturalist.org/observations/392628452","att":"luksza (CC BY)","foto":"media/inat-392628452.jpg"},{"sp":"Leeuw","x":355.2,"y":652.4,"d":"2026-08-06","url":"https://www.inaturalist.org/observations/392621130","att":"luksza (CC BY)","foto":"media/inat-392621130.jpg"},{"sp":"Wilde hond","x":161.5,"y":824.2,"d":"2026-08-05","url":"https://www.inaturalist.org/observations/389030405","att":"grannyjen49 (CC BY-NC)","foto":"media/inat-389030405.jpg"},{"sp":"Olifant","x":204.1,"y":856.9,"d":"2026-08-05","url":"https://www.inaturalist.org/observations/389030149","att":"grannyjen49 (CC BY-NC)","foto":"media/inat-389030149.jpg"},{"sp":"Olifant","x":193.9,"y":870.1,"d":"2026-08-05","url":"https://www.inaturalist.org/observations/389031636","att":"grannyjen49 (CC BY-NC)","foto":"media/inat-389031636.jpg"},{"sp":"Leeuw","x":255.2,"y":532.5,"d":"2026-08-05","url":"https://www.inaturalist.org/observations/392595369","att":"luksza (CC BY)","foto":"media/inat-392595369.jpg"},{"sp":"Wilde hond","x":275.9,"y":666.9,"d":"2026-08-04","url":"https://www.inaturalist.org/observations/392343093","att":"luksza (CC BY)","foto":"media/inat-392343093.jpg"},{"sp":"Olifant","x":184.9,"y":522.6,"d":"2026-08-04","url":"https://www.inaturalist.org/observations/391733333","att":"drmckenzie (CC BY-NC)","foto":"media/inat-391733333.jpg"},{"sp":"Luipaard","x":257.5,"y":630.4,"d":"2026-08-04","url":"https://www.inaturalist.org/observations/392341050","att":"luksza (CC BY)","foto":"media/inat-392341050.jpg"},{"sp":"Luipaard","x":254.5,"y":600.6,"d":"2026-08-04","url":"https://www.inaturalist.org/observations/392346312","att":"luksza (CC BY)","foto":"media/inat-392346312.jpg"},{"sp":"Luipaard","x":347.3,"y":658.5,"d":"2026-08-04","url":"https://www.inaturalist.org/observations/392354122","att":"luksza (CC BY)","foto":"media/inat-392354122.jpg"},{"sp":"Cheeta","x":292.7,"y":723.8,"d":"2026-07-31","url":"https://www.inaturalist.org/observations/387130114","att":"mdc93 (CC BY-NC)","foto":"media/inat-387130114.jpg"},{"sp":"Buffel","x":203.5,"y":250.8,"d":"2026-07-30","url":"https://www.inaturalist.org/observations/388423767","att":"colin25 (CC BY-NC)","foto":"media/inat-388423767.jpg"},{"sp":"Buffel","x":348.9,"y":837.1,"d":"2026-07-26","url":"https://www.inaturalist.org/observations/388639293","att":"jayden_landman (CC BY-NC)","foto":"media/inat-388639293.jpg"},{"sp":"Buffel","x":232.3,"y":483.4,"d":"2026-07-25","url":"https://www.inaturalist.org/observations/385604734","att":"rylyn_koger (CC BY-NC)","foto":"media/inat-385604734.jpg"},{"sp":"Buffel","x":228.4,"y":945.5,"d":"2026-07-25","url":"https://www.inaturalist.org/observations/384997910","att":"alexfrood (CC BY-NC)","foto":"media/inat-384997910.jpg"},{"sp":"Wilde hond","x":293.1,"y":513.5,"d":"2026-07-24","url":"https://www.inaturalist.org/observations/385306851","att":"ppebs (CC BY-NC)","foto":"media/inat-385306851.jpg"},{"sp":"Wilde hond","x":311.9,"y":725.8,"d":"2026-07-23","url":"https://www.inaturalist.org/observations/388507958","att":"jayden_landman (CC BY-NC)","foto":"media/inat-388507958.jpg"}],"yOli":518.1,"ySab":810.5};
+  var GEO = {"W":405,"H":1000,"kampen":{"punda":{"x":90.6,"y":126.6},"shingwedzi":{"x":202.9,"y":250.6},"sirheni":{"x":149.2,"y":199.2},"bateleur":{"x":139.2,"y":289.9},"mopani":{"x":191.9,"y":374},"shimuwini":{"x":175.5,"y":432.2},"letaba":{"x":241.9,"y":472.8},"olifants":{"x":285.8,"y":519.2},"satara":{"x":297,"y":633.8},"orpen":{"x":194.3,"y":658.8},"talamati":{"x":235,"y":682.7},"skukuza":{"x":246.1,"y":813.9},"lowersabie":{"x":334.3,"y":850.7},"pretoriuskop":{"x":158.2,"y":865.7},"biyamiti":{"x":275.6,"y":907.2},"bergendal":{"x":206.6,"y":942.1},"crocbridge":{"x":328.3,"y":921.9}},"poorten":{"pafurigate":{"x":97.8,"y":39.2},"pmariagate":{"x":76,"y":139.2},"phalgate":{"x":128.7,"y":500.2},"orpengate":{"x":190.4,"y":658.8},"pkgate":{"x":217.5,"y":809},"phabenigate":{"x":150.1,"y":821.9},"numbigate":{"x":138.4,"y":861.3},"malelanegate":{"x":229.8,"y":952.7},"cbgate":{"x":328.3,"y":923.9}},"magnets":[{"x":270.2,"y":832.9},{"x":286.2,"y":518},{"x":203.9,"y":251},{"x":320.6,"y":900.9},{"x":248.3,"y":731.5},{"x":327.8,"y":648.7},{"x":303.7,"y":832.1},{"x":196.5,"y":247.5},{"x":245.4,"y":828.5},{"x":226.5,"y":277.9},{"x":324.6,"y":914.9},{"x":179.5,"y":855},{"x":331.2,"y":822.9},{"x":152.9,"y":391.3},{"x":275.6,"y":835.9},{"x":324.8,"y":909},{"x":340.1,"y":651.1},{"x":255.3,"y":805.1},{"x":218.2,"y":647.8},{"x":245.4,"y":828.5},{"x":310.3,"y":897.4},{"x":331.4,"y":811.4},{"x":281.6,"y":592.1},{"x":195.7,"y":239.8},{"x":178.1,"y":495.8},{"x":324.6,"y":914.8},{"x":310.3,"y":897.4},{"x":294.9,"y":682.9},{"x":204.7,"y":283.9},{"x":272.9,"y":834.4},{"x":321.4,"y":907},{"x":202.1,"y":884.7},{"x":221.1,"y":301.8},{"x":327.8,"y":648.7},{"x":324.6,"y":914.9},{"x":288.1,"y":603.9},{"x":194.8,"y":849.4},{"x":151.2,"y":184.1},{"x":219.4,"y":811.1},{"x":202.1,"y":884.7}],"echt":[{"sp":"Leeuw","x":195.6,"y":479.6,"d":"2026-08-20","url":"https://www.inaturalist.org/observations/393001781","att":"joel11604 (CC BY-NC)","foto":"media/inat-393001781.jpg"},{"sp":"Cheeta","x":323.4,"y":876.7,"d":"2026-08-18","url":"https://www.inaturalist.org/observations/393002457","att":"joel11604 (CC BY-NC)","foto":"media/inat-393002457.jpg"},{"sp":"Wilde hond","x":236,"y":513.2,"d":"2026-08-17","url":"https://www.inaturalist.org/observations/392934308","att":"urryoc (CC BY-NC)","foto":"media/inat-392934308.jpg"},{"sp":"Buffel","x":236,"y":513.2,"d":"2026-08-17","url":"https://www.inaturalist.org/observations/392934320","att":"urryoc (CC BY-NC)","foto":"media/inat-392934320.jpg"},{"sp":"Olifant","x":288.6,"y":881.2,"d":"2026-08-17","url":"https://www.inaturalist.org/observations/393121513","att":"marcnqh78 (CC BY-NC)","foto":"media/inat-393121513.jpg"},{"sp":"Olifant","x":218.6,"y":495.9,"d":"2026-08-17","url":"https://www.inaturalist.org/observations/392934322","att":"urryoc (CC BY-NC)","foto":"media/inat-392934322.jpg"},{"sp":"Leeuw","x":210.2,"y":496.9,"d":"2026-08-17","url":"https://www.inaturalist.org/observations/392934311","att":"urryoc (CC BY-NC)","foto":"media/inat-392934311.jpg"},{"sp":"Olifant","x":266.3,"y":459.8,"d":"2026-08-16","url":"https://www.inaturalist.org/observations/391898604","att":"karbonara7 (CC BY-NC)","foto":"media/inat-391898604.jpg"},{"sp":"Luipaard","x":299.2,"y":558.3,"d":"2026-08-16","url":"https://www.inaturalist.org/observations/391900218","att":"karbonara7 (CC BY-NC)","foto":"media/inat-391900218.jpg"},{"sp":"Leeuw","x":263.7,"y":840,"d":"2026-08-16","url":"https://www.inaturalist.org/observations/393120670","att":"marcnqh78 (CC BY-NC)","foto":"media/inat-393120670.jpg"},{"sp":"Olifant","x":194.9,"y":642.9,"d":"2026-08-14","url":"https://www.inaturalist.org/observations/391163622","att":"gilawild (CC BY)","foto":"media/inat-391163622.jpg"},{"sp":"Leeuw","x":251.9,"y":600,"d":"2026-08-14","url":"https://www.inaturalist.org/observations/392157732","att":"pantheraleomelanochaita (CC BY-NC)","foto":"media/inat-392157732.jpg"},{"sp":"Wilde hond","x":325,"y":898.4,"d":"2026-08-13","url":"https://www.inaturalist.org/observations/390922854","att":"luksza (CC BY)","foto":"media/inat-390922854.jpg"},{"sp":"Luipaard","x":219.1,"y":682.5,"d":"2026-08-13","url":"https://www.inaturalist.org/observations/391400688","att":"jevetts10 (CC BY-NC)","foto":"media/inat-391400688.jpg"},{"sp":"Cheeta","x":232,"y":676.4,"d":"2026-08-11","url":"https://www.inaturalist.org/observations/390517366","att":"martin_winnock (CC BY-NC)","foto":"media/inat-390517366.jpg"},{"sp":"Cheeta","x":248.6,"y":811.8,"d":"2026-08-08","url":"https://www.inaturalist.org/observations/390805962","att":"kennyg67 (CC BY-NC)","foto":"media/inat-390805962.jpg"},{"sp":"Leeuw","x":353.4,"y":786,"d":"2026-08-08","url":"https://www.inaturalist.org/observations/392908170","att":"luksza (CC BY)","foto":"media/inat-392908170.jpg"},{"sp":"Leeuw","x":277.5,"y":766.3,"d":"2026-08-08","url":"https://www.inaturalist.org/observations/390805984","att":"kennyg67 (CC BY-NC)","foto":"media/inat-390805984.jpg"},{"sp":"Cheeta","x":245.1,"y":652.2,"d":"2026-08-06","url":"https://www.inaturalist.org/observations/392628452","att":"luksza (CC BY)","foto":"media/inat-392628452.jpg"},{"sp":"Wilde hond","x":161.5,"y":824.2,"d":"2026-08-05","url":"https://www.inaturalist.org/observations/389030405","att":"grannyjen49 (CC BY-NC)","foto":"media/inat-389030405.jpg"},{"sp":"Olifant","x":204.1,"y":856.9,"d":"2026-08-05","url":"https://www.inaturalist.org/observations/389030149","att":"grannyjen49 (CC BY-NC)","foto":"media/inat-389030149.jpg"},{"sp":"Olifant","x":193.9,"y":870.1,"d":"2026-08-05","url":"https://www.inaturalist.org/observations/389031636","att":"grannyjen49 (CC BY-NC)","foto":"media/inat-389031636.jpg"},{"sp":"Wilde hond","x":275.9,"y":666.9,"d":"2026-08-04","url":"https://www.inaturalist.org/observations/392343093","att":"luksza (CC BY)","foto":"media/inat-392343093.jpg"},{"sp":"Luipaard","x":254.5,"y":600.6,"d":"2026-08-04","url":"https://www.inaturalist.org/observations/392346312","att":"luksza (CC BY)","foto":"media/inat-392346312.jpg"},{"sp":"Luipaard","x":347.3,"y":658.5,"d":"2026-08-04","url":"https://www.inaturalist.org/observations/392354122","att":"luksza (CC BY)","foto":"media/inat-392354122.jpg"},{"sp":"Cheeta","x":292.7,"y":723.8,"d":"2026-07-31","url":"https://www.inaturalist.org/observations/387130114","att":"mdc93 (CC BY-NC)","foto":"media/inat-387130114.jpg"},{"sp":"Buffel","x":203.5,"y":250.8,"d":"2026-07-30","url":"https://www.inaturalist.org/observations/388423767","att":"colin25 (CC BY-NC)","foto":"media/inat-388423767.jpg"},{"sp":"Buffel","x":348.9,"y":837.1,"d":"2026-07-26","url":"https://www.inaturalist.org/observations/388639293","att":"jayden_landman (CC BY-NC)","foto":"media/inat-388639293.jpg"},{"sp":"Buffel","x":232.3,"y":483.4,"d":"2026-07-25","url":"https://www.inaturalist.org/observations/385604734","att":"rylyn_koger (CC BY-NC)","foto":"media/inat-385604734.jpg"},{"sp":"Buffel","x":228.4,"y":945.5,"d":"2026-07-25","url":"https://www.inaturalist.org/observations/384997910","att":"alexfrood (CC BY-NC)","foto":"media/inat-384997910.jpg"}],"picnics":[{"n":"Pafuri","x":152.2,"y":46},{"n":"Babalala","x":153.3,"y":190},{"n":"Mooiplaas","x":204.9,"y":384.1},{"n":"Makhadzi","x":254.1,"y":424.5},{"n":"Masorini","x":157.4,"y":493.2},{"n":"Timbavati","x":260.7,"y":594.4},{"n":"N'wanetsi","x":350.9,"y":653.3},{"n":"Muzandzeni","x":258.2,"y":660.6},{"n":"Nhlanguleni","x":263.6,"y":728.4},{"n":"Tshokwane","x":319,"y":751.2},{"n":"Nkuhlu","x":294.5,"y":814.1},{"n":"Mlondozi","x":339.7,"y":825.6},{"n":"Albasini","x":141.9,"y":858.9},{"n":"Afsaal","x":229.8,"y":900.6}],"hides":[{"n":"Kanniedood","x":208.5,"y":255.7},{"n":"Nyawutsi","x":229.8,"y":302.9},{"n":"Shipandani","x":196.5,"y":376.4},{"n":"Shimuwini","x":157.4,"y":431.7},{"n":"Matambeni","x":251.9,"y":468.5},{"n":"Sable Dam","x":149.9,"y":498.6},{"n":"Ratelpan","x":260,"y":588.9},{"n":"Sweni","x":350.1,"y":658},{"n":"Talamati","x":236.4,"y":682.6},{"n":"Orpen Dam","x":329.6,"y":752.9},{"n":"Lake Panic","x":239.1,"y":809.5},{"n":"Nthandanyathi","x":346.4,"y":876.9},{"n":"Gardenia","x":250.4,"y":926.5}],"yOli":518.1,"ySab":810.5};
 
   // ---- video-lightbox: nooit van de site af ----
   var CLIPS = {
@@ -2608,7 +2686,7 @@
   });
 
   // ---- mini-router ----
-  var PAGES = ['home','verhaal','reisplanner','pakketten','kijkmee','contact'];
+  var PAGES = ['home','verhaal','reisplanner','pakketten','kijkmee','boeking','contact'];
   function go(page, skipScroll){
     if (PAGES.indexOf(page) === -1) page = 'home';
     document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
@@ -2726,7 +2804,7 @@
   // magneetkleuren per soort — de zes bordsoorten in de kleuren van het echte sightings-bord
   var SPECIES = {
     'Leeuw':'#2E6B46','Luipaard':'#3E6FB0','Olifant':'#C23B2E','Buffel':'#E0B830',
-    'Cheeta':'#26221E','Wilde hond':'#8A5B3C','Hyena':'#A08F72','Nijlpaard':'#7FA3B3',
+    'Cheeta':'#26221E','Wilde hond':'#8A5B3C','Neushoorn':'#8B8578','Hyena':'#A08F72','Nijlpaard':'#7FA3B3',
     'Krokodil':'#5E7D63','Koedoe':'#B48A5A','Zebra':'#8C8C8C','Gnoe':'#7A7265',
     'Nyala':'#9C7B8E','Vogels':'#C9973B','Roofvogels':'#C9973B','Visarend':'#C9973B',
     'Waterbok':'#7D8B6F','Bosbok':'#A3785C','Tsessebe':'#B0685A','Klipspringer':'#C0A06A',
@@ -2750,8 +2828,56 @@
   // portretfoto's per bordsoort (Wikimedia Commons, vrije licenties — credits in STATUS.md)
   var SP_FOTO = {
     'Leeuw':'media/sp-leeuw.jpg', 'Luipaard':'media/sp-luipaard.jpg', 'Olifant':'media/sp-olifant.jpg',
-    'Buffel':'media/sp-buffel.jpg', 'Cheeta':'media/sp-cheeta.jpg', 'Wilde hond':'media/sp-wildehond.jpg'
+    'Buffel':'media/sp-buffel.jpg', 'Cheeta':'media/sp-cheeta.jpg', 'Wilde hond':'media/sp-wildehond.jpg',
+    'Neushoorn':'media/sp-neushoorn.jpg'
   };
+  // Neushoorn: geen magneetjes/locaties (stroperij), wél een eerlijke kans-indicatie per kamp —
+  // uitsluitend gebaseerd op wat de officiële SANParks-kamppagina zelf over neushoorns zegt.
+  // null/ontbrekend = geen rij (geen bron). 0 = de pagina zegt expliciet dat het er slecht is.
+  var RHINO = {
+    crocbridge:3, lowersabie:2, skukuza:2, bergendal:2, pretoriuskop:2, satara:2, orpen:2,
+    letaba:0, olifants:0, mopani:0, shingwedzi:0, punda:0
+  };
+  // Te doen & te boeken per kamp — overgenomen van de officiële SANParks-kamppagina's (aug 2026);
+  // gamedrives (ochtend/zonsondergang/nacht) draaien volgens de algemene SANParks-activiteitenpagina
+  // vanuit elk verblijfskamp, boeken bij de receptie.
+  var ACT = {
+    skukuza:     ['Gamedrives: ochtend · sunset · nacht','Golfbaan (9 holes)','AM Spa','Lake Panic-kijkhut (±7 km)','Stevenson-Hamilton-bibliotheek','Kinderprogramma (seizoen)','Natuurfilms (avond)'],
+    lowersabie:  ['Gamedrives: ochtend · sunset · nacht','Sunset Dam (1 km)','Nthandanyathi-kijkhut (±11 km)'],
+    satara:      ['Gamedrives: ochtend · sunset · nacht','Begeleide bushwalks','Bush braai & bush-ontbijt','Sweni-kijkhut (±30 km)','Ratelpan-kijkhut','Mananga 4×4-route','Kinderprogramma (seizoen)','Natuurfilms (avond)'],
+    letaba:      ['Gamedrives: ochtend · sunset · nacht','Begeleide bushwalks','Bush braai & bush-ontbijt','Wandelroute door het kamp','Masorini-ruïnes (±38 km)','Matambeni-kijkhut (±10 km)','Kinderprogramma (seizoen)','Natuurfilms (avond)'],
+    olifants:    ['Gamedrives: ochtend · sunset · nacht','Sterrenkunde-gamedrives','Begeleide bushwalks','Bush braai & bush-ontbijt','Mountainbiketochten','Olifants backpack-trail'],
+    mopani:      ['Gamedrives: ochtend · sunset · nacht','Begeleide bushwalks','Sunset drive + boma-braai','Wandelpad in het kamp','Shipandani-overnachtingshut (3 km)','Pioneer-kijkhut (4 km)','Lonely Bull backpack-trail (vertrek)'],
+    shingwedzi:  ['Gamedrives: ochtend · sunset · nacht','Begeleide bushwalks','Kanniedood-kijkhut (±7 km)','Mphongolo backpack-trail (vertrek)','Northern Plains 4×4-route','Natuurfilms (avond)'],
+    punda:       ['Gamedrives: ochtend · sunset · nacht','Begeleide bushwalks','Flycatcher-wandelpad in het kamp','Kijkhut aan het kampeerhek'],
+    bergendal:   ['Gamedrives: ochtend · sunset · nacht','Begeleide bushwalks','Bush braai & bush-ontbijt','Rhino-wandelpad (met braille)','Kinderprogramma (seizoen)','Natuurfilms (avond)'],
+    pretoriuskop:['Gamedrives: ochtend · sunset · nacht','Begeleide bushwalks','Bush braai & bush-ontbijt','Sable-wandelpad','Madlabantu 4×4-route'],
+    crocbridge:  ['Gamedrives: ochtend · sunset · nacht','Begeleide bushwalks','Lebombo 4×4-ecoroute (vertrek)'],
+    orpen:       ['Gamedrives: ochtend · sunset · nacht','Begeleide bushwalks']
+  };
+  // De zeven boekbare wilderness trails (officiële SANParks-lijst, aug 2026) + vertrek-kamp
+  var TRAILS = [
+    {n:'Wolhuter',  kamp:'bergendal',    d:'De oudste trail van het park (1978), in het zuidwesten.'},
+    {n:'Bushmans',  kamp:'bergendal',    d:'In de zuidwesthoek, buurman van de Wolhuter-trail.'},
+    {n:'Napi',      kamp:'pretoriuskop', d:'Tussen Pretoriuskop en Skukuza; hutten met eigen badkamer.'},
+    {n:'Mathikithi',kamp:'satara',       d:'Rustiek basiskamp in het open Satara-gebied.'},
+    {n:'Sweni',     kamp:'satara',       d:'Bij N’wanetsi in het oosten — wijde vlaktes.'},
+    {n:'Olifants',  kamp:'letaba',       d:'Langs de oostkant van de Olifants-rivier.'},
+    {n:'Nyalaland', kamp:'punda',        d:'Het verre noorden, tussen Punda Maria en Pafuri.'}
+  ];
+  var TRAILS_BY_KAMP = {};
+  TRAILS.forEach(function(t){ (TRAILS_BY_KAMP[t.kamp] = TRAILS_BY_KAMP[t.kamp] || []).push(t); });
+  // extra regels bij bekende picknickplekken en kijkhutten
+  var PICNIC_INFO = {
+    'Tshokwane': 'De beroemdste stop van het park, halverwege Skukuza en Satara.',
+    'Afsaal': 'Klassieke stop aan de Voortrekkerweg, tussen Malelane en Pretoriuskop.',
+    'Nkuhlu': 'Aan de Sabie, tussen Skukuza en Lower Sabie.',
+    'Pafuri': 'Onder de hoge bomen aan de Luvuvhu — de mooiste stop van het verre noorden.',
+    'Masorini': 'Naast de ijzertijd-ruïnes van Masorini.',
+    'Mlondozi': 'Met uitzicht over het Mlondozi-gebied, boven Lower Sabie.'
+  };
+  var HIDE_SLAAP = { 'Shipandani': 'Check-in bij Mopani Rest Camp.', 'Sable Dam': 'Check-in bij Phalaborwa Gate.' };
+  var HIDE_GASTEN = { 'Talamati': 1, 'Shimuwini': 1 };
 
   // echte posities uit OpenStreetMap-projectie (GEO) + kleine leesbaarheids-nudges
   var NUDGE_K = { orpen:{dx:12} };
@@ -2851,6 +2977,40 @@
       mroot.appendChild(g);
     });
   })();
+  // picknickplekken, kijkhutten (uit OSM via GEO) en trail-vlaggetjes bij de vertrek-kampen
+  (function buildPois(){
+    var root = document.getElementById('pois');
+    if (!root || !window.GEO) return;
+    (GEO.picnics || []).forEach(function(p, i){
+      var g = svgEl('g', {'class':'poi', 'data-poi':'picnic:' + i, tabindex:'0', role:'button'});
+      g.setAttribute('aria-label', p.n + ' — picknickplek');
+      g.appendChild(svgEl('circle', {'class':'hit', cx:p.x, cy:p.y, r:11, fill:'transparent'}));
+      g.appendChild(svgEl('circle', {'class':'pt', cx:p.x, cy:p.y, r:4.6, fill:'#C08A3E', stroke:'#FFFDF6', 'stroke-width':'1.6'}));
+      g.appendChild(svgEl('circle', {cx:p.x, cy:p.y, r:1.5, fill:'#FFFDF6', 'pointer-events':'none'}));
+      root.appendChild(g);
+    });
+    (GEO.hides || []).forEach(function(h, i){
+      var slaap = !!HIDE_SLAAP[h.n];
+      var g = svgEl('g', {'class':'poi', 'data-poi':'hide:' + i, tabindex:'0', role:'button'});
+      g.setAttribute('aria-label', h.n + ' — kijkhut' + (slaap ? ' (ook overnachten)' : ''));
+      g.appendChild(svgEl('circle', {'class':'hit', cx:h.x, cy:h.y, r:11, fill:'transparent'}));
+      g.appendChild(svgEl('path', {
+        'class':'pt',
+        d:'M' + (h.x-4.6) + ' ' + (h.y+4) + ' L' + (h.x-4.6) + ' ' + (h.y-1) + ' L' + h.x + ' ' + (h.y-5) + ' L' + (h.x+4.6) + ' ' + (h.y-1) + ' L' + (h.x+4.6) + ' ' + (h.y+4) + ' Z',
+        fill: slaap ? '#977521' : '#5F7D63', stroke:'#FFFDF6', 'stroke-width':'1.6'
+      }));
+      root.appendChild(g);
+    });
+    Object.keys(TRAILS_BY_KAMP).forEach(function(kid){
+      var k = GEO.kampen[kid]; if (!k) return;
+      var x = k.x + 15, y = k.y - 15;
+      var g = svgEl('g', {'class':'trailflag', 'data-trailkamp':kid, tabindex:'0', role:'button'});
+      g.setAttribute('aria-label', 'Wilderness trails vanaf ' + (KAMPEN[kid] ? KAMPEN[kid].n : kid));
+      g.appendChild(svgEl('circle', {'class':'hit', cx:x, cy:y, r:10, fill:'transparent'}));
+      g.appendChild(svgEl('path', {d:'M' + x + ' ' + (y+6) + ' L' + x + ' ' + (y-6) + ' L' + (x+8) + ' ' + (y-3) + ' L' + x + ' ' + y, fill:'#977521', stroke:'#FFFDF6', 'stroke-width':'1.2'}));
+      root.appendChild(g);
+    });
+  })();
 
   var panel = document.getElementById('mappanel');
   function zoneHighlight(r){
@@ -2860,6 +3020,10 @@
   function markSel(key){
     document.querySelectorAll('.mk').forEach(function(m){ m.classList.toggle('sel', m.dataset.k === key); });
     document.querySelectorAll('.mag').forEach(function(m){ m.classList.remove('sel'); });
+    document.querySelectorAll('.poi').forEach(function(m){ m.classList.remove('sel'); });
+  }
+  function selPoi(key){
+    document.querySelectorAll('.poi').forEach(function(m){ m.classList.toggle('sel', m.dataset.poi === key); });
   }
   function selMag(i){
     document.querySelectorAll('.mk').forEach(function(m){ m.classList.remove('sel'); });
@@ -2913,10 +3077,11 @@
       '<div class="spchips">' + BORD_SOORTEN.map(function(sp){
         return '<button class="spchip" data-sp="' + sp + '" type="button"><i style="background:' + SPECIES[sp] + '"></i>' + sp + '</button>';
       }).join('') + '</div>' +
-      '<p class="rhino-note">Het echte bord heeft ook een neushoorn-magneet — ik laat die bewust weg: neushoorn-locaties deel je niet meer, vanwege stroperij.</p>' +
+      '<p class="rhino-note">Neushoorn-magneetjes zie je hier bewust niet — locaties deel je niet, vanwege stroperij. Wél toont elk kampbord een eerlijke neushoorn-kans, volgens de officiële kampinformatie.</p>' +
       '<div class="legendrow">' +
         '<span>' + chipSvg.rest + ' Rest camp &nbsp;·&nbsp; ' + chipSvg.bush + ' Bushveld-kamp &nbsp;·&nbsp; ' + chipSvg.gate + ' Poort</span>' +
         '<span>' + chipSvg.gold + ' Hier film ik het meest &nbsp;·&nbsp; ' + chipSvg.s100 + ' S100-route</span>' +
+        '<span><svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><circle cx="6.5" cy="6.5" r="4.6" fill="#C08A3E" stroke="#FFFDF6" stroke-width="1.4"/><circle cx="6.5" cy="6.5" r="1.4" fill="#FFFDF6"/></svg> Picknickplek &nbsp;·&nbsp; <svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M1.9 11 1.9 5.5 6.5 1.8 11.1 5.5 11.1 11 Z" fill="#5F7D63" stroke="#FFFDF6" stroke-width="1.2"/></svg> Kijkhut <em style="font-style:normal;color:var(--gold)">(goud = ook overnachten)</em> &nbsp;·&nbsp; <svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M3.5 12 3.5 1.5 11 4.2 3.5 7" fill="#977521" stroke="#FFFDF6" stroke-width="1"/></svg> Wilderness trail-vertrek</span>' +
       '</div>' +
       '<div class="rchips">' +
         '<button class="rchip" data-r="noord" type="button">Zoom naar Noord</button>' +
@@ -3069,8 +3234,18 @@
       (FAC[id]
         ? '<p class="spotlabel">Faciliteiten in het kamp</p><div class="spotchips fchips">' +
             FAC[id].map(function(f){ return '<span' + (/^Geen /.test(f) ? ' class="f-geen"' : '') + '>' + f + '</span>'; }).join('') +
-          '</div><p class="fac-bron">Volgens de officiële SANParks-kamppagina — check bij boeking.</p>'
+          '</div>'
         : (k.t === 'bush' ? '<p class="fac-noot">Bushveld-kamp: bewust zónder winkel of restaurant — alleen gasten, alleen bush. Alles zelf meenemen.</p>' : '')) +
+      (ACT[id]
+        ? '<p class="spotlabel">Te doen &amp; te boeken vanuit dit kamp</p><div class="spotchips fchips">' +
+            ACT[id].map(function(a){ return '<span>' + a + '</span>'; }).join('') +
+          '</div>'
+        : '') +
+      (TRAILS_BY_KAMP[id]
+        ? '<button class="linklike" type="button" id="kampTrails" style="margin-top:12px">⛳ Vertrekpunt van ' +
+            (TRAILS_BY_KAMP[id].length === 1 ? 'de ' + TRAILS_BY_KAMP[id][0].n + ' Wilderness Trail' : TRAILS_BY_KAMP[id].length + ' wilderness trails') + ' →</button>'
+        : '') +
+      ((FAC[id] || ACT[id]) ? '<p class="fac-bron">Faciliteiten en activiteiten volgens de officiële SANParks-pagina’s — boeken bij de receptie, check bij reservering.</p>' : '') +
       '<div class="board" style="margin-top:22px">' +
         '<div class="board-title"><span>Kansen rond dit kamp</span><span>' + k.n + '</span></div>' +
         '<ul class="withfoto">' + BORD_SOORTEN.map(function(s, i){
@@ -3081,9 +3256,21 @@
             '<img class="spfoto" src="' + SP_FOTO[s] + '" alt="' + s + '" style="border-color:' + (SPECIES[s] || '#B4A184') + '">' +
             '<span>' + s + '</span>' +
             '<span class="spots">' + dots + '</span></li>';
-        }).join('') + '</ul>' +
-        '<p class="board-note">Mijn inschatting op basis van eigen bezoeken — bij elk kamp hangt zo’n bord met de échte meldingen van de dag.</p>' +
+        }).join('') +
+        (RHINO[id] != null
+          ? (function(){
+              var dots = '';
+              for (var d = 1; d <= 3; d++) dots += '<i class="' + (d <= RHINO[id] ? '' : 'dim') + '"></i>';
+              return '<li>' +
+                '<img class="spfoto" src="' + SP_FOTO['Neushoorn'] + '" alt="Neushoorn" style="border-color:' + SPECIES['Neushoorn'] + '">' +
+                '<span>Neushoorn</span><span class="spots">' + dots + '</span></li>';
+            })()
+          : '') +
+        '</ul>' +
+        '<p class="board-note">Mijn inschatting op basis van eigen bezoeken; de neushoorn-kans volgt de officiële kampinformatie. Exacte neushoorn-locaties deel ik nooit — stroperij.</p>' +
       '</div>';
+    var kt = panel.querySelector('#kampTrails');
+    if (kt) kt.addEventListener('click', function(){ showTrails(id); });
     bindBack(); bindFotoStrip(KAMP_FOTOS[id], k.n); panelScroll();
   }
   function showPoort(id){
@@ -3098,8 +3285,56 @@
         '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 15.5 14 12V6.2c0-1.1-.9-2.2-2-2.2s-2 1.1-2 2.2V12l-7 3.5v2l7-1.8V20l-2 1.5V23l4-1 4 1v-1.5L14 20v-4.3l7 1.8v-2Z" fill="currentColor"/></svg>' +
         '<div><span class="al">Dichtstbijzijnde vliegveld</span><p><b>' + p.air + '</b><br>' + p.at + '</p></div>' +
       '</div>' +
-      '<p class="hint-klik">Vluchten en huurauto regelt de ANVR/SGR-partner — dit hoort bij het reisadvies.</p>';
+      '<p class="hint-klik">Vluchten en huurauto regelt de ANVR/SGR-partner — dit hoort bij het reisadvies.</p>' +
+      (id === 'phalgate' ? '<p class="fac-noot">Bijzonder: vlak bij deze poort ligt de Sable Dam-kijkhut, ook te boeken als overnachtingshut (check-in bij de poort).</p>' : '');
     bindBack(); bindFotoStrip(POORT_FOTOS[id], p.n); panelScroll();
+  }
+  function showPicnic(i){
+    var p = (GEO.picnics || [])[i]; if (!p) return;
+    markSel(null); zoneHighlight(null); selPoi('picnic:' + i);
+    panel.innerHTML = backBtnHtml() +
+      '<p class="ptype">Picknickplek</p>' +
+      '<h3>' + p.n + '</h3>' +
+      (PICNIC_INFO[p.n] ? '<p class="pdesc">' + PICNIC_INFO[p.n] + '</p>' : '') +
+      '<p class="pdesc">Een van de vaste plekken in het Kruger National Park waar je de auto uit mag: benen strekken, koffie, of een braai-ontbijt. Op de grotere plekken huur je een gas-skottel bij de beheerder.</p>' +
+      '<div class="ro-tip"><b>Insider-tip</b>Rijd de eerste twee uur na poortopening dóór en ontbijt pas hier — zo mis je het gouden uur niet.</div>';
+    bindBack(); panelScroll();
+  }
+  function showHide(i){
+    var h = (GEO.hides || [])[i]; if (!h) return;
+    markSel(null); zoneHighlight(null); selPoi('hide:' + i);
+    var slaap = HIDE_SLAAP[h.n];
+    panel.innerHTML = backBtnHtml() +
+      '<p class="ptype">Vogelkijkhut</p>' +
+      '<h3>' + h.n + '</h3>' +
+      (slaap ? '<span class="poi-boekchip">🌙 Ook te boeken als overnachtingshut (2 pers.)</span>' : '') +
+      '<p class="pdesc">Stil binnenlopen, luik open, wachten. Kijkhutten zijn gratis, onbemand en verrassend vaak het beste half uur van je dag' + (HIDE_GASTEN[h.n] ? ' — deze hut is exclusief voor gasten van het bushveld-kamp' : '') + '.</p>' +
+      (slaap ? '<p class="pdesc">Na sluitingstijd heb je hem voor jezelf: een nacht óp de drinkplaats, met alleen de geluiden van het water. ' + slaap + ' Ver vooruit boeken bij SANParks.</p>' : '') +
+      '<div class="ro-tip"><b>Insider-tip</b>Geef een kijkhut minstens twintig minuten — hutten belonen geduld, niet haast.</div>';
+    bindBack(); panelScroll();
+  }
+  function showTrails(kid){
+    var lijst = TRAILS_BY_KAMP[kid]; if (!lijst || !lijst.length) return;
+    markSel('kamp:' + kid); zoneHighlight(null);
+    panel.innerHTML = backBtnHtml() +
+      '<p class="ptype">Wilderness trails · vertrek vanaf ' + (KAMPEN[kid] ? KAMPEN[kid].n : '') + '</p>' +
+      '<h3>Drie nachten te voet</h3>' +
+      '<p class="pdesc">Met twee gewapende rangers de bush in, vanuit een vast wildernis-basiskamp: max. 8 deelnemers, vier hutten van twee. Geen ander verkeer, geen hekken — het Kruger National Park zoals bijna niemand het meemaakt.</p>' +
+      '<div class="ro-dagen" style="margin-top:14px">' + lijst.map(function(t){
+        return '<div class="ro-dag"><span class="ro-d">3 nachten</span><div class="ro-inh"><b>' + t.n + ' Wilderness Trail</b><small>' + t.d + '</small></div></div>';
+      }).join('') + '</div>' +
+      '<div class="ro-tip"><b>Insider-tip</b>Trails zijn maanden vooruit volgeboekt — dit plan je éérst, en daaromheen bouw je de reis.</div>' +
+      '<button class="btn pl-cta" type="button" id="trailPlan">Plan een reis met deze trail</button>';
+    panel.querySelector('#trailPlan').addEventListener('click', function(){
+      plDoel = 'avontuur';
+      go('reisplanner');
+      requestAnimationFrame(function(){
+        var el = document.getElementById('planStart');
+        if (el) el.scrollIntoView({behavior:'instant', block:'start'});
+      });
+      if (typeof planUpdate === 'function') planUpdate();
+    });
+    bindBack(); panelScroll();
   }
   function nlDatum(d){
     if (!d) return '';
@@ -3164,6 +3399,24 @@
     });
     document.querySelectorAll('#magnets .mag').forEach(function(m){
       function activate(){ showMagnet(parseInt(m.dataset.i, 10)); }
+      m.addEventListener('click', activate);
+      m.addEventListener('keydown', function(e){
+        if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); activate(); }
+      });
+    });
+    document.querySelectorAll('#pois .poi').forEach(function(m){
+      function activate(){
+        var parts = m.dataset.poi.split(':');
+        if (parts[0] === 'picnic') showPicnic(parseInt(parts[1], 10)); else showHide(parseInt(parts[1], 10));
+        if (window.innerWidth <= 1000) naarKaart();
+      }
+      m.addEventListener('click', activate);
+      m.addEventListener('keydown', function(e){
+        if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); activate(); }
+      });
+    });
+    document.querySelectorAll('#pois .trailflag').forEach(function(m){
+      function activate(){ showTrails(m.dataset.trailkamp); }
       m.addEventListener('click', activate);
       m.addEventListener('keydown', function(e){
         if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); activate(); }

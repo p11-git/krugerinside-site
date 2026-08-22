@@ -3211,13 +3211,14 @@
     var els = Array.prototype.slice.call(document.querySelectorAll(sel));
     var isPad = (t === 's100');
     var klein = (t === 'gate' || t === 'picnic' || t === 'hide' || t === 'trail');
-    var schaalMax = klein ? 2.2 : 1.15; // extra schaal bovenop 1 (kleine markers groeien naar ×3.2)
+    // kleine markers: flinke groei + sonar-ring; kampen: bescheiden puls zonder ring (feedback: was te groot)
+    var schaalMax = klein ? 2.2 : 0.35;
     var token = ++flegToken;
     var svg = document.getElementById('krugermap');
     var oudeLaag = document.getElementById('flashlaag');
     if (oudeLaag) oudeLaag.remove();
     var laag = null, halos = [];
-    if (!isPad && svg){
+    if (!isPad && klein && svg){
       laag = svgEl('g', {id:'flashlaag', 'pointer-events':'none'});
       svg.appendChild(laag); // bovenop alle andere lagen
       els.forEach(function(el){
